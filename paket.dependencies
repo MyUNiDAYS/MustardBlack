@@ -1,0 +1,21 @@
+framework: net47
+source https://www.nuget.org/api/v2
+source https://www.myget.org/F/unidays-release/auth/4a06a70f-8e94-4c3a-87f9-00070270bc74/api/v3/index.json
+
+nuget Serilog 1.5.14
+nuget Serilog.Exceptions
+nuget UD.Web.Razor ~> 1.0
+nuget Microsoft.Web.Infrastructure
+nuget NanoIoC ~> 2.0.0
+nuget MuonLab.Validation ~> 1.2
+nuget NUnit 2.6.4
+nuget YUICompressor.NET 2.3.0.0
+nuget DotNetZip 1.9
+nuget dotless 1.5.1
+
+
+group Build
+source https://www.nuget.org/api/v2
+
+nuget ILRepack ~> 2.0
+nuget NUnit.Runners.Net4 2.6.4
