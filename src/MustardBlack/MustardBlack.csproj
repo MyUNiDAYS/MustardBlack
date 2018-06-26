@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Copyright>MyUNiDAYS Ltd 2018</Copyright>
+    <PackageProjectUrl>https://www.github.com/MyUNiDAYS/MustardBlack</PackageProjectUrl>
+    <Company>UNiDAYS</Company>
+    <Authors>trullock</Authors>
   </PropertyGroup>
 
 </Project>

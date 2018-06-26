@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?><coreProperties xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.openxmlformats.org/package/2006/metadata/core-properties"><dc:creator>Charlie Poole/Eberhard Beilharz</dc:creator><dc:description>NUnit features a fluent assert syntax, parameterized, generic and theory tests and is user-extensible. A number of runners, both from the NUnit project and by third parties, are able to execute NUnit tests.
+
+Version 2.6 is the seventh major release of this well-known and well-tested programming tool.
+
+This package includes the NUnit console, gui and pnunit runners and is compatible with all NUnit framework versions 2.0 through 2.6. The NUnit project editor is also included.
+
+This unofficial package is limited to run on the 4.x framework which improves compatibility with Mono when running tests compiled for 4.x.</dc:description><dc:identifier>NUnit.Runners.Net4</dc:identifier><version>2.6.4</version><dc:language>en-US</dc:language><keywords>nunit test testing tdd runner mono crossplatform</keywords><dc:title>NUnit.Runners.Net4</dc:title><lastModifiedBy>NuGet, Version=2.8.50926.602, Culture=neutral, PublicKeyToken=null;Microsoft Windows NT 6.2.9200.0;.NET Framework 4</lastModifiedBy></coreProperties>
