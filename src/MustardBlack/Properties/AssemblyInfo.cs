@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("MustardBlack")]
-[assembly: AssemblyCompany("UNiDAYS")]
 [assembly: AssemblyProduct("MustardBlack")]
+[assembly: AssemblyCompany("UNiDAYS")]
 [assembly: AssemblyCopyright("Copyright © 2018")]
 
 [assembly: ComVisible(false)]

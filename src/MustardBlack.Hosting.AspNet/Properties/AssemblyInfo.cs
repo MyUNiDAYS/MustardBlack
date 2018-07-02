@@ -3,8 +3,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("MustardBlack.Hosting.AspNet")]
+[assembly: AssemblyProduct("MustardBlack")]
 [assembly: AssemblyCompany("UNiDAYS")]
-[assembly: AssemblyProduct("MustardBlack.Hosting.AspNet")]
 [assembly: AssemblyCopyright("Copyright © 2018")]
 
 [assembly: ComVisible(false)]
