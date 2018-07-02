@@ -59,10 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
+    <None Include="paket.template" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="roslyn\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MustardBlack\MustardBlack.csproj">
       <Project>{823cdc0b-1f01-4e42-ab08-785fef3fa4de}</Project>
