@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,10 +41,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetEnrichedRazorViewCompiler.cs" />
+    <Compile Include="AttributeValue.cs" />
+    <Compile Include="CachedItem.cs" />
+    <Compile Include="DebugRazorViewLocator.cs" />
+    <Compile Include="IRazorConfiguration.cs" />
+    <Compile Include="ModelBaseTypeCodeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RazorCodeParser.cs" />
+    <Compile Include="RazorConfiguration.cs" />
+    <Compile Include="RazorEngineHost.cs" />
+    <Compile Include="RazorViewCompilationData.cs" />
+    <Compile Include="RazorViewCompiler.cs" />
+    <Compile Include="RazorViewPage.cs" />
+    <Compile Include="RazorViewPage`1.cs" />
+    <Compile Include="RazorViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="roslyn\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MustardBlack\MustardBlack.csproj">
+      <Project>{823cdc0b-1f01-4e42-ab08-785fef3fa4de}</Project>
+      <Name>MustardBlack</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>
@@ -51,6 +75,17 @@
       <ItemGroup>
         <Reference Include="System.Web.Razor">
           <HintPath>..\..\packages\Microsoft.AspNet.Razor\lib\net45\System.Web.Razor.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
+      <ItemGroup>
+        <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+          <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

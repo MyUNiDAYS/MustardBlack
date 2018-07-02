@@ -15,3 +15,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("0.1.0.0")]
 
 [assembly: InternalsVisibleTo("MustardBlack.Tests")]
+[assembly: InternalsVisibleTo("MustardBlack.ViewEngines.Razor")]

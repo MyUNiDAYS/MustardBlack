@@ -42,12 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicFileSystem.cs" />
+    <Compile Include="Compiler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RazorConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj">
+      <Project>{5df08811-ca1f-4167-b837-77dddde98c62}</Project>
+      <Name>MustardBlack.ViewEngines.Razor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MustardBlack\MustardBlack.csproj">
+      <Project>{823cdc0b-1f01-4e42-ab08-785fef3fa4de}</Project>
+      <Name>MustardBlack</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>

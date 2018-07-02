@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.ViewEngines.Ra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Hosting.AspNet", "MustardBlack.Hosting.AspNet\MustardBlack.Hosting.AspNet.csproj", "{D4264C23-358F-4071-A7EE-5FE8C9345F26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Build.Views", "MustardBlack.Build.Views\MustardBlack.Build.Views.csproj", "{CDB0E2B5-6C24-4420-9F2E-1B6E7F1C8423}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Build.Assets", "MustardBlack.Build.Assets\MustardBlack.Build.Assets.csproj", "{CF07695A-F657-4075-8282-2A1604C9A674}"
 EndProject
 Global
@@ -43,10 +41,6 @@ Global
 		{D4264C23-358F-4071-A7EE-5FE8C9345F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4264C23-358F-4071-A7EE-5FE8C9345F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4264C23-358F-4071-A7EE-5FE8C9345F26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDB0E2B5-6C24-4420-9F2E-1B6E7F1C8423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDB0E2B5-6C24-4420-9F2E-1B6E7F1C8423}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDB0E2B5-6C24-4420-9F2E-1B6E7F1C8423}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDB0E2B5-6C24-4420-9F2E-1B6E7F1C8423}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF07695A-F657-4075-8282-2A1604C9A674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF07695A-F657-4075-8282-2A1604C9A674}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF07695A-F657-4075-8282-2A1604C9A674}.Release|Any CPU.ActiveCfg = Release|Any CPU

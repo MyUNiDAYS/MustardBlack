@@ -1,0 +1,43 @@
+﻿using System.IO;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+using MustardBlack.Pipeline;
+
+namespace MustardBlack.Results
+{
+	public class XmlResultExecutor : ResultExecutor<XmlResult>
+	{
+		public override void Execute(PipelineContext context, XmlResult result)
+		{
+			context.Response.ContentType = "application/xml";
+
+			context.Response.SetCacheHeaders(result);
+			context.Response.StatusCode = result.StatusCode;
+
+			SetLinkHeaders(context, result);
+			SetTempData(context, result.TempData);
+
+			if (result.Data == null)
+				return;
+
+			string xml;
+
+			using (var xmlStream = new MemoryStream())
+			{
+				var xmlSerialiser = new XmlSerializer(result.Data.GetType());
+				var xmlTextWriter = new XmlTextWriter(xmlStream, Encoding.UTF8);
+				xmlSerialiser.Serialize(xmlTextWriter, result.Data);
+
+				var stream = (MemoryStream)xmlTextWriter.BaseStream;
+				stream.Position = 0;
+				using (var reader = new StreamReader(stream))
+				{
+					xml = reader.ReadToEnd();
+				}
+			}
+
+			context.Response.Write(xml);
+		}
+	}
+}
