@@ -6,6 +6,7 @@ NUGET
     DotNetZip (1.9)
     EcmaScript.Net (1.0.1)
     FluentAssertions (5.4.1)
+    Microsoft.AspNet.Razor (3.2.6)
     Microsoft.Web.Infrastructure (1.0)
     MuonLab.Validation (1.3.21)
     NanoIoC (2.0.5)
