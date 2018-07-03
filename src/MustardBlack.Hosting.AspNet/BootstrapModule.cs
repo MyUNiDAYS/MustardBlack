@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public sealed class BootstrapModule : IHttpModule
 	{

@@ -2,8 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Web;
 
-// ReSharper disable CheckNamespace
-namespace UD.Core.Extensions
+namespace MustardBlack.Hosting.AspNet
 {
 	public static class HttpRequestBaseExtensions
 	{

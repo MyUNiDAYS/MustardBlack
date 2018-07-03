@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public class BootException : Exception
 	{

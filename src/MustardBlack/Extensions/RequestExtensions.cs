@@ -1,8 +1,6 @@
 ﻿using System;
-using MustardBlack;
-using MustardBlack.Hosting;
 
-namespace UD.Core.Web.Hosting
+namespace MustardBlack.Hosting
 {
 	/// <summary>
 	/// Extension methods for the IRequest interface

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Web;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	// Extending HttpPostedFileBase here is a backwards compatability/developer usability convenience. 
 	// Really it wouldnt do this

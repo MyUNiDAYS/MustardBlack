@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
-using MustardBlack.Hosting;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	sealed class AspNetResponseCookieCollection : IResponseCookieCollection
 	{

@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
+using MustardBlack.Hosting;
 using MustardBlack.Pipeline;
 using Serilog;
-using UD.Core.Web.Hosting;
 
 namespace MustardBlack.Routing
 {

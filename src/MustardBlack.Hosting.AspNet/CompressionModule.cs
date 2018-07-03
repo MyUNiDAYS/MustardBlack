@@ -2,7 +2,7 @@ using System;
 using System.Web;
 using Ionic.Zlib;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public sealed class CompressionModule : IHttpModule
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public sealed class HeaderCloakingModule : IHttpModule
 	{

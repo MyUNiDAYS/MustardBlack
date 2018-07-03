@@ -5,10 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Web;
-using MustardBlack.Hosting;
-using UD.Core.Extensions;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public sealed class AspNetRequest : IRequest
 	{

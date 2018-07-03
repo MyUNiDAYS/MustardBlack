@@ -4,11 +4,10 @@ using System.IO;
 using System.Net;
 using System.Web;
 using MustardBlack.Caching;
-using MustardBlack.Hosting;
 using MustardBlack.Results;
 using HttpCacheRevalidation = MustardBlack.Caching.HttpCacheRevalidation;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public sealed class AspNetResponse : IResponse
 	{

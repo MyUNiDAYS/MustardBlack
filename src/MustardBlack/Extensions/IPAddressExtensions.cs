@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using Serilog;
 
-namespace UD.Core
+namespace MustardBlack
 {
 	public static class IPAddressExtensions
 	{

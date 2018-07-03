@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Web.Hosting;
-using MustardBlack.Hosting;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public sealed class AspNetFileSystem : IFileSystem
 	{

@@ -1,11 +1,10 @@
 using System.Threading.Tasks;
 using System.Web;
 using MustardBlack.Applications;
-using MustardBlack.Hosting;
 using MustardBlack.Pipeline;
 using NanoIoC;
 
-namespace MustardBlack.AspNet
+namespace MustardBlack.Hosting.AspNet
 {
 	public class RequestHandler : HttpTaskAsyncHandler
 	{
