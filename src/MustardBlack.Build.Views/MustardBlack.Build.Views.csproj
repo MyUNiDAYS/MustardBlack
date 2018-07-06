@@ -51,6 +51,12 @@
     <None Include="paket.references" />
     <None Include="paket.template" />
   </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\*">
+			<Link>roslyn\%(RecursiveDir)%(FileName)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj">
       <Project>{5df08811-ca1f-4167-b837-77dddde98c62}</Project>
