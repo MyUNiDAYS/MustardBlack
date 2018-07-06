@@ -14,7 +14,7 @@ nuget Newtonsoft.Json ~> 9.0
 nuget NSubstitute 3.1
 nuget FluentAssertions
 nuget Microsoft.AspNet.Razor ~> 3.2
-nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform 1.0.8 import_targets: false
+nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform 2.0.0 import_targets: false
 
 group BuildTools
 source https://www.nuget.org/api/v2

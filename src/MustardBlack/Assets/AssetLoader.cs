@@ -66,7 +66,7 @@ namespace MustardBlack.Assets
 			var dirFiles = Directory.GetFiles(folder).Where(f =>
 			{
 				if (format == AssetFormat.Js)
-                    return (!f.EndsWith("test.js") && f.EndsWith(".js"));
+                    return (!f.EndsWith(".test.js") && f.EndsWith(".js"));
 
 				if (format == AssetFormat.Css)
 					return f.EndsWith(".css") || f.EndsWith(".less");
