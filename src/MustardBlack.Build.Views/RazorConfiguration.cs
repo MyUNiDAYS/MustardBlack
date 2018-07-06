@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml;
 using MustardBlack.ViewEngines.Razor;
 
-namespace UD.Build.Views
+namespace MustardBlack.Build.Views
 {
 	public sealed class RazorConfiguration : IRazorConfiguration
 	{

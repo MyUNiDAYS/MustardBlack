@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace UD.Build.Views
+namespace MustardBlack.Build.Views
 {
 	static class Program
 	{

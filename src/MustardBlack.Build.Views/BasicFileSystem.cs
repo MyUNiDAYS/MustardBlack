@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MustardBlack.Hosting;
 
-namespace UD.Build.Views
+namespace MustardBlack.Build.Views
 {
 	public sealed class BasicFileSystem : IFileSystem
 	{

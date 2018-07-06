@@ -7,9 +7,8 @@ using MustardBlack.Assets;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Javascript;
 using MustardBlack.ViewEngines.Razor;
-using UD.Core.Types;
 
-namespace UD.Build.Views
+namespace MustardBlack.Build.Views
 {
 	static class Compiler
 	{
