@@ -22,7 +22,7 @@ namespace MustardBlack.ViewEngines.Razor
 
 		public Type Locate(string viewPath)
 		{
-			// If you need to modify this code, you must also edit its counterpart in UD.Build.Views
+			// If you need to modify this code, you must also edit its counterpart in MustardBlack.Build.Views
 
 			var fullViewPath = this.fileSystem.GetFullPath(viewPath);
 

@@ -1,3 +1,6 @@
-﻿type project
+﻿type file
+id MustardBlack.Build.Assets
 authors trullock
-include-referenced-projects true
+description Builds MBs Assets
+files
+  bin/Release ==> tools
