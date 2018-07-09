@@ -27,7 +27,7 @@ namespace MustardBlack.ViewEngines.Razor
 			var fullViewPath = this.fileSystem.GetFullPath(viewPath);
 
 			var fullViewPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".cshtml");
-			var fullJsPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".js");
+			var fullJsPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".js").Where(p => !p.EndsWith(".test.js")).ToArray();
 			var fullLessPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".less");
 
 			if (!fullViewPaths.Any())
