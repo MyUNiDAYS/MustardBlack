@@ -1,0 +1,4 @@
+language: csharp
+solution: MustardBlack.sln
+install:
+  .paket/paket restore
