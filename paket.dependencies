@@ -4,7 +4,7 @@ source https://www.nuget.org/api/v2
 nuget Serilog 1.5.14
 nuget Serilog.Exceptions
 nuget Microsoft.Web.Infrastructure
-nuget NanoIoC ~> 2.0.0
+nuget NanoIoC ~> 2.0
 nuget MuonLab.Validation ~> 1.3
 nuget NUnit 2.6.4
 nuget YUICompressor.NET 2.3.0.0
