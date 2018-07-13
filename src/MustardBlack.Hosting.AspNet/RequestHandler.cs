@@ -6,12 +6,14 @@ using NanoIoC;
 
 namespace MustardBlack.Hosting.AspNet
 {
-	public class RequestHandler : HttpTaskAsyncHandler
+	public sealed class RequestHandler : HttpTaskAsyncHandler
 	{
 		readonly IContainer container;
 		readonly IApplicationRouter applicationRouter;
 
-		public RequestHandler()
+        public override bool IsReusable => true;
+
+        public RequestHandler()
 		{
 			this.container = Container.Global;
 			this.applicationRouter = this.container.Resolve<IApplicationRouter>();
@@ -46,7 +48,5 @@ namespace MustardBlack.Hosting.AspNet
 			// route the application
 			await this.applicationRouter.RouteApplication(pipelineContext);
 		}
-
-		public override bool IsReusable { get; } = false;
 	}
 }
