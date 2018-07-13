@@ -139,6 +139,7 @@
     <Compile Include="NanoIoC\DefaultTypeProcessor.cs" />
     <Compile Include="NanoIoC\MustardBlackRegistry.cs" />
     <Compile Include="NanoIoC\ResultExecutorTypeProcessor.cs" />
+    <Compile Include="Pipeline\StripTrailingSlashPipelineOperator.cs" />
     <Compile Include="Pipeline\AttributePipelineOperator.cs" />
     <Compile Include="Pipeline\IAttributePipelineOperator.cs" />
     <Compile Include="Pipeline\IPipelineOperator.cs" />

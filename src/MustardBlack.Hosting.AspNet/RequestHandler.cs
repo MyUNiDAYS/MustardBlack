@@ -24,19 +24,7 @@ namespace MustardBlack.Hosting.AspNet
 			// Create Request
 			var request = new AspNetRequest(httpContext);
 			this.container.Inject<IRequest>(request, Lifecycle.HttpContextOrExecutionContextLocal);
-
-			// Remove trailing slashes from paths. 
-			// TODO: Move this code to a PO
-			if (request.Url.Path.Length > 1 && request.Url.Path.EndsWith("/"))
-			{
-				var newUrl = new Url(request.Url.PathAndQuery);
-				newUrl.Path = newUrl.Path.TrimEnd('/');
-
-				httpContext.Response.StatusCode = 301;
-				httpContext.Response.Headers.Set("Location", newUrl);
-				return;
-			}
-
+            
 			// Create Response
 			var response = new AspNetResponse(httpContext);
 			this.container.Inject<IResponse>(response, Lifecycle.HttpContextOrExecutionContextLocal);
@@ -47,6 +35,10 @@ namespace MustardBlack.Hosting.AspNet
 
 			// route the application
 			await this.applicationRouter.RouteApplication(pipelineContext);
+
+
 		}
+
+
 	}
 }
