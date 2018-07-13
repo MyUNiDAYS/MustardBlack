@@ -53,15 +53,8 @@ namespace MustardBlack.Hosting.AspNet
 			this.ContentType = ParseContentType(context.Request.ContentType);
 
 			this.ServerVariables = context.Request.ServerVariables;
-
-			var currentUri = context.Request.Url;
-
-			// Workaround ELB TLS termination
-			var port = context.Request.Url.Port;
-			if (port == 80 && (context.Request.Headers["X-Forwarded-Proto"]?.Equals("https", StringComparison.InvariantCultureIgnoreCase) ?? false))
-				port = 443;
-			
-			this.Url = new Url(currentUri.Scheme, currentUri.Host, port, currentUri.PathAndQuery);
+            
+			this.Url = new Url(context.Request.Url);
 
 			if (context.Request.UrlReferrer != null)
 			{
