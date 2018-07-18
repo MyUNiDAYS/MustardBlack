@@ -35,10 +35,6 @@ namespace MustardBlack.Hosting.AspNet
 
 			// route the application
 			await this.applicationRouter.RouteApplication(pipelineContext);
-
-
 		}
-
-
 	}
 }
