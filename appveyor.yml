@@ -1,11 +1,11 @@
 image: Visual Studio 2017
-version: 0.3.{build}
+version: 0.3.{build}-prerelease
 configuration:
 - Release
 before_build:
 - .paket\paket.exe restore
 after_test:
-- .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%-prelease
+- .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%
 artifacts:
 - path: '*.nupkg'
 # deploy:
