@@ -11,7 +11,7 @@ using Serilog;
 
 namespace MustardBlack.Handlers
 {
-	public sealed class HandlerExecutorPipelineOperator : IPreHandlerExecutionPipelineOperator
+	public sealed class HandlerExecutorPipelineOperator : IPreResultPipelineOperator
 	{
 		readonly IContainer container;
 		readonly IRequestBinder requestBinder;

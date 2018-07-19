@@ -6,7 +6,7 @@ using Serilog;
 
 namespace MustardBlack.Routing
 {
-	public sealed class RoutingPipelineOperator : IPreHandlerExecutionPipelineOperator
+	public sealed class RoutingPipelineOperator : IPreResultPipelineOperator
 	{
 		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 

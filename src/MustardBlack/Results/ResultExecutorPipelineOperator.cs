@@ -4,7 +4,7 @@ using NanoIoC;
 
 namespace MustardBlack.Results
 {
-	public sealed class ResultExecutorPipelineOperator : IPostHandlerExecutionPipelineOperator
+	public sealed class ResultExecutorPipelineOperator : IPostResultPipelineOperator
 	{
 		readonly IContainer container;
 

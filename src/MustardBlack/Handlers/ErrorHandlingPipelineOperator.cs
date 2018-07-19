@@ -7,7 +7,7 @@ using NanoIoC;
 
 namespace MustardBlack.Handlers
 {
-	public sealed class ErrorHandlingPipelineOperator : IPostHandlerExecutionPipelineOperator
+	public sealed class ErrorHandlingPipelineOperator : IPostResultPipelineOperator
 	{
 		readonly IContainer container;
 

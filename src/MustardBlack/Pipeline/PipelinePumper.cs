@@ -24,7 +24,7 @@ namespace MustardBlack.Pipeline
 
 			foreach (var pipelineOperator in pipelineOperators)
 			{
-				if (continuation == PipelineContinuation.SkipToPostHandler && pipelineOperator is IPreHandlerExecutionPipelineOperator)
+				if (continuation == PipelineContinuation.SkipToPostHandler && pipelineOperator is IPreResultPipelineOperator)
 				{
 					log.Debug("Skipping {operator}, searching for next IPostHandlerExecututionPipelineOperator", pipelineOperator.GetType());
 					continue;

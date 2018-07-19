@@ -7,7 +7,7 @@ using NanoIoC;
 
 namespace MustardBlack.ModRewrite
 {
-	public sealed class ModRewritePipelineOperator : IPreHandlerExecutionPipelineOperator
+	public sealed class ModRewritePipelineOperator : IPreResultPipelineOperator
 	{
 		readonly IContainer container;
 		IEnumerable<Ruleset> rulesets;

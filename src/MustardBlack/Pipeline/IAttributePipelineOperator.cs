@@ -4,7 +4,7 @@ namespace MustardBlack.Pipeline
 	{
 	}
 
-	public interface IAttributePipelineOperator : IPreHandlerExecutionPipelineOperator
+	public interface IAttributePipelineOperator : IPreResultPipelineOperator
 	{
 		int Order { get; }
 		object Attribute { set; }

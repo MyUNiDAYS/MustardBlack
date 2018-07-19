@@ -55,7 +55,7 @@
     <Compile Include="Assets\Javascript\AreaJavascriptHandler.cs" />
     <Compile Include="Assets\Javascript\IJavascriptCompressor.cs" />
     <Compile Include="Assets\Javascript\YuiJavascriptCompressor.cs" />
-    <Compile Include="Authentication\AuthenticationPostHandlerExecutionPipelineOperator.cs" />
+    <Compile Include="Authentication\AuthenticationPostResultPipelineOperator.cs" />
     <Compile Include="Authentication\AuthorizeAttribute.cs" />
     <Compile Include="Authentication\AuthorizePipelineOperator.cs" />
     <Compile Include="Authentication\AuthTicket.cs" />
@@ -142,8 +142,8 @@
     <Compile Include="Pipeline\AttributePipelineOperator.cs" />
     <Compile Include="Pipeline\IAttributePipelineOperator.cs" />
     <Compile Include="Pipeline\IPipelineOperator.cs" />
-    <Compile Include="Pipeline\IPostHandlerExecutionPipelineOperator.cs" />
-    <Compile Include="Pipeline\IPreHandlerExecutionPipelineOperator.cs" />
+    <Compile Include="Pipeline\IPostResultPipelineOperator.cs" />
+    <Compile Include="Pipeline\IPreResultPipelineOperator.cs" />
     <Compile Include="Pipeline\PipelineContext.cs" />
     <Compile Include="Pipeline\PipelineContinuation.cs" />
     <Compile Include="Pipeline\PipelinePumper.cs" />

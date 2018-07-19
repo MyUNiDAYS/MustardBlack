@@ -3,7 +3,7 @@ using MustardBlack.Pipeline;
 
 namespace MustardBlack.Authentication
 {
-	public sealed class AuthenticationPostHandlerExecutionPipelineOperator : IPostHandlerExecutionPipelineOperator
+	public sealed class AuthenticationPostResultPipelineOperator : IPostResultPipelineOperator
 	{
 		public async Task<PipelineContinuation> Operate(PipelineContext context)
 		{

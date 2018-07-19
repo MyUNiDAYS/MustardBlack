@@ -5,7 +5,7 @@ using NanoIoC;
 
 namespace MustardBlack.Handlers
 {
-	public sealed class AttributePipelineOperatorPumpingPipelineOperator : IPreHandlerExecutionPipelineOperator
+	public sealed class AttributePipelineOperatorPumpingPipelineOperator : IPreResultPipelineOperator
 	{
 		readonly IContainer container;
 

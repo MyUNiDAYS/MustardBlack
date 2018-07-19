@@ -7,7 +7,7 @@ using Serilog;
 
 namespace MustardBlack.Security
 {
-	public sealed class AntiCSRFPipelineOperator : IPreHandlerExecutionPipelineOperator
+	public sealed class AntiCSRFPipelineOperator : IPreResultPipelineOperator
 	{
 		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 

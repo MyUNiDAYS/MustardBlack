@@ -6,7 +6,7 @@ using Serilog;
 
 namespace MustardBlack.Authentication
 {
-	public sealed class IdentifyRequestPipelineOperator : IPreHandlerExecutionPipelineOperator
+	public sealed class IdentifyRequestPipelineOperator : IPreResultPipelineOperator
 	{
 		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 
