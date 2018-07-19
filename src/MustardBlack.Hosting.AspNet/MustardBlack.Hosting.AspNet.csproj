@@ -67,17 +67,6 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
       <ItemGroup>
-        <Reference Include="Ionic.Zip">
-          <HintPath>..\..\packages\DotNetZip\lib\Ionic.Zip.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
-      <ItemGroup>
         <Reference Include="NanoIoC">
           <HintPath>..\..\packages\NanoIoC\lib\net46\NanoIoC.dll</HintPath>
           <Private>True</Private>
