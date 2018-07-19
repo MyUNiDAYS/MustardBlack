@@ -1,13 +1,13 @@
 image: Visual Studio 2017
-version: 0.2.{build}
+version: 0.3.{build}
 configuration:
-  - Release
+- Release
 before_build:
-  - .paket\paket.exe restore
+- .paket\paket.exe restore
 after_test:
-  - .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%-prelease
+- .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%-prelease
 artifacts:
-  - path: '*.nupkg'
+- path: '*.nupkg'
 # deploy:
 # - provider: NuGet
 #   api_key:
