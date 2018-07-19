@@ -1,6 +1,6 @@
 # MustardBlack
 
-[![Build status](https://ci.appveyor.com/api/projects/status/okhpmk0tob5b2dix?svg=true)](https://ci.appveyor.com/project/nullseed/mustardblack)
+[![Build status](https://ci.appveyor.com/api/projects/status/u4uo9h4i6eg5smuq?svg=true)](https://ci.appveyor.com/project/trullock/mustardblack)
 
 ## Install dependencies
 
