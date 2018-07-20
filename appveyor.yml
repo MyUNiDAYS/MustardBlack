@@ -1,11 +1,17 @@
 image: Visual Studio 2017
-version: 0.3.{build}-prerelease
+version: 0.3.{build}
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.cs'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}-prerelease'
 configuration:
 - Release
 before_build:
 - .paket\paket.exe restore
 after_test:
-- .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%
+- .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%-prerelease
 artifacts:
 - path: '*.nupkg'
 deploy:
