@@ -8,9 +8,9 @@ after_test:
 - .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%
 artifacts:
 - path: '*.nupkg'
-# deploy:
-# - provider: NuGet
-#   api_key:
-#     secure: BbynRsYVqJAwJyq5rBVUjedk3SsgCruEbcILnA+baifNFY+sr/p/rpJL799N4vpd
-#   on:
-#     branch: master
+deploy:
+  provider: NuGet
+  api_key:
+    secure: iMA1b7JitywKpWnIRwd6E9C+2Dg/h/YWkKV31bNKuKsHQxXs3cMlgll81CNjzXyI
+  on:
+    branch: master
