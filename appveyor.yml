@@ -13,3 +13,4 @@ deploy:
   api_key: oy2n2jshn6m6malvcbna4mxkcvazaizudazoxy7e37yn34
   on:
     branch: master
+ 
