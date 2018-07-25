@@ -55,6 +55,7 @@
     <Compile Include="Assets\Javascript\AreaJavascriptHandler.cs" />
     <Compile Include="Assets\Javascript\IJavascriptCompressor.cs" />
     <Compile Include="Assets\Javascript\YuiJavascriptCompressor.cs" />
+    <Compile Include="Assets\Static\AreaStaticAssetHandler.cs" />
     <Compile Include="Authentication\AuthenticationPostResultPipelineOperator.cs" />
     <Compile Include="Authentication\AuthorizeAttribute.cs" />
     <Compile Include="Authentication\AuthorizePipelineOperator.cs" />

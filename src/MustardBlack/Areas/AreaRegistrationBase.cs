@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Javascript;
+using MustardBlack.Assets.Static;
 using MustardBlack.Handlers;
 using MustardBlack.Routing;
 using Serilog;
@@ -25,6 +26,7 @@ namespace MustardBlack.Areas
 			// TODO: only include these when in dev mode
 			this.MapRoute(routeCollection, "/" + this.AreaName + ".css", typeof(AreaCssHandler), false, false);
 			this.MapRoute(routeCollection, "/" + this.AreaName + ".js", typeof(AreaJavascriptHandler), false, false);
+			this.MapRoute(routeCollection, "/areas/" + this.AreaName + "/assets/{*path}", typeof(AreaStaticAssetHandler), false, false);
 
 			foreach (var routeRegistration in hash)
 				this.RegisterRoute(handlerCache, routeCollection, routeRegistration);
