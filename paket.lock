@@ -4,7 +4,7 @@ NUGET
     Brotli.NET (1.0.19)
     Castle.Core (4.3.1)
     dotless (1.5.1)
-    DotNetZip (1.11)
+    DotNetZip (1.9)
     EcmaScript.Net (1.0.1)
     FluentAssertions (5.4.1)
     Microsoft.AspNet.Razor (3.2.6)

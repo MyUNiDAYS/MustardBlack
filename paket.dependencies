@@ -14,7 +14,7 @@ nuget FluentAssertions
 nuget Microsoft.AspNet.Razor ~> 3.2
 nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform 2.0.0 import_targets: false
 nuget Brotli.NET
-nuget DotNetZip
+nuget DotNetZip 1.9
 
 group BuildTools
 source https://www.nuget.org/api/v2
