@@ -48,6 +48,7 @@
     <Compile Include="AspNetResponseCookieCollection.cs" />
     <Compile Include="BootException.cs" />
     <Compile Include="BootstrapModule.cs" />
+    <Compile Include="CompressionModule.cs" />
     <Compile Include="HeaderCloakingModule.cs" />
     <Compile Include="HttpRequestBaseExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +65,28 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
+      <ItemGroup>
+        <Reference Include="Brotli.NET">
+          <HintPath>..\..\packages\Brotli.NET\lib\net40\Brotli.NET.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
+      <ItemGroup>
+        <Reference Include="DotNetZip">
+          <HintPath>..\..\packages\DotNetZip\lib\net20\DotNetZip.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
       <ItemGroup>
@@ -91,4 +114,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\..\packages\Brotli.NET\build\Brotli.NET.targets" Condition="Exists('..\..\packages\Brotli.NET\build\Brotli.NET.targets')" Label="Paket" />
 </Project>
