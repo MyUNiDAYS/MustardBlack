@@ -38,6 +38,9 @@ namespace MustardBlack.Hosting.AspNet
 			if (acceptedTypes == null)
 				return;
 
+			if (response.Filter.Length == 0)
+				return;
+
 			if (acceptedTypes.Contains("br"))
 			{
 				response.Filter = new BrotliStream(response.Filter, System.IO.Compression.CompressionMode.Compress, false);
