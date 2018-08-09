@@ -32,14 +32,14 @@ namespace MustardBlack.Hosting.AspNet
 			if (response.Filter == null)
 				return;
 
-			response.AppendHeader("Vary", "Accept-Encoding");
-
 			var acceptedTypes = request.Headers["Accept-Encoding"];
 			if (acceptedTypes == null)
 				return;
 
 			if (response.Filter.Length == 0)
 				return;
+
+			response.AppendHeader("Vary", "Accept-Encoding");
 
 			if (acceptedTypes.Contains("br"))
 			{
