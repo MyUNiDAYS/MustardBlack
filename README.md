@@ -1,6 +1,6 @@
 # MustardBlack
 
-[![Build status](https://ci.appveyor.com/api/projects/status/u4uo9h4i6eg5smuq?svg=true)](https://ci.appveyor.com/project/trullock/mustardblack)
+[![Build status](https://ci.appveyor.com/api/projects/status/u4uo9h4i6eg5smuq/branch/master?svg=true)](https://ci.appveyor.com/project/UNiDAYS/mustardblack/branch/master)
 
 ## Install dependencies
 
