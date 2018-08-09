@@ -39,7 +39,7 @@ namespace MustardBlack.Hosting.AspNet
 		{
 			this.baseStream.Write(buffer, offset, count);
 
-			if (!this.written && count > 0)
+			if (!this.written)
 			{
 				this.written = true;
 				this.writeAction();
