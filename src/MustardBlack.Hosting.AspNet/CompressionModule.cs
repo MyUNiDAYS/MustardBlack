@@ -36,25 +36,29 @@ namespace MustardBlack.Hosting.AspNet
 			if (acceptedTypes == null)
 				return;
 
-			if (response.Filter.Length == 0)
-				return;
-
-			response.AppendHeader("Vary", "Accept-Encoding");
-
 			if (acceptedTypes.Contains("br"))
 			{
-				response.Filter = new BrotliStream(response.Filter, System.IO.Compression.CompressionMode.Compress, false);
-				response.AppendHeader("Content-Encoding", "br");
+				response.Filter = new StreamWrapper(new BrotliStream(response.Filter, System.IO.Compression.CompressionMode.Compress, false), () =>
+				{
+					response.AppendHeader("Vary", "Accept-Encoding");
+					response.AppendHeader("Content-Encoding", "br");
+				});
 			}
 			else if (acceptedTypes.Contains("gzip"))
 			{
-				response.Filter = new GZipStream(response.Filter, CompressionMode.Compress, CompressionLevel.BestSpeed, false);
-				response.AppendHeader("Content-Encoding", "gzip");
+				response.Filter = new StreamWrapper(new GZipStream(response.Filter, CompressionMode.Compress, CompressionLevel.BestSpeed, false), () =>
+				{
+					response.AppendHeader("Vary", "Accept-Encoding");
+					response.AppendHeader("Content-Encoding", "gzip");
+				});
 			}
 			else if (acceptedTypes.Contains("deflate"))
 			{
-				response.Filter = new DeflateStream(response.Filter, CompressionMode.Compress, CompressionLevel.BestSpeed, false);
-				response.AppendHeader("Content-Encoding", "deflate");
+				response.Filter = new StreamWrapper(new DeflateStream(response.Filter, CompressionMode.Compress, CompressionLevel.BestSpeed, false), () =>
+				{
+					response.AppendHeader("Vary", "Accept-Encoding");
+					response.AppendHeader("Content-Encoding", "deflate");
+				});
 			}
 		}
 
