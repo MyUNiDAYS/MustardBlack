@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 using Brotli;
 
 namespace MustardBlack.Hosting.AspNet
@@ -14,11 +15,32 @@ namespace MustardBlack.Hosting.AspNet
 		{
 			this.writeAction = writeAction;
 		}
-		public override void Flush()
+
+		protected override void FlushBrotliStream(bool finished)
 		{
-			// Because Brotli seems buggy and will return ~2 bytes for a compressed empty stream
-			if (written)
-				base.Flush();
+			if (!(this._state == IntPtr.Zero) && !Brolib.BrotliEncoderIsFinished(this._state))
+			{
+				BrotliEncoderOperation op = finished ? BrotliEncoderOperation.Finish : BrotliEncoderOperation.Flush;
+				uint totalOut = 0;
+				while (Brolib.BrotliEncoderCompressStream(this._state, op, ref this._availableIn, ref this._ptrNextInput, ref this._availableOut, ref this._ptrNextOutput, out totalOut))
+				{
+					bool flag = this._availableOut != 65536U;
+					if (flag)
+					{
+						int num = 65536 - (int) this._availableOut;
+						Marshal.Copy(this._ptrOutputBuffer, this._managedBuffer, 0, num);
+						if(written)
+							this._stream.Write(this._managedBuffer, 0, num);
+						this._availableOut = 65536U;
+						this._ptrNextOutput = this._ptrOutputBuffer;
+					}
+
+					if (Brolib.BrotliEncoderIsFinished(this._state) || !flag)
+						return;
+				}
+
+				throw new BrotliException("Unable to finish encode stream");
+			}
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)
