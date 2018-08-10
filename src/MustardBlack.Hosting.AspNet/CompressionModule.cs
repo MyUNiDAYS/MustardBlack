@@ -1,7 +1,5 @@
 using System;
 using System.Web;
-using Brotli;
-using Ionic.Zlib;
 
 namespace MustardBlack.Hosting.AspNet
 {
@@ -38,7 +36,7 @@ namespace MustardBlack.Hosting.AspNet
 
 			if (acceptedTypes.Contains("br"))
 			{
-				response.Filter = new StreamWrapper(new BrotliStream(response.Filter, System.IO.Compression.CompressionMode.Compress, false), () =>
+				response.Filter = new BrotliStreamWrapper(response.Filter, () =>
 				{
 					response.AppendHeader("Vary", "Accept-Encoding");
 					response.AppendHeader("Content-Encoding", "br");
@@ -46,7 +44,7 @@ namespace MustardBlack.Hosting.AspNet
 			}
 			else if (acceptedTypes.Contains("gzip"))
 			{
-				response.Filter = new StreamWrapper(new GZipStream(response.Filter, CompressionMode.Compress, CompressionLevel.BestSpeed, false), () =>
+				response.Filter = new GzipStreamWrapper(response.Filter, () =>
 				{
 					response.AppendHeader("Vary", "Accept-Encoding");
 					response.AppendHeader("Content-Encoding", "gzip");
@@ -54,7 +52,7 @@ namespace MustardBlack.Hosting.AspNet
 			}
 			else if (acceptedTypes.Contains("deflate"))
 			{
-				response.Filter = new StreamWrapper(new DeflateStream(response.Filter, CompressionMode.Compress, CompressionLevel.BestSpeed, false), () =>
+				response.Filter = new DeflateStreamWrapper(response.Filter, () =>
 				{
 					response.AppendHeader("Vary", "Accept-Encoding");
 					response.AppendHeader("Content-Encoding", "deflate");

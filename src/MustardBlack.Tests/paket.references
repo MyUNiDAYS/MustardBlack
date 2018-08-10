@@ -3,3 +3,5 @@ NSubstitute
 NanoIoC
 FluentAssertions
 Newtonsoft.Json
+Brotli.NET
+DotNetZip

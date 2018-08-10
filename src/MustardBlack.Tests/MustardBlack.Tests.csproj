@@ -42,6 +42,10 @@
     <Compile Include="Applications\ApplicationRouterSpecs\RouteApplication\Order.cs" />
     <Compile Include="AutoMockedSpecification.cs" />
     <Compile Include="AutoMocker.cs" />
+    <Compile Include="Compression\Gzip\EmptyResponse.cs" />
+    <Compile Include="Compression\Gzip\MultipleWriting.cs" />
+    <Compile Include="Compression\Brotli\MultipleWriting.cs" />
+    <Compile Include="Compression\Brotli\EmptyResponse.cs" />
     <Compile Include="Handlers\Binding\Binders\Bools\WhenBindingAFalseNullableBool.cs" />
     <Compile Include="Handlers\Binding\Binders\Bools\WhenBindingAnEmptyNullableBool.cs" />
     <Compile Include="Handlers\Binding\Binders\Bools\WhenBindingANullNullableBool.cs" />
@@ -151,6 +155,10 @@
     <Compile Include="UrlSpecs\when_modifying_the_query_collection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MustardBlack.Hosting.AspNet\MustardBlack.Hosting.AspNet.csproj">
+      <Project>{d4264c23-358f-4071-a7ee-5fe8c9345f26}</Project>
+      <Name>MustardBlack.Hosting.AspNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MustardBlack\MustardBlack.csproj">
       <Project>{823cdc0b-1f01-4e42-ab08-785fef3fa4de}</Project>
       <Name>MustardBlack</Name>
@@ -163,11 +171,33 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
       <ItemGroup>
+        <Reference Include="Brotli.NET">
+          <HintPath>..\..\packages\Brotli.NET\lib\net40\Brotli.NET.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
+      <ItemGroup>
         <Reference Include="System.Configuration">
           <Paket>True</Paket>
         </Reference>
         <Reference Include="Castle.Core">
           <HintPath>..\..\packages\Castle.Core\lib\net45\Castle.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
+      <ItemGroup>
+        <Reference Include="Ionic.Zip">
+          <HintPath>..\..\packages\DotNetZip\lib\Ionic.Zip.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -254,4 +284,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\..\packages\Brotli.NET\build\Brotli.NET.targets" Condition="Exists('..\..\packages\Brotli.NET\build\Brotli.NET.targets')" Label="Paket" />
 </Project>
