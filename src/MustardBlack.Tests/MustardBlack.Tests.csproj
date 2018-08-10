@@ -42,10 +42,10 @@
     <Compile Include="Applications\ApplicationRouterSpecs\RouteApplication\Order.cs" />
     <Compile Include="AutoMockedSpecification.cs" />
     <Compile Include="AutoMocker.cs" />
-    <Compile Include="Compression\Gzip\EmptyResponse.cs" />
+    <Compile Include="Compression\Gzip\EmptyStream.cs" />
     <Compile Include="Compression\Gzip\MultipleWriting.cs" />
     <Compile Include="Compression\Brotli\MultipleWriting.cs" />
-    <Compile Include="Compression\Brotli\EmptyResponse.cs" />
+    <Compile Include="Compression\Brotli\EmptyStream.cs" />
     <Compile Include="Handlers\Binding\Binders\Bools\WhenBindingAFalseNullableBool.cs" />
     <Compile Include="Handlers\Binding\Binders\Bools\WhenBindingAnEmptyNullableBool.cs" />
     <Compile Include="Handlers\Binding\Binders\Bools\WhenBindingANullNullableBool.cs" />
