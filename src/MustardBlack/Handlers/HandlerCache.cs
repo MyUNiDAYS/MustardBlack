@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using MustardBlack.Hosting;
 using MustardBlack.Pipeline;
 using MustardBlack.Results;
 using NanoIoC;
@@ -42,7 +41,7 @@ namespace MustardBlack.Handlers
 				}
 
 				var attributes = customAttributes.OfType<Attribute>().ToArray();
-				var pipelineOperators = GetPipelineOperators(attributes);
+				var pipelineOperators = this.GetPipelineOperators(attributes);
 
 				var hdAttributes = customAttributes.OfType<IHandlerDecoratorAttribute>().ToArray();
 
@@ -102,7 +101,7 @@ namespace MustardBlack.Handlers
 				return null;
 
 			var customAttributes = method.GetCustomAttributes(true).Cast<Attribute>();
-			var pipelineOperators = GetPipelineOperators(customAttributes);
+			var pipelineOperators = this.GetPipelineOperators(customAttributes);
 
 			pipelineOperators = pipelineOperators.Union(operators).OrderBy(x => x.Order).ToArray();
 
@@ -127,10 +126,7 @@ namespace MustardBlack.Handlers
 
 					// Only register if the container knows about POs for the attribute
 					if (this.container.HasRegistrationsFor(operatorType))
-					{
 						pipelineOperators.Add(new HandlerAction.PipelineOperator(0, attribute, operatorType));
-						break;
-					}
 
 					attributeType = attributeType.BaseType;
 				}
@@ -143,16 +139,16 @@ namespace MustardBlack.Handlers
 		/// Finds the method on the ApiEndpoint to execute
 		/// </summary>
 		/// <param name="handlerType"></param>
-		/// <param name="request"></param>
+		/// <param name="method"></param>
 		/// <returns></returns>
-		public HandlerAction GetHandlerAction(Type handlerType, IRequest request)
+		public HandlerAction GetHandlerAction(Type handlerType, HttpMethod method)
 		{
-			var verbMethod = this.handlerMethodCache[handlerType][request.HttpMethod];
+			var verbMethod = this.handlerMethodCache[handlerType][method];
 
 			if (verbMethod != null)
 				return verbMethod;
 
-			if (request.HttpMethod == HttpMethod.Head && this.handlerMethodCache[handlerType][HttpMethod.Get] != null)
+			if (method == HttpMethod.Head && this.handlerMethodCache[handlerType][HttpMethod.Get] != null)
 				return this.handlerMethodCache[handlerType][HttpMethod.Get];
 
 			verbMethod = this.handlerMethodCache[handlerType][HttpMethod.All];

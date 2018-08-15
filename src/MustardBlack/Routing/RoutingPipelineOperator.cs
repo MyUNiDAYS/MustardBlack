@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Threading.Tasks;
 using MustardBlack.Hosting;
 using MustardBlack.Pipeline;
@@ -18,7 +18,7 @@ namespace MustardBlack.Routing
 			{
 				log.Debug("Routed {url} to {handler} with Method {method} and IsAjax {isAjax}", context.Request.Url, routeData.Route.HandlerType.FullName, context.Request.HttpMethod, context.Request.IsAjaxRequest());
 
-				routeData.HandlerAction = context.Application.HandlerCache.GetHandlerAction(routeData.Route.HandlerType, context.Request);
+				routeData.HandlerAction = context.Application.HandlerCache.GetHandlerAction(routeData.Route.HandlerType, context.Request.HttpMethod);
 				context.RouteData(routeData);
 			}
 			else

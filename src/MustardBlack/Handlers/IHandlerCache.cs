@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using MustardBlack.Hosting;
 
 namespace MustardBlack.Handlers
 {
@@ -14,9 +13,9 @@ namespace MustardBlack.Handlers
 		/// Finds the method on the ApiEndpoint to execute
 		/// </summary>
 		/// <param name="handlerType"></param>
-		/// <param name="request"></param>
+		/// <param name="method"></param>
 		/// <returns></returns>
-		HandlerAction GetHandlerAction(Type handlerType, IRequest request);
+		HandlerAction GetHandlerAction(Type handlerType, HttpMethod method);
 
 		void Warm(IEnumerable<Type> handlerTypes);
 	}
