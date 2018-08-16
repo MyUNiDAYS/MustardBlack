@@ -88,6 +88,7 @@
     <Compile Include="Handlers\Binding\when_binding_nested_nested_simple_properties.cs" />
     <Compile Include="Handlers\Binding\when_binding_nested_simple_properties.cs" />
     <Compile Include="Handlers\Binding\when_binding_simple_properties.cs" />
+    <Compile Include="Handlers\HandlerCacheSpecs\ShouldRegisterAllAttributePOs.cs" />
     <Compile Include="Handlers\Results\ResultSpecs\BaseExecutorSpec.cs" />
     <Compile Include="Handlers\Results\ResultSpecs\DefaultCachePolicy.cs" />
     <Compile Include="Helpers\TestRequest.cs" />
