@@ -57,6 +57,7 @@
     <Compile Include="Handlers\Binding\Binders\EnumerableOfFiles.cs" />
     <Compile Include="Handlers\Binding\Binders\EnumerableOfStringsBinderSpecs.cs" />
     <Compile Include="Handlers\Binding\Binders\Guids\WhenBindingAMissingGuid.cs" />
+    <Compile Include="Handlers\Binding\Binders\Json\ErroneousIDNEmailAddressesInJson.cs" />
     <Compile Include="Handlers\Binding\Binders\Json\IDNEmailAddressesInJson.cs" />
     <Compile Include="Handlers\Binding\Binders\Json\WhenBindingSomeComplexJson.cs" />
     <Compile Include="Handlers\Binding\Binders\Json\WhenBindingSomeJson.cs" />

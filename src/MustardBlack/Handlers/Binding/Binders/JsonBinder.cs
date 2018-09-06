@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using MustardBlack.Hosting;
 using MustardBlack.Routing;
@@ -10,21 +11,30 @@ namespace MustardBlack.Handlers.Binding.Binders
 	{
 		public override bool CanBind(string name, Type type, IRequest request, RouteValues routeValues, object owner)
 		{
-			return !string.IsNullOrEmpty(request.ContentType) &&
-				request.ContentType.ToLowerInvariant() == "application/json" &&
-				!request.HttpMethod.IsSafe() &&
-				!type.IsValueType;
+			return !string.IsNullOrEmpty(request.ContentType) 
+			       && request.ContentType.ToLowerInvariant() == "application/json" 
+			       && !request.HttpMethod.IsSafe();
 		}
 
 		public override BindingResult Bind(Type type, string name, string value, IRequest request, RouteValues routeValues, object owner)
 		{
-			var data = JsonConvert.DeserializeObject(value, type, new EmailAddressJsonConvert());
+			var bindingErrors = new List<BindingError>();
+			var addressJsonConverter = new EmailAddressJsonConverter(bindingErrors);
 
-			return new BindingResult(data);
+			var data = JsonConvert.DeserializeObject(value, type, addressJsonConverter);
+
+			return new BindingResult(data, bindingErrors);
 		}
 
-		sealed class EmailAddressJsonConvert : JsonConverter
+		sealed class EmailAddressJsonConverter : JsonConverter
 		{
+			readonly IList<BindingError> errors;
+
+			public EmailAddressJsonConverter(IList<BindingError> errors)
+			{
+				this.errors = errors;
+			}
+
 			public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 			{
 				throw new NotSupportedException();
@@ -38,7 +48,7 @@ namespace MustardBlack.Handlers.Binding.Binders
 				if (reader.TokenType != JsonToken.String)
 					return null;
 
-				var value = (string)reader.Value;
+				var value = (string) reader.Value;
 
 				var path = reader.Path.Split('.');
 				var propertyName = path[path.Length - 1].ToLowerInvariant();
@@ -59,6 +69,8 @@ namespace MustardBlack.Handlers.Binding.Binders
 				}
 				catch (ArgumentException)
 				{
+					// Bug (potential): propertyName will be cased exactly as it was provided in the JSON, rather than as per the .NET model it is being bound to
+					this.errors.Add(new BindingError("Invalid", propertyName, value));
 					return value;
 				}
 			}
