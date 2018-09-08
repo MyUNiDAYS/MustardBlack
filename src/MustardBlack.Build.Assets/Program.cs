@@ -44,22 +44,21 @@ namespace MustardBlack.Build.Assets
 				// TODO: handle failure
 				asset = result;
 			}
+			
+			var resourceIntegrityCheck = ComputeSha256Hash(asset);
+			Console.Write(resourceIntegrityCheck);
 
-			// calc md5 and output
-			var md5 = CalculateMd5Hash(asset);
-			Console.Write(md5);
-
-			var outFile = Path.Combine(outPath, md5 + '.' + assetFormat.ToString().ToLowerInvariant());
+			var outFile = Path.Combine(outPath, resourceIntegrityCheck + '.' + assetFormat.ToString().ToLowerInvariant());
 			File.WriteAllText(outFile, asset);
 		}
-
-		static string CalculateMd5Hash(string input)
+		
+		static string ComputeSha256Hash(string input)
 		{
-			var md5 = MD5.Create();
-			var inputBytes = Encoding.UTF8.GetBytes(input);
-			var hash = md5.ComputeHash(inputBytes);
-
-			return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+			using (var sha256Hash = SHA256.Create())
+			{
+				var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+				return "sha256-" + BitConverter.ToString(bytes).Replace('+', '-').Replace('/', '_');
+			}
 		}
 	}
 }
