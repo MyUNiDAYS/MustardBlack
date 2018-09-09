@@ -5,7 +5,8 @@ NUGET
     Castle.Core (4.3.1)
     dotless (1.5.1)
     DotNetZip (1.9)
-    EcmaScript.Net (1.0.1)
+    EcmaScript.NET (2.0)
+      System.Reflection.Emit (>= 4.3)
     FluentAssertions (5.4.1)
     Microsoft.AspNet.Razor (3.2.6)
     Microsoft.CodeDom.Providers.DotNetCompilerPlatform (2.0) - import_targets: false
@@ -19,11 +20,12 @@ NUGET
     Serilog (1.5.14)
     Serilog.Exceptions (1.2)
       Serilog (>= 1.5.14)
+    System.Reflection.Emit (4.3)
     System.Runtime.CompilerServices.Unsafe (4.5.1)
     System.Threading.Tasks.Extensions (4.5.1)
       System.Runtime.CompilerServices.Unsafe (>= 4.5)
-    YUICompressor.NET (2.3)
-      EcmaScript.Net (>= 1.0.1)
+    YUICompressor.NET (3.0)
+      EcmaScript.NET (>= 2.0)
 
 GROUP BuildTools
 NUGET

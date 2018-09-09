@@ -230,7 +230,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
       <ItemGroup>
         <Reference Include="EcmaScript.NET">
-          <HintPath>..\..\packages\EcmaScript.Net\lib\net20\EcmaScript.NET.dll</HintPath>
+          <HintPath>..\..\packages\EcmaScript.NET\lib\net45\EcmaScript.NET.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -293,7 +293,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
       <ItemGroup>
         <Reference Include="Yahoo.Yui.Compressor">
-          <HintPath>..\..\packages\YUICompressor.NET\lib\NET20\Yahoo.Yui.Compressor.dll</HintPath>
+          <HintPath>..\..\packages\YUICompressor.NET\lib\net452\Yahoo.Yui.Compressor.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
