@@ -104,10 +104,12 @@
     <Compile Include="ModRewrite\Options\DefaultRedirect.cs" />
     <Compile Include="ModRewrite\Options\GlobalCaseInsensitivity.cs" />
     <Compile Include="ModRewrite\RewriteCondAndRule\Fail\HostConditionAndSimplePath.cs" />
+    <Compile Include="ModRewrite\RewriteCondAndRule\Fail\NegatedCondition.cs" />
     <Compile Include="ModRewrite\RewriteCondAndRule\Fail\QueryStringAndSimplePath.cs" />
     <Compile Include="ModRewrite\RewriteCondAndRule\Fail\RequestUriAndSimplePath.cs" />
     <Compile Include="ModRewrite\RewriteCondAndRule\Success\HostConditionAndSimplePath.cs" />
     <Compile Include="ModRewrite\RewriteCondAndRule\Success\HostConditionCaptureGroupAndSimplePath.cs" />
+    <Compile Include="ModRewrite\RewriteCondAndRule\Success\NegatedCondition.cs" />
     <Compile Include="ModRewrite\RewriteCondAndRule\Success\QueryStringAndSimplePath.cs" />
     <Compile Include="ModRewrite\RewriteCondAndRule\Success\RequestUriAndSimplePath.cs" />
     <Compile Include="ModRewrite\RewriteRuleOnly\Success\LeadingSlash.cs" />
