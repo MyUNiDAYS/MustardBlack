@@ -12,7 +12,8 @@ namespace MustardBlack.ModRewrite
 		public RewriteCondFlags Flags { get; set; }
 		public string TestString { get; set; }
 		public Regex Condition { get; set; }
-		string source;
+        public bool Negate { get; set; }
+        string source;
 
 		[Flags]
 		public enum RewriteCondFlags
@@ -25,18 +26,21 @@ namespace MustardBlack.ModRewrite
 			var flags = ParseFlags(lineTokens);
 
 			var regexOptions = flags.HasFlag(RewriteCondFlags.CaseInsensitive) || options.GlobalCaseInsensitivity ? RegexOptions.IgnoreCase : RegexOptions.None;
-			var condition = new Regex(lineTokens[2], regexOptions, TimeSpan.FromMilliseconds(500));
+			var pattern = lineTokens[2];
+			var negate = pattern.StartsWith("!");
+			var condition = new Regex(negate ? pattern.Substring(1) : pattern, regexOptions, TimeSpan.FromMilliseconds(500));
 
 			return new RewriteCond
 			{
 				TestString = lineTokens[1],
 				Flags = flags,
 				Condition = condition,
+				Negate = negate,
 				source = line
 			};
 		}
 
-		static RewriteCondFlags ParseFlags(IReadOnlyList<string> lineTokens)
+        static RewriteCondFlags ParseFlags(IReadOnlyList<string> lineTokens)
 		{
 			var flags = (RewriteCondFlags) 0;
 			if (lineTokens.Count == 4)

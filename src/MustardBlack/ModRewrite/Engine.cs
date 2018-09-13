@@ -27,12 +27,18 @@ namespace MustardBlack.ModRewrite
 					var condition = ruleset.Conditions[conditionIndex];
 					
 					var match = condition.Matches(request);
-					if (match.Success)
+					if (match.Success && !condition.Negate)
 					{
 						log.Debug("ModRewrite: Rulset {index}, Condition {conditionIndex}: {condition}: Matched, proceeding", ruleIndex, conditionIndex, condition.ToString());
 
 						for (var i = 1; i < match.Groups.Count; i++)
 							conditionArgs.Add(match.Groups[i].Value);
+						continue;
+					}
+
+					if (!match.Success && condition.Negate)
+					{
+						log.Debug("ModRewrite: Rulset {index}, Condition {conditionIndex}: {condition}: Negated Match, proceeding", ruleIndex, conditionIndex, condition.ToString());
 						continue;
 					}
 
