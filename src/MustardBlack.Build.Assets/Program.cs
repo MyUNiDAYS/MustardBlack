@@ -57,7 +57,7 @@ namespace MustardBlack.Build.Assets
 			using (var sha256Hash = SHA256.Create())
 			{
 				var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-				return "sha256-" + BitConverter.ToString(bytes).Replace('+', '-').Replace('/', '_');
+				return "sha256-" + Convert.ToBase64String(bytes, Base64FormattingOptions.None).Replace('=', '-').Replace('/', '_');
 			}
 		}
 	}
