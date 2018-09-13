@@ -24,7 +24,7 @@ namespace MustardBlack.Assets.Javascript
 
 			var asset = this.assetLoader.GetAsset(path, AssetFormat.Js);
 			
-			return new FileContentResult("text/js", Encoding.UTF8.GetBytes(asset));
+			return new FileContentResult("application/javascript", Encoding.UTF8.GetBytes(asset));
 		}
 	}
 }
