@@ -65,7 +65,7 @@ namespace MustardBlack.Handlers.Binding
 
 			public static HashKey Create(string name, Type type, IRequest request, RouteValues routeValues)
 			{
-				return new HashKey(name, type, request.ContentType.ToString(), request.HttpMethod, routeValues);
+				return new HashKey(name, type, request.ContentType?.ToString(), request.HttpMethod, routeValues);
 			}
 
 			public bool Equals(HashKey other)
