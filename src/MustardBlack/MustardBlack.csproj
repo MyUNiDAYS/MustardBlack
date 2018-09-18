@@ -115,6 +115,7 @@
     <Compile Include="Handlers\IHandler.cs" />
     <Compile Include="Handlers\IHandlerCache.cs" />
     <Compile Include="Handlers\IHandlerDecoratorAttribute.cs" />
+    <Compile Include="Hosting\ContentType.cs" />
     <Compile Include="Hosting\HeaderCollection.cs" />
     <Compile Include="Hosting\IFileSystem.cs" />
     <Compile Include="Hosting\IRequest.cs" />

@@ -11,7 +11,7 @@ namespace MustardBlack.Tests.Handlers.Binding.Performance
 		public string IpAddress { get; set; }
 		public uint IpLong { get; set; }
 		public string UserAgent { get; set; }
-		public string ContentType { get; set; }
+		public ContentType ContentType { get; set; }
 		public Url Url { get; set; }
 		public HttpMethod HttpMethod { get; set; }
 		public NameValueCollection Form { get; set; }

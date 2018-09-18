@@ -11,7 +11,7 @@ namespace MustardBlack.Hosting.AspNet
 	public sealed class AspNetRequest : IRequest
 	{
 		readonly HttpContextBase context;
-		public string ContentType { get; }
+		public ContentType ContentType { get; }
 		public Url Url { get; }
 		public HttpMethod HttpMethod { get; set; }
 
@@ -82,11 +82,21 @@ namespace MustardBlack.Hosting.AspNet
 			this.Cookies = new RequestCookieCollection(cookieHeader);
 		}
 
-		
-		static string ParseContentType(string requestContentType)
+		static ContentType ParseContentType(string requestContentType)
 		{
-			// example "application/json ; charset=utf8" -> "application/json"
-			return requestContentType?.Split(';').First().Trim().ToLowerInvariant() ?? string.Empty;
+			if (!string.IsNullOrEmpty(requestContentType))
+			{
+				try
+				{
+					return new ContentType(requestContentType.ToLowerInvariant());
+				}
+				catch
+				{
+					return new ContentType("application/octet-stream");
+				}
+			}
+
+			return null;
 		}
 
 		static IEnumerable<StringWithQualityHeaderValue> ParseAcceptLanguages(string header)
