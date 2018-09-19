@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Web;
 using MustardBlack.Hosting;
 using MustardBlack.Routing;
@@ -28,26 +29,26 @@ namespace MustardBlack.Handlers.Binding.Binders
 
 			if (request.HttpMethod == HttpMethod.Post || request.HttpMethod == HttpMethod.Put)
 			{
-				if (!string.IsNullOrEmpty(request.ContentType))
+				if (request.ContentType != null)
 				{
-					if (request.ContentType.Contains("multipart/form-data"))
+					if (request.ContentType.MediaType == "multipart/form-data")
 					{
 						var value = request.Form[name];
 						if (value != null)
 							return this.GetResult(type, value, name, request, routeValues, owner);
 					}
-					else if (request.ContentType.Contains("application/x-www-form-urlencoded"))
+					else if (request.ContentType.MediaType == "application/x-www-form-urlencoded")
 					{
 						var value = request.Form[name];
 						if (value != null)
 							return this.GetResult(type, value, name, request, routeValues, owner);
 					}
-					else if (request.ContentType.Contains("application/json"))
+					else if (request.ContentType.MediaType == "application/json")
 					{
 						if (request.BufferlessInputStream.Length > 0)
 						{
 							string jsonString;
-							using (var inputStream = new StreamReader(request.BufferlessInputStream))
+							using (var inputStream = new StreamReader(request.BufferlessInputStream, Encoding.UTF8, true, 1024, true))
 								jsonString = inputStream.ReadToEnd();
 
 							if (!string.IsNullOrWhiteSpace(jsonString))

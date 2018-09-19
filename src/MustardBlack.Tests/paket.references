@@ -5,3 +5,4 @@ FluentAssertions
 Newtonsoft.Json
 Brotli.NET
 DotNetZip
+MuonLab.Validation

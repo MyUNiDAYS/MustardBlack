@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Text;
 using MustardBlack.Hosting;
 
 namespace MustardBlack.Tests.Helpers
@@ -11,7 +12,7 @@ namespace MustardBlack.Tests.Helpers
 		public string IpAddress { get; set; }
 		public uint IpLong { get; set; }
 		public string UserAgent { get; set; }
-		public string ContentType { get; set; }
+		public ContentType ContentType { get; set; }
 		public Url Url { get; set; }
 		public HttpMethod HttpMethod { get; set; }
 		public NameValueCollection Form { get; set; }
@@ -46,6 +47,13 @@ namespace MustardBlack.Tests.Helpers
 			var dictionary = obj.ToDictionary();
 			foreach(var pair in dictionary)
 				this.Form.Add(pair.Key, pair.Value.ToString());
+		}
+
+		public void SetRequestBody(string body)
+		{
+			var data = Encoding.UTF8.GetBytes(body);
+			this.BufferlessInputStream.Write(data, 0, data.Length);
+			this.BufferlessInputStream.Position = 0;
 		}
 
 		public void SetFeatureFlagEnabled(string featureFlag)
