@@ -8,7 +8,7 @@ namespace MustardBlack.Example.Areas.Example.Example
 	{
 		public IResult Get()
 		{
-			return new EmptyResult();
+			return View("Index");
 		}
 	}
 }

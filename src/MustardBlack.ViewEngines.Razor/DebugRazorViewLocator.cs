@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -68,9 +69,12 @@ namespace MustardBlack.ViewEngines.Razor
 			
 			var viewCompilationData = new RazorViewCompilationData
 			{
-				Name = RazorViewCompiler.GetTypeName(viewPath.Substring(2)),
+				Namespace = Path.GetDirectoryName(viewPath.Substring(2)).Replace("\\", ".").Replace("/", "."),
+				ClassName = Path.GetFileName(viewPath).Replace(".", "_"),
+				FilePath = viewPath,
 				ViewContents = builder.ToString()
 			};
+
 			var compiled = this.compiler.CompileFile(viewCompilationData, new Assembly[0], true, fullViewPath);
 			return compiled;
 		}
@@ -102,7 +106,9 @@ namespace MustardBlack.ViewEngines.Razor
 						var trimmedLine = line.Trim();
 						if (!string.IsNullOrEmpty(trimmedLine))
 						{
-							if (trimmedLine.IndexOf("@inherits") == -1 && trimmedLine.EndsWith(">"))
+							if (trimmedLine.IndexOf("@section") == 0)
+								builder.AppendLine().AppendLine(trimmedLine);
+							else if (trimmedLine.IndexOf("@inherits") == -1 && trimmedLine.EndsWith(">"))
 								builder.Append(trimmedLine);
 							else
 								builder.AppendLine(trimmedLine);

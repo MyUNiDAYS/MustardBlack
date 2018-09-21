@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.ViewEngines;
 using Serilog;
@@ -35,7 +36,7 @@ namespace MustardBlack.Results
 
 			try
 			{
-				rendered = renderer.Render(result, renderingContext);
+				rendered = renderer.Render(result, renderingContext).GetAwaiter().GetResult();
 			}
 			catch (Exception e)
 			{
@@ -47,7 +48,8 @@ namespace MustardBlack.Results
 				// TODO: render something useful
 				context.Response.ContentType = "text/plain";
 				context.Response.StatusCode = HttpStatusCode.InternalServerError;
-
+				context.Response.Write(e.Message);
+				context.Response.Write(e.StackTrace);
 				return;
 			}
 

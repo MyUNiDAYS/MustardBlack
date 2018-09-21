@@ -23,7 +23,8 @@ namespace MustardBlack.Build.Views
 			var razorConfiguration = new RazorConfiguration(webConfigPath, outPath);
 			var cssPreprocessor = new LessCssPreprocessor();
 			var fileSystem = new BasicFileSystem(inPath);
-			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(razorConfiguration, new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem));
+			//var razorViewCompiler = new AssetEnrichedRazorViewCompiler(razorConfiguration, new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem));
+			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem));
 
 			var views = Directory.GetFiles(inPath, "*.cshtml", SearchOption.AllDirectories).ToList();
 			if (!views.Any())
@@ -52,7 +53,6 @@ namespace MustardBlack.Build.Views
 				var cssPaths = razorViewCompiler.GetViewComponentPaths(view, ".less").Union(razorViewCompiler.GetViewComponentPaths(view, ".css"));
 
 				var viewVirtualPath = view.Substring(inPath.Length + 1);
-				var name = RazorViewCompiler.GetTypeName(viewVirtualPath);
 
 				var areaStartIndex = viewVirtualPath.IndexOf("areas\\", StringComparison.InvariantCultureIgnoreCase) + 6;
 				var areaName = viewVirtualPath.Substring(areaStartIndex, viewVirtualPath.IndexOf("\\", areaStartIndex) - areaStartIndex);
@@ -98,7 +98,7 @@ namespace MustardBlack.Build.Views
 
 				viewData.Add(new RazorViewCompilationData
 				{
-					Name = name,
+					//Name = name,
 					ViewContents = viewContents.ToString()
 				});
 			}

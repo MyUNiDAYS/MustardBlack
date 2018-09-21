@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MustardBlack.Build.Views</RootNamespace>
     <AssemblyName>MustardBlack.Build.Views</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,12 +52,12 @@
     <None Include="paket.references" />
     <None Include="paket.template" />
   </ItemGroup>
-	<ItemGroup>
-		<None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\*">
-			<Link>roslyn\%(RecursiveDir)%(FileName)%(Extension)</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\*">
+      <Link>roslyn\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj">
       <Project>{5df08811-ca1f-4167-b837-77dddde98c62}</Project>
@@ -69,10 +70,32 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7'">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.1'">
       <ItemGroup>
-        <Reference Include="System.Web.Razor">
-          <HintPath>..\..\packages\Microsoft.AspNet.Razor\lib\net45\System.Web.Razor.dll</HintPath>
+        <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
+          <HintPath>..\..\packages\Microsoft.AspNetCore.Html.Abstractions\lib\netstandard2.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.1'">
+      <ItemGroup>
+        <Reference Include="Microsoft.AspNetCore.Razor">
+          <HintPath>..\..\packages\Microsoft.AspNetCore.Razor\lib\netstandard2.0\Microsoft.AspNetCore.Razor.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.1'">
+      <ItemGroup>
+        <Reference Include="System.Text.Encodings.Web">
+          <HintPath>..\..\packages\System.Text.Encodings.Web\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

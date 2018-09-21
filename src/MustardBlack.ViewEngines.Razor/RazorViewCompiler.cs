@@ -4,37 +4,44 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.Hosting;
-using System.Web.Razor;
+using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 
 namespace MustardBlack.ViewEngines.Razor
 {
 	public class RazorViewCompiler
 	{
-		protected readonly IRazorConfiguration razorConfiguration;
+		//protected readonly IRazorConfiguration razorConfiguration;
 		protected readonly IFileSystem fileSystem;
 
-		readonly string[] defaultAssemblies = {
+		readonly string[] defaultAssemblies =
+		{
 			GetAssemblyPath(typeof(System.Runtime.CompilerServices.CallSite)),
 			GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder)),
 			GetAssemblyPath(typeof(IHtmlString))
 		};
 
-		readonly string[] defaultNamespaces = {
+		readonly string[] defaultNamespaces =
+		{
 			"Microsoft.CSharp.RuntimeBinder",
 			"System",
 			"System.Linq",
 			"MustardBlack.ViewEngines"
 		};
 
-		public RazorViewCompiler(IRazorConfiguration razorConfiguration, IFileSystem fileSystem)
+		RazorProjectFileSystem razorProjectFileSystem;
+
+		public RazorViewCompiler(IFileSystem fileSystem)
 		{
-			this.razorConfiguration = razorConfiguration;
+			//this.razorConfiguration = razorConfiguration;
 			this.fileSystem = fileSystem;
+			this.razorProjectFileSystem = RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/"));
 		}
-		
+
 		static string GetAssemblyPath(Type type)
 		{
 			return GetAssemblyPath(type.Assembly);
@@ -65,6 +72,7 @@ namespace MustardBlack.ViewEngines.Razor
 		}
 
 		const string AspNetNamespace = "ASP";
+
 		static Assembly GetWebApplicationAssembly(HttpContext context)
 		{
 			object app = context.ApplicationInstance;
@@ -79,23 +87,37 @@ namespace MustardBlack.ViewEngines.Razor
 
 		public Type CompileFile(RazorViewCompilationData view, IEnumerable<Assembly> assembliesToReference, bool includeDebugInformation = false, string debugFilePath = null)
 		{
-			var host = new RazorEngineHost(new CSharpRazorCodeLanguage());
-			
-			foreach (var @namespace in this.razorConfiguration.GetDefaultNamespaces().Union(this.defaultNamespaces))
-				host.NamespaceImports.Add(@namespace);
-			
-			var engine = new RazorTemplateEngine(host);
+			var razorCSharpDocument = GenerateCSharp(view);
+			return CompileCSharp(view, assembliesToReference, razorCSharpDocument);
+		}
 
-//			host.EnableInstrumentation = includeDebugInformation;
-//			host.InstrumentedSourceFilePath = debugFilePath;
+		RazorCSharpDocument GenerateCSharp(RazorViewCompilationData view)
+		{
+			var razorConfiguration = RazorConfiguration.Default;
+			var razorProjectEngine = RazorProjectEngine.Create(razorConfiguration, razorProjectFileSystem, builder =>
+			{
+				builder.SetBaseType("MustardBlack.ViewEngines.Razor.RazorViewPage");
 
-			GeneratorResults razorResult;
-			using (var textReader = new StringReader(view.ViewContents))
-				razorResult = engine.GenerateCode(textReader, view.Name, "", debugFilePath);
+				builder.SetNamespace(view.Namespace);
+				builder.ConfigureClass((doc, node) => node.ClassName = view.ClassName);
 
+				FunctionsDirective.Register(builder);
+				InheritsDirective.Register(builder);
+				SectionDirective.Register(builder);
+			});
+
+			var templateEngine = new RazorTemplateEngine(razorProjectEngine.Engine, razorProjectFileSystem);
+
+			var sourceDocument = RazorSourceDocument.Create(view.ViewContents, view.FilePath, Encoding.UTF8);
+			var codeDocument = RazorCodeDocument.Create(sourceDocument);
+			var razorCSharpDocument = templateEngine.GenerateCode(codeDocument);
+			return razorCSharpDocument;
+		}
+
+		Type CompileCSharp(RazorViewCompilationData view, IEnumerable<Assembly> assembliesToReference, RazorCSharpDocument razorCSharpDocument)
+		{
 			var assemblies = new List<string>();
 			var appAssembly = GetApplicationAssembly();
-
 			assemblies.AddRange(this.defaultAssemblies);
 			assemblies.Add(GetAssemblyPath(appAssembly)); // current app
 			assemblies.AddRange(appAssembly.GetReferencedAssemblies().Select(GetAssemblyPath)); // assemblies referenced by current app
@@ -103,94 +125,83 @@ namespace MustardBlack.ViewEngines.Razor
 //			assemblies.AddRange(AssemblyRepository.GetApplicationAssemblies().Select(GetAssemblyPath)); // assemblies in app's folder
 
 			// assemblies named by configuration
-			var assemblyNames = this.razorConfiguration.GetAssemblyNames();
+			//var assemblyNames = this.razorConfiguration.GetAssemblyNames();
 			// TODO: cant just load here, use assembly repos to check uniqueness
-			assemblies.AddRange(assemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
+			//assemblies.AddRange(assemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
 			assemblies.AddRange(assembliesToReference.Select(GetAssemblyPath));
-
 			assemblies = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToList();
-			
 			var compilerParameters = new CompilerParameters(assemblies.ToArray());
 			compilerParameters.IncludeDebugInformation = true;
 			compilerParameters.TempFiles.KeepFiles = false;
-			
 			var codeProvider = new CSharpCodeProvider();
-			var compilationResults = codeProvider.CompileAssemblyFromDom(compilerParameters, razorResult.GeneratedCode);
 
+			var compilationResults = codeProvider.CompileAssemblyFromSource(compilerParameters, razorCSharpDocument.GeneratedCode);
 			if (compilationResults.Errors.HasErrors)
 			{
-				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => String.Format(
-					"[{0}] Line: {1} Column: {2} - {3}",
-					error.ErrorNumber,
-					error.Line,
-					error.Column,
-					error.ErrorText)).Aggregate((s1, s2) => s1 + "\n" + s2);
+				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => $"[{error.ErrorNumber}] Line: {error.Line} Column: {error.Column} - {error.ErrorText}").Aggregate((s1, s2) => s1 + "\n" + s2);
 				//TODO: Format Errors nicely
-				throw new ViewRenderException("Failed to compile view `" + view.Name + "`: " + errors);
+				throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + errors);
 			}
 
-			var type = compilationResults.CompiledAssembly.GetType(view.Name);
+			var type = compilationResults.CompiledAssembly.GetType(view.Namespace + "." + view.ClassName);
 			if (type == null)
-				throw new ViewRenderException($"Could not find type `{view.Name}` in assembly `{compilationResults.CompiledAssembly.FullName}`");
-//
-//			if (Activator.CreateInstance(type) as RazorViewPage == null)
-//				throw new ViewRenderException(string.Format("Could not construct `{0}` or it does not inherit from RazorViewPage", type));
+				throw new ViewRenderException($"Could not find type `{view.Namespace + "." + view.ClassName}` in assembly `{compilationResults.CompiledAssembly.FullName}`");
 
 			return type;
 		}
 
 		public void CompileAndMergeFiles(IEnumerable<RazorViewCompilationData> viewCompilationDetails, string outputAssemblyName)
 		{
-			var host = new RazorEngineHost(new CSharpRazorCodeLanguage());
-
-			foreach (var @namespace in this.razorConfiguration.GetDefaultNamespaces().Union(this.defaultNamespaces))
-				host.NamespaceImports.Add(@namespace);
-
-			var engine = new RazorTemplateEngine(host);
-
-			var razorResults = viewCompilationDetails
-				.Select(v =>
-				{
-					var stringReader = new StringReader(v.ViewContents);
-					return engine.GenerateCode(stringReader, v.Name, "", v.Name);
-				})
-				.Select(r => r.GeneratedCode);
-
-			var assemblies = new List<string>();
-			var appAssembly = GetApplicationAssembly();
-
-			assemblies.AddRange(this.defaultAssemblies);
-			assemblies.AddRange(appAssembly.GetReferencedAssemblies().Select(GetAssemblyPath)); // assemblies referenced by current app
-			assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(GetAssemblyPath)); // loaded assemblies (superset of above line?)
-			//.AddRange(AssemblyRepository.GetApplicationAssemblies().Select(GetAssemblyPath)); // assemblies in app's folder
-
-			// assemblies named by configuration
-			var configuredAssemblyNames = this.razorConfiguration.GetAssemblyNames();
-			// TODO: cant just load here, use assembly repos to check uniqueness
-			assemblies.AddRange(configuredAssemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
-
-			var assemblyNames = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToArray();
-
-			var outputAssemblyPath = Path.Combine(this.razorConfiguration.OutPath, outputAssemblyName + ".Views.Razor.dll");
-
-			var compilerParameters = new CompilerParameters(assemblyNames, outputAssemblyPath, true) { TempFiles = { KeepFiles = false } };
-			var codeProvider = new CSharpCodeProvider();
-			var compilationResults = codeProvider.CompileAssemblyFromDom(compilerParameters, razorResults.ToArray());
-
-			if (compilationResults.Errors.HasErrors)
-			{
-				var errors = compilationResults.Errors
-					.OfType<CompilerError>()
-					.Where(ce => !ce.IsWarning)
-					.Select(error => $"[{error.ErrorNumber}] {error.FileName}: Line: {error.Line} Column: {error.Column} - {error.ErrorText}")
-					.Aggregate((s1, s2) => s1 + "\n" + s2);
-				//TODO: Format Errors nicely
-				throw new ViewRenderException("Failed to compile dll `" + outputAssemblyPath + "`: " + errors);
-			}
-
-			var assembly = Assembly.LoadFrom(outputAssemblyPath);
-			if (assembly == null)
-				throw new ViewRenderException("Error loading template assembly");
+//			var host = new RazorEngineHost(new CSharpRazorCodeLanguage());
+//
+//			foreach (var @namespace in this.razorConfiguration.GetDefaultNamespaces().Union(this.defaultNamespaces))
+//				host.NamespaceImports.Add(@namespace);
+//
+//			var engine = new RazorTemplateEngine(host);
+//
+//			var razorResults = viewCompilationDetails
+//				.Select(v =>
+//				{
+//					var stringReader = new StringReader(v.ViewContents);
+//					return engine.GenerateCode(stringReader, v.Name, "", v.Name);
+//				})
+//				.Select(r => r.GeneratedCode);
+//
+//			var assemblies = new List<string>();
+//			var appAssembly = GetApplicationAssembly();
+//
+//			assemblies.AddRange(this.defaultAssemblies);
+//			assemblies.AddRange(appAssembly.GetReferencedAssemblies().Select(GetAssemblyPath)); // assemblies referenced by current app
+//			assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(GetAssemblyPath)); // loaded assemblies (superset of above line?)
+//			//.AddRange(AssemblyRepository.GetApplicationAssemblies().Select(GetAssemblyPath)); // assemblies in app's folder
+//
+//			// assemblies named by configuration
+//			var configuredAssemblyNames = this.razorConfiguration.GetAssemblyNames();
+//			// TODO: cant just load here, use assembly repos to check uniqueness
+//			assemblies.AddRange(configuredAssemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
+//
+//			var assemblyNames = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToArray();
+//
+//			var outputAssemblyPath = Path.Combine(this.razorConfiguration.OutPath, outputAssemblyName + ".Views.Razor.dll");
+//
+//			var compilerParameters = new CompilerParameters(assemblyNames, outputAssemblyPath, true) { TempFiles = { KeepFiles = false } };
+//			var codeProvider = new CSharpCodeProvider();
+//			var compilationResults = codeProvider.CompileAssemblyFromDom(compilerParameters, razorResults.ToArray());
+//
+//			if (compilationResults.Errors.HasErrors)
+//			{
+//				var errors = compilationResults.Errors
+//					.OfType<CompilerError>()
+//					.Where(ce => !ce.IsWarning)
+//					.Select(error => $"[{error.ErrorNumber}] {error.FileName}: Line: {error.Line} Column: {error.Column} - {error.ErrorText}")
+//					.Aggregate((s1, s2) => s1 + "\n" + s2);
+//				//TODO: Format Errors nicely
+//				throw new ViewRenderException("Failed to compile dll `" + outputAssemblyPath + "`: " + errors);
+//			}
+//
+//			var assembly = Assembly.LoadFrom(outputAssemblyPath);
+//			if (assembly == null)
+//				throw new ViewRenderException("Error loading template assembly");
 		}
 
 		/// <summary>
@@ -217,11 +228,5 @@ namespace MustardBlack.ViewEngines.Razor
 				return false;
 			}).ToArray();
 		}
-
-		public static string GetTypeName(string path)
-		{
-			// TODO: leading numerics arent handled, i think they get a leading underscore prefix
-			return path.Replace("\\", "_").Replace("/", "_").Replace(".", "_").Replace("-", "_").ToLowerInvariant();
-		}
-	} 
+	}
 }

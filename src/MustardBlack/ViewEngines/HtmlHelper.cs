@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Web;
+using System.Text.Encodings.Web;
 using MustardBlack.Hosting;
 using MustardBlack.Results;
 
@@ -10,6 +10,8 @@ namespace MustardBlack.ViewEngines
 		public Url RequestUrl { get; }
 		public IRequestState RequestState { get; }
 		public ViewResult ViewResult { get; }
+
+		public HtmlEncoder Encoder { get; set; }
 
 		public IDictionary<string, object> ContextItems { get; }
 
@@ -28,7 +30,7 @@ namespace MustardBlack.ViewEngines
 		/// <returns></returns>
 		public string Encode(string text)
 		{
-			return HttpUtility.HtmlEncode(text);
+			return this.Encoder.Encode(text);
 		}
 	}
 }

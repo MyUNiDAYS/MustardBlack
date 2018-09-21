@@ -1,2 +1,6 @@
-Microsoft.AspNet.Razor
+Microsoft.AspNetCore.Razor
+Microsoft.AspNetCore.Razor.Language
+Microsoft.AspNetCore.Razor.Runtime
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform
+System.Buffers
+NanoIoC
