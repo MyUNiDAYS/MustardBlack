@@ -1,5 +1,5 @@
 image: Visual Studio 2017
-version: 0.0.jans-magical-package
+version: 0.8.{build}
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
@@ -13,7 +13,6 @@ for:
   - branches:
       only:
         - master
-        - ver-665
     after_test:
       - .paket\paket pack . --version %APPVEYOR_BUILD_VERSION%
   - branches:
