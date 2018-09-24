@@ -1,5 +1,5 @@
 image: Visual Studio 2017
-version: 0.8.{build}
+version: 0.0.{build}
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
@@ -29,4 +29,5 @@ deploy:
   on:
     branch:
       - master
+      - ver-665
 
