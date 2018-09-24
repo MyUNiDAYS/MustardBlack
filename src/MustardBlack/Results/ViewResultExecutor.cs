@@ -1,9 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.ViewEngines;
 using Serilog;
@@ -23,7 +23,7 @@ namespace MustardBlack.Results
 
 		public override void Execute(PipelineContext context, ViewResult result)
 		{
-			StringBuilder rendered;
+			var rendered = new StringBuilder();
 			
 			var renderer = this.viewRendererFinder.FindViewRenderer(result.ViewType);
 
@@ -31,12 +31,13 @@ namespace MustardBlack.Results
 			{
 				RequestUrl = context.Request.Url,
 				RequestState = context.Request.State,
-				ContextItems = context.Items
+				ContextItems = context.Items,
+				Writer = new StringWriter(rendered)
 			};
 
 			try
 			{
-				rendered = renderer.Render(result, renderingContext).GetAwaiter().GetResult();
+				renderer.Render(result, renderingContext).GetAwaiter().GetResult();
 			}
 			catch (Exception e)
 			{

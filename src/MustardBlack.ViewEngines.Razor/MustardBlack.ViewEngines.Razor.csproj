@@ -61,7 +61,6 @@
     <Compile Include="Internal\ViewBufferPage.cs" />
     <Compile Include="Internal\ViewBufferTextWriter.cs" />
     <Compile Include="Internal\ViewBufferValue.cs" />
-    <Compile Include="Internal\RazorViewContext.cs" />
     <Compile Include="RazorViewCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorViewCompilationData.cs" />

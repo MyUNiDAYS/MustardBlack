@@ -15,7 +15,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// <summary>
 		/// Gets or sets the view context of the rendering view.
 		/// </summary>
-		RazorViewContext RazorViewContext { get; set; }
+		ViewRenderingContext RenderingContext { get; set; }
 
 		/// <summary>
 		/// Gets or sets the body content.
@@ -53,7 +53,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		IDictionary<string, RenderAsyncDelegate> SectionWriters { get; }
 
 		/// <summary>
-		/// Renders the page and writes the output to the <see cref="RazorViewContext.Writer"/>.
+		/// Renders the page and writes the output to the <see cref="RenderingContext.Writer"/>.
 		/// </summary>
 		/// <returns>A task representing the result of executing the page.</returns>
 		Task ExecuteAsync();

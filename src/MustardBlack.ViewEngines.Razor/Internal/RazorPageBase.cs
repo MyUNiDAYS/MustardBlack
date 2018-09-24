@@ -27,7 +27,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		AttributeInfo attributeInfo;
 		TagHelperAttributeInfo tagHelperAttributeInfo;
 
-		public virtual RazorViewContext RazorViewContext { get; set; }
+		public virtual ViewRenderingContext RenderingContext { get; set; }
 		
 		public HtmlEncoder HtmlEncoder { get; set; }
 
@@ -43,7 +43,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		{
 			get
 			{
-				var viewContext = this.RazorViewContext;
+				var viewContext = this.RenderingContext;
 				if (viewContext == null)
 					throw new InvalidOperationException("Resources.FormatViewContextMustBeSet(nameof(ViewContext), nameof(Output))");
 
@@ -167,7 +167,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 
 			// Restore previous scope.
 			HtmlEncoder = scopeInfo.HtmlEncoder;
-			this.RazorViewContext.Writer = scopeInfo.Writer;
+			this.RenderingContext.Writer = scopeInfo.Writer;
 
 			return tagHelperContent;
 		}
@@ -176,7 +176,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// Starts a new scope for writing <see cref="ITagHelper"/> attribute values.
 		/// </summary>
 		/// <remarks>
-		/// All writes to the <see cref="Output"/> or <see cref="RazorViewContext.Writer"/> after calling this method will
+		/// All writes to the <see cref="Output"/> or <see cref="RenderingContext.Writer"/> after calling this method will
 		/// be buffered until <see cref="EndWriteTagHelperAttribute"/> is called.
 		/// The content will be buffered using a shared <see cref="StringWriter"/> within this <see cref="RazorPage"/>
 		/// Nesting of <see cref="BeginWriteTagHelperAttribute"/> and <see cref="EndWriteTagHelperAttribute"/> method calls
@@ -187,7 +187,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			if (pageWriter != null)
 				throw new InvalidOperationException("Resources.RazorPage_NestingAttributeWritingScopesNotSupported");
 
-			var viewContext = this.RazorViewContext;
+			var viewContext = this.RenderingContext;
 			pageWriter = viewContext.Writer;
 
 			if (valueBuffer == null)
@@ -215,7 +215,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			valueBuffer.GetStringBuilder().Clear();
 
 			// Restore previous writer.
-			this.RazorViewContext.Writer = pageWriter;
+			this.RenderingContext.Writer = pageWriter;
 			pageWriter = null;
 
 			return content;
@@ -229,7 +229,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 				throw new ArgumentNullException(nameof(writer));
 			}
 
-			var viewContext = this.RazorViewContext;
+			var viewContext = this.RenderingContext;
 			textWriterStack.Push(viewContext.Writer);
 			viewContext.Writer = writer;
 		}
@@ -237,7 +237,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		// Internal for unit testing.
 		protected internal virtual TextWriter PopWriter()
 		{
-			var viewContext = this.RazorViewContext;
+			var viewContext = this.RenderingContext;
 			var writer = textWriterStack.Pop();
 			viewContext.Writer = writer;
 			return writer;

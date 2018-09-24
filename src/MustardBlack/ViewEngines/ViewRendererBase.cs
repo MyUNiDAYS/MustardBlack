@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Text;
 using System.Threading.Tasks;
 using MustardBlack.Results;
 
@@ -9,7 +8,7 @@ namespace MustardBlack.ViewEngines
 	public abstract class ViewRendererBase : IViewRenderer
 	{
 		public abstract bool CanRender(Type viewType);
-		public abstract Task<StringBuilder> Render(ViewResult viewResult, ViewRenderingContext context);
+		public abstract Task Render(ViewResult viewResult, ViewRenderingContext viewRenderingContext);
 
 		protected virtual UrlHelper BuildUrlHelper(ViewResult result, IView view, ViewRenderingContext context)
 		{
