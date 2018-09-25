@@ -23,8 +23,7 @@ namespace MustardBlack.Build.Views
 			var razorConfiguration = new RazorConfiguration(webConfigPath, outPath);
 			var cssPreprocessor = new LessCssPreprocessor();
 			var fileSystem = new BasicFileSystem(inPath);
-			//var razorViewCompiler = new AssetEnrichedRazorViewCompiler(razorConfiguration, new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem));
-			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem));
+			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
 
 			var views = Directory.GetFiles(inPath, "*.cshtml", SearchOption.AllDirectories).ToList();
 			if (!views.Any())

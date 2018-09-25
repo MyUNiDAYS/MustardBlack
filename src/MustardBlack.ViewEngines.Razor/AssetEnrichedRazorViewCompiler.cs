@@ -11,7 +11,7 @@ namespace MustardBlack.ViewEngines.Razor
 		readonly ICssPreprocessor cssPreprocessor;
 		readonly IAssetLoader assetLoader;
 
-		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, ICssPreprocessor cssPreprocessor, IFileSystem fileSystem, IAssetLoader assetLoader) : base(fileSystem)
+		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, ICssPreprocessor cssPreprocessor, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
 		{
 			this.jsCompressor = jsCompressor;
 			this.cssPreprocessor = cssPreprocessor;

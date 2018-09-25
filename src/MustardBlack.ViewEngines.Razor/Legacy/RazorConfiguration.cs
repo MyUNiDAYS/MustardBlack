@@ -16,7 +16,7 @@ namespace MustardBlack.ViewEngines.Razor
 			{
 				this.namespaces = new string[0];
                 return;
-			}
+			} 
 
 			var xmlNodeList = fileSystem.Read("~/web.config", reader =>
 			{

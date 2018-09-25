@@ -17,8 +17,9 @@ namespace MustardBlack.ViewEngines.Razor
 	{
 		//protected readonly IRazorConfiguration razorConfiguration;
 		protected readonly IFileSystem fileSystem;
+	    readonly IRazorConfiguration razorConfiguration;
 
-		readonly string[] defaultAssemblies =
+	    readonly string[] defaultAssemblies =
 		{
 			GetAssemblyPath(typeof(System.Runtime.CompilerServices.CallSite)),
 			GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder)),
@@ -35,11 +36,11 @@ namespace MustardBlack.ViewEngines.Razor
 
 		RazorProjectFileSystem razorProjectFileSystem;
 
-		public RazorViewCompiler(IFileSystem fileSystem)
+		public RazorViewCompiler(IFileSystem fileSystem, IRazorConfiguration razorConfiguration)
 		{
-			//this.razorConfiguration = razorConfiguration;
 			this.fileSystem = fileSystem;
-			this.razorProjectFileSystem = RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/"));
+		    this.razorConfiguration = razorConfiguration;
+		    this.razorProjectFileSystem = RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/"));
 		}
 
 		static string GetAssemblyPath(Type type)
@@ -93,7 +94,7 @@ namespace MustardBlack.ViewEngines.Razor
 
 		RazorCSharpDocument GenerateCSharp(RazorViewCompilationData view)
 		{
-			var razorConfiguration = RazorConfiguration.Default;
+			var razorConfiguration = Microsoft.AspNetCore.Razor.Language.RazorConfiguration.Default;
 			var razorProjectEngine = RazorProjectEngine.Create(razorConfiguration, razorProjectFileSystem, builder =>
 			{
 				builder.SetBaseType("MustardBlack.ViewEngines.Razor.RazorViewPage");
@@ -125,9 +126,9 @@ namespace MustardBlack.ViewEngines.Razor
 //			assemblies.AddRange(AssemblyRepository.GetApplicationAssemblies().Select(GetAssemblyPath)); // assemblies in app's folder
 
 			// assemblies named by configuration
-			//var assemblyNames = this.razorConfiguration.GetAssemblyNames();
+			var assemblyNames = this.razorConfiguration.GetAssemblyNames();
 			// TODO: cant just load here, use assembly repos to check uniqueness
-			//assemblies.AddRange(assemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
+			assemblies.AddRange(assemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
 			assemblies.AddRange(assembliesToReference.Select(GetAssemblyPath));
 			assemblies = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToList();
 			var compilerParameters = new CompilerParameters(assemblies.ToArray());
