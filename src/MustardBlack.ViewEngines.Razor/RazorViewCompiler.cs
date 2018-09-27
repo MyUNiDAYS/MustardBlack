@@ -102,6 +102,7 @@ namespace MustardBlack.ViewEngines.Razor
 				builder.SetNamespace(view.Namespace);
 				builder.ConfigureClass((doc, node) => node.ClassName = view.ClassName);
 
+
 				FunctionsDirective.Register(builder);
 				InheritsDirective.Register(builder);
 				SectionDirective.Register(builder);
@@ -136,7 +137,10 @@ namespace MustardBlack.ViewEngines.Razor
 			compilerParameters.TempFiles.KeepFiles = false;
 			var codeProvider = new CSharpCodeProvider();
 
-			var compilationResults = codeProvider.CompileAssemblyFromSource(compilerParameters, razorCSharpDocument.GeneratedCode);
+			// Nasty hack, The solution to this is to work out how to appease Resharper so that intellisense actually works
+			var generatedCode = string.Join("\n", this.razorConfiguration.GetDefaultNamespaces().Select(n => "using " + n  +";")) + "\n" + razorCSharpDocument.GeneratedCode;
+			
+			var compilationResults = codeProvider.CompileAssemblyFromSource(compilerParameters, generatedCode);
 			if (compilationResults.Errors.HasErrors)
 			{
 				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => $"[{error.ErrorNumber}] Line: {error.Line} Column: {error.Column} - {error.ErrorText}").Aggregate((s1, s2) => s1 + "\n" + s2);

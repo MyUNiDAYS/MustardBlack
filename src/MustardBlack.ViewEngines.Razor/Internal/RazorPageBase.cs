@@ -97,7 +97,11 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 //			}
 //		}
 
-		public abstract Task ExecuteAsync();
+		public virtual Task ExecuteAsync()
+		{
+			// This is really abstract, but being Virtual keeps Resharper happy.
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		/// Format an error message about using an indexer when the tag helper property is <c>null</c>.
