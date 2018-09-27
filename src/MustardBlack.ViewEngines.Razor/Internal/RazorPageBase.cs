@@ -29,9 +29,9 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 
 		public virtual ViewRenderingContext RenderingContext { get; set; }
 		
-		public HtmlEncoder HtmlEncoder { get; set; }
+		public virtual HtmlEncoder HtmlEncoder { get; set; }
 
-		public string Layout { get; set; }
+		public virtual string Layout { get; set; }
 
 		/// <summary>
 		/// Gets the <see cref="TextWriter"/> that the page is writing output to.
@@ -52,22 +52,22 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		}
 
 		/// <inheritdoc />
-		public string Path { get; set; }
+		public virtual string Path { get; set; }
 
 		/// <inheritdoc />
-		public IDictionary<string, RenderAsyncDelegate> SectionWriters { get; } = new Dictionary<string, RenderAsyncDelegate>(StringComparer.OrdinalIgnoreCase);
+		public virtual IDictionary<string, RenderAsyncDelegate> SectionWriters { get; } = new Dictionary<string, RenderAsyncDelegate>(StringComparer.OrdinalIgnoreCase);
 
 
 		/// <inheritdoc />
-		public bool IsLayoutBeingRendered { get; set; }
+		public virtual bool IsLayoutBeingRendered { get; set; }
 
 		/// <inheritdoc />
-		public IHtmlContent BodyContent { get; set; }
+		public virtual IHtmlContent BodyContent { get; set; }
 
 		/// <inheritdoc />
-		public IDictionary<string, RenderAsyncDelegate> PreviousSectionWriters { get; set; }
+		public virtual IDictionary<string, RenderAsyncDelegate> PreviousSectionWriters { get; set; }
 
-		private Stack<TagHelperScopeInfo> TagHelperScopes { get; } = new Stack<TagHelperScopeInfo>();
+		Stack<TagHelperScopeInfo> TagHelperScopes { get; } = new Stack<TagHelperScopeInfo>();
 
 //		private ITagHelperFactory TagHelperFactory
 //		{
@@ -221,8 +221,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			return content;
 		}
 
-		// Internal for unit testing.
-		protected internal virtual void PushWriter(TextWriter writer)
+		protected virtual void PushWriter(TextWriter writer)
 		{
 			if (writer == null)
 			{
@@ -234,8 +233,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			viewContext.Writer = writer;
 		}
 
-		// Internal for unit testing.
-		protected internal virtual TextWriter PopWriter()
+		protected virtual TextWriter PopWriter()
 		{
 			var viewContext = this.RenderingContext;
 			var writer = textWriterStack.Pop();
