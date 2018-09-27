@@ -80,6 +80,7 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			if (value == null)
 				return null;
+
 			var htmlString = value as IHtmlString;
 			if (htmlString != null)
 				return htmlString.ToHtmlString();
