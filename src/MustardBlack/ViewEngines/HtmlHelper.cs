@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
+using System.Web;
 using MustardBlack.Hosting;
 using MustardBlack.Results;
 
@@ -31,6 +32,11 @@ namespace MustardBlack.ViewEngines
 		public string Encode(string text)
 		{
 			return this.Encoder.Encode(text);
+		}
+
+		public IHtmlString Raw(object value)
+		{
+			return new HtmlString(value.ToString());
 		}
 	}
 }

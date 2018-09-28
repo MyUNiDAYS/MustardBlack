@@ -83,19 +83,19 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 //			}
 //		}
 
-//		private IViewBufferScope BufferScope
-//		{
-//			get
-//			{
-//				if (_bufferScope == null)
-//				{
-//					var services = ViewContext.HttpContext.RequestServices;
-//					_bufferScope = services.GetRequiredService<IViewBufferScope>();
-//				}
-//
-//				return _bufferScope;
-//			}
-//		}
+		IViewBufferScope _bufferScope;
+		IViewBufferScope BufferScope
+		{
+			get
+			{
+				if (_bufferScope == null)
+				{
+					_bufferScope = global::NanoIoC.Container.Global.Resolve(typeof(IViewBufferScope)) as IViewBufferScope;
+				}
+
+				return _bufferScope;
+			}
+		}
 
 		public virtual Task ExecuteAsync()
 		{
@@ -111,10 +111,10 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// <param name="propertyName">Dictionary property in the tag helper.</param>
 		/// <returns>An error message about using an indexer when the tag helper property is <c>null</c>.</returns>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-//		public string InvalidTagHelperIndexerAssignment(string attributeName, string tagHelperTypeName, string propertyName)
-//		{
-//			return Resources.FormatRazorPage_InvalidTagHelperIndexerAssignment(attributeName, tagHelperTypeName, propertyName);
-//		}
+		public string InvalidTagHelperIndexerAssignment(string attributeName, string tagHelperTypeName, string propertyName)
+		{
+			return "Resources.FormatRazorPage_InvalidTagHelperIndexerAssignment(attributeName, tagHelperTypeName, propertyName)";
+		}
 		/// <summary>
 		/// Creates and activates a <see cref="ITagHelper"/>.
 		/// </summary>
@@ -123,10 +123,11 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// <remarks>
 		/// <typeparamref name="TTagHelper"/> must have a parameterless constructor.
 		/// </remarks>
-//		public TTagHelper CreateTagHelper<TTagHelper>() where TTagHelper : ITagHelper
-//		{
-//			return TagHelperFactory.CreateTagHelper<TTagHelper>(ViewContext);
-//		}
+		public TTagHelper CreateTagHelper<TTagHelper>() where TTagHelper : class, ITagHelper
+		{
+			return global::NanoIoC.Container.Global.Resolve(typeof(TTagHelper)) as TTagHelper;
+		}
+
 		/// <summary>
 		/// Starts a new writing scope and optionally overrides <see cref="HtmlEncoder"/> within that scope.
 		/// </summary>
@@ -138,22 +139,19 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// All writes to the <see cref="Output"/> or <see cref="ViewContext.Writer"/> after calling this method will
 		/// be buffered until <see cref="EndTagHelperWritingScope"/> is called.
 		/// </remarks>
-//		public void StartTagHelperWritingScope(HtmlEncoder encoder)
-//		{
-//			var viewContext = ViewContext;
-//			var buffer = new ViewBuffer(BufferScope, Path, ViewBuffer.TagHelperPageSize);
-//			TagHelperScopes.Push(new TagHelperScopeInfo(buffer, HtmlEncoder, viewContext.Writer));
-//
-//			// If passed an HtmlEncoder, override the property.
-//			if (encoder != null)
-//			{
-//				HtmlEncoder = encoder;
-//			}
-//
-//			// We need to replace the ViewContext's Writer to ensure that all content (including content written
-//			// from HTML helpers) is redirected.
-//			viewContext.Writer = new ViewBufferTextWriter(buffer, viewContext.Writer.Encoding);
-//		}
+		public void StartTagHelperWritingScope(HtmlEncoder encoder)
+		{
+			var buffer = new ViewBuffer(BufferScope, Path, ViewBuffer.TagHelperPageSize);
+			TagHelperScopes.Push(new TagHelperScopeInfo(buffer, HtmlEncoder, this.RenderingContext.Writer));
+
+			// If passed an HtmlEncoder, override the property.
+			if (encoder != null)
+				HtmlEncoder = encoder;
+
+			// We need to replace the ViewContext's Writer to ensure that all content (including content written
+			// from HTML helpers) is redirected.
+			this.RenderingContext.Writer = new ViewBufferTextWriter(buffer, this.RenderingContext.Writer.Encoding);
+		}
 		/// <summary>
 		/// Ends the current writing scope that was started by calling <see cref="StartTagHelperWritingScope"/>.
 		/// </summary>

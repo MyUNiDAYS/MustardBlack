@@ -46,8 +46,8 @@ namespace MustardBlack.ViewEngines.Razor
 					if (!this.cache.ContainsKey(viewPath))
 					{
 						var compiled = this.CompileView(viewPath, fullJsPaths, fullLessPaths, fullViewPaths, fullViewPath);
-
-						this.cache.Add(viewPath, new CachedItem(compiled, sourceCodeLastModified));
+						return compiled;
+						//this.cache.Add(viewPath, new CachedItem(compiled, sourceCodeLastModified));
 					}
 				}
 			}
@@ -75,7 +75,7 @@ namespace MustardBlack.ViewEngines.Razor
 				ViewContents = builder.ToString()
 			};
 
-			var compiled = this.compiler.CompileFile(viewCompilationData, new Assembly[0], true, fullViewPath);
+			var compiled = this.compiler.CompileFile(viewCompilationData);
 			return compiled;
 		}
 

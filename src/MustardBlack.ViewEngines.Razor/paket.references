@@ -1,6 +1,11 @@
 Microsoft.AspNetCore.Razor
 Microsoft.AspNetCore.Razor.Language
 Microsoft.AspNetCore.Razor.Runtime
+Microsoft.AspNetCore.Mvc.Razor.Extensions
+Microsoft.CodeAnalysis
+Microsoft.CodeAnalysis.Razor
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform
+System.Collections.Immutable
+System.Reflection.Metadata
 System.Buffers
 NanoIoC

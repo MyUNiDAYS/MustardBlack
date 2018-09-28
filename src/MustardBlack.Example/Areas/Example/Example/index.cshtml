@@ -1,12 +1,17 @@
 ﻿@inherits MustardBlack.ViewEngines.Razor.RazorViewPage
 @{ Layout = "~/Areas/Example/Example/layout.cshtml"; }
+@using MustardBlack.Example
+@addTagHelper *, MustardBlack.Example
+
 <h1>Hello world</h1>
 
 @section potato {
 	<p>I'm inside sectiontest</p>
 }
 
-<p>test</p>
+<script csp-sha>
+	console.log('hi');
+</script>
 
 @{
 

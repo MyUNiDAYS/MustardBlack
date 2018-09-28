@@ -16,6 +16,8 @@ namespace MustardBlack.Build.Views
 		public RazorConfiguration(string webconfigPath, string outPath)
 		{
 			this.OutPath = outPath;
+
+			// Nasty hack, The solution to this is to work out how to appease Resharper so that intellisense actually works
 			using (var reader = new StreamReader(webconfigPath))
 			{
 				var doc = new XmlDocument();
