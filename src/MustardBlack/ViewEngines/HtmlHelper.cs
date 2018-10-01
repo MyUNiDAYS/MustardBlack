@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
-using System.Web;
+using Microsoft.AspNetCore.Html;
 using MustardBlack.Hosting;
 using MustardBlack.Results;
 
@@ -16,10 +16,11 @@ namespace MustardBlack.ViewEngines
 
 		public IDictionary<string, object> ContextItems { get; }
 
-		public HtmlHelper(ViewResult viewResult, Url requestUrl, IRequestState requestState, IDictionary<string, object> contextItems)
+		public HtmlHelper(ViewResult viewResult, Url requestUrl, HtmlEncoder encoder, IRequestState requestState, IDictionary<string, object> contextItems)
 		{
 			this.RequestUrl = requestUrl;
-			this.ViewResult = viewResult;
+		    this.Encoder = encoder;
+		    this.ViewResult = viewResult;
 			this.RequestState = requestState;
 			this.ContextItems = contextItems;
 		}
@@ -34,7 +35,8 @@ namespace MustardBlack.ViewEngines
 			return this.Encoder.Encode(text);
 		}
 
-		public IHtmlString Raw(object value)
+	    /// <inheritdoc />
+	    public IHtmlContent Raw(object value)
 		{
 			return new HtmlString(value.ToString());
 		}

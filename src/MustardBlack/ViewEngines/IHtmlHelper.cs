@@ -1,10 +1,10 @@
-using System.Web;
+using Microsoft.AspNetCore.Html;
 
 namespace MustardBlack.ViewEngines
 {
 	interface IHtmlHelper
 	{
-		IHtmlString Raw(object value);
+		IHtmlContent Raw(object value);
 	}
 
 	interface IHtmlHelperT : IHtmlHelper

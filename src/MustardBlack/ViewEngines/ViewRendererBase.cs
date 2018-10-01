@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using MustardBlack.Results;
 
@@ -7,7 +8,14 @@ namespace MustardBlack.ViewEngines
 {
 	public abstract class ViewRendererBase : IViewRenderer
 	{
-		public abstract bool CanRender(Type viewType);
+	    protected readonly HtmlEncoder htmlEncoder;
+
+	    protected ViewRendererBase(HtmlEncoder htmlEncoder)
+	    {
+	        this.htmlEncoder = htmlEncoder;
+	    }
+
+	    public abstract bool CanRender(Type viewType);
 		public abstract Task Render(ViewResult viewResult, ViewRenderingContext viewRenderingContext);
 
 		protected virtual UrlHelper BuildUrlHelper(ViewResult result, IView view, ViewRenderingContext context)
@@ -47,7 +55,7 @@ namespace MustardBlack.ViewEngines
 			}
 			else
 			{
-				var htmlHelper = new HtmlHelper(viewResult, context.RequestUrl, context.RequestState, context.ContextItems);
+				var htmlHelper = new HtmlHelper(viewResult, context.RequestUrl, this.htmlEncoder, context.RequestState, context.ContextItems);
 				view.SetHelpers(htmlHelper, urlHelper);
 			}
 		}

@@ -8,9 +8,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using HtmlString = Microsoft.AspNetCore.Html.HtmlString;
 
 namespace MustardBlack.ViewEngines.Razor.Internal
 {
@@ -29,8 +31,6 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 
 		public virtual ViewRenderingContext RenderingContext { get; set; }
 		
-		public virtual HtmlEncoder HtmlEncoder { get; set; }
-
 		public virtual string Layout { get; set; }
 
 		/// <summary>
@@ -142,11 +142,11 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		public void StartTagHelperWritingScope(HtmlEncoder encoder)
 		{
 			var buffer = new ViewBuffer(BufferScope, Path, ViewBuffer.TagHelperPageSize);
-			TagHelperScopes.Push(new TagHelperScopeInfo(buffer, HtmlEncoder, this.RenderingContext.Writer));
+			TagHelperScopes.Push(new TagHelperScopeInfo(buffer, this.Html.Encoder, this.RenderingContext.Writer));
 
 			// If passed an HtmlEncoder, override the property.
 			if (encoder != null)
-				HtmlEncoder = encoder;
+			    this.Html.Encoder = encoder;
 
 			// We need to replace the ViewContext's Writer to ensure that all content (including content written
 			// from HTML helpers) is redirected.
@@ -167,8 +167,8 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			var tagHelperContent = new DefaultTagHelperContent();
 			tagHelperContent.AppendHtml(scopeInfo.Buffer);
 
-			// Restore previous scope.
-			HtmlEncoder = scopeInfo.HtmlEncoder;
+            // Restore previous scope.
+		    this.Html.Encoder = scopeInfo.HtmlEncoder;
 			this.RenderingContext.Writer = scopeInfo.Writer;
 
 			return tagHelperContent;
@@ -286,7 +286,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			}
 
 			var writer = Output;
-			var encoder = HtmlEncoder;
+			var encoder = this.Html.Encoder;
 			if (value is IHtmlContent htmlContent)
 			{
 				var bufferedWriter = writer as ViewBufferTextWriter;
@@ -322,7 +322,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		public virtual void Write(string value)
 		{
 			var writer = Output;
-			var encoder = HtmlEncoder;
+			var encoder = this.Html.Encoder;
 			if (!string.IsNullOrEmpty(value))
 			{
 				// Perf: Encode right away instead of writing it character-by-character.
@@ -640,9 +640,9 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 
 			public TagHelperScopeInfo(ViewBuffer buffer, HtmlEncoder encoder, TextWriter writer)
 			{
-				Buffer = buffer;
-				HtmlEncoder = encoder;
-				Writer = writer;
+			    this.Buffer = buffer;
+			    this.HtmlEncoder = encoder;
+			    this.Writer = writer;
 			}
 		}
 

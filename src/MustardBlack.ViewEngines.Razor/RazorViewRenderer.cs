@@ -15,14 +15,12 @@ namespace MustardBlack.ViewEngines.Razor
 	{
 		readonly IViewResolver viewResolver;
 		readonly IViewBufferScope bufferScope;
-		private readonly HtmlEncoder htmlEncoder;
 		IRazorPage razorPage;
 
-		public RazorViewRenderer(IViewResolver viewResolver, IViewBufferScope viewBufferScope, HtmlEncoder htmlEncoder)
+		public RazorViewRenderer(IViewResolver viewResolver, IViewBufferScope viewBufferScope, HtmlEncoder htmlEncoder) : base(htmlEncoder)
 		{
 			this.viewResolver = viewResolver;
 			this.bufferScope = viewBufferScope;
-			this.htmlEncoder = htmlEncoder;
 		}
 
 		public override bool CanRender(Type viewType)
