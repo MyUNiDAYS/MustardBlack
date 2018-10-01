@@ -68,7 +68,7 @@ namespace MustardBlack.ViewEngines.Razor
 				InheritsDirective.Register(builder);
 				SectionDirective.Register(builder);
 
-				var metadataReferences = AppDomain.CurrentDomain.GetAssemblies().Select(a => MetadataReference.CreateFromFile(a.Location)).ToArray();
+				var metadataReferences = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(a => MetadataReference.CreateFromFile(a.Location)).ToArray();
 
 				builder.Features.Add(new DefaultMetadataReferenceFeature { References = metadataReferences });
 				builder.Features.Add(new CompilationTagHelperFeature());
