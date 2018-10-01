@@ -46,7 +46,7 @@ namespace MustardBlack.ViewEngines
 				if (!actualViewDataType.IsOrDerivesFrom(viewWithData.ViewDataType))
 					throw new ArgumentException("`" + actualViewDataType + "` is not convertible to `" + viewWithData.ViewDataType + "` as defined in the view");
 
-				var htmlHelper = Activator.CreateInstance(typeof(HtmlHelper<>).MakeGenericType(viewWithData.ViewDataType), viewResult, context.RequestUrl, context.RequestState, context.ContextItems) as HtmlHelper;
+				var htmlHelper = Activator.CreateInstance(typeof(HtmlHelper<>).MakeGenericType(viewWithData.ViewDataType), viewResult, context.RequestUrl, this.htmlEncoder, context.RequestState, context.ContextItems) as HtmlHelper;
 				
 				(htmlHelper as IHtmlHelperT).SetViewData(viewResult.ViewData);
 
