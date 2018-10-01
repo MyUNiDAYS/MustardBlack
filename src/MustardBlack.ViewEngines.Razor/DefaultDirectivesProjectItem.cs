@@ -20,7 +20,7 @@ namespace MustardBlack.ViewEngines.Razor
 @using System.Threading.Tasks
 @using MustardBlack.ViewEngines
 @using Microsoft.CSharp.RuntimeBinder
-" + string.Join("\n", defaultNamespaces.Select(n => "using " + n + ";"));
+" + string.Join("\n", defaultNamespaces.Select(n => "@using " + n + ";"));
 			var contentBytes = Encoding.UTF8.GetBytes(content);
 
 			this.defaultImportBytes = new byte[preamble.Length + contentBytes.Length];
