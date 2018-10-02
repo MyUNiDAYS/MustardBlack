@@ -144,8 +144,7 @@ namespace MustardBlack.ViewEngines.Razor
 			if (compilationResults.Errors.HasErrors)
 			{
 				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => $"[{error.ErrorNumber}] Line: {error.Line} Column: {error.Column} - {error.ErrorText}").Aggregate((s1, s2) => s1 + "\n" + s2);
-				//TODO: Format Errors nicely
-				throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + errors);
+				throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + errors, razorCSharpDocument.GeneratedCode);
 			}
 
 			var type = compilationResults.CompiledAssembly.GetType(view.Namespace + "." + view.ClassName);
