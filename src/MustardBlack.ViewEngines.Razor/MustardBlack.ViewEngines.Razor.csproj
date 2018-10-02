@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="AssetEnrichedRazorViewCompiler.cs" />
     <Compile Include="CachedItem.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="DocumentClassifierPass.cs" />
     <Compile Include="DefaultDirectivesProjectItem.cs" />
     <Compile Include="DebugRazorViewLocator.cs" />

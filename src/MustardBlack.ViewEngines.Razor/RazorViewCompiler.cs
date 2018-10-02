@@ -79,7 +79,6 @@ namespace MustardBlack.ViewEngines.Razor
 				builder.Features.Add(new DefaultMetadataReferenceFeature { References = metadataReferences });
 				builder.Features.Add(new CompilationTagHelperFeature());
 				builder.Features.Add(new DefaultTagHelperDescriptorProvider());
-				builder.Features.Add(new DefaultTagHelperDescriptorProvider2());
 				//builder.Features.Add(new ViewComponentTagHelperDescriptorProvider());
 				builder.Features.Add(new DocumentClassifierPass());
 				//builder.Features.Add(new ViewComponentTagHelperPass());
