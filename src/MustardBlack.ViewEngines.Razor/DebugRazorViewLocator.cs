@@ -107,8 +107,8 @@ namespace MustardBlack.ViewEngines.Razor
 						{
 							if (trimmedLine.IndexOf("@section") == 0)
 								builder.AppendLine().AppendLine(trimmedLine);
-							else if (trimmedLine.IndexOf("@inherits") == -1 && trimmedLine.EndsWith(">"))
-								builder.Append(trimmedLine);
+							else if (trimmedLine.IndexOf("@inherits") == 0)
+								builder.AppendLine().AppendLine(trimmedLine);
 							else
 								builder.AppendLine(trimmedLine);
 						}

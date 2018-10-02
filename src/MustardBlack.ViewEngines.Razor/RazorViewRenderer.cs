@@ -9,13 +9,12 @@ using MustardBlack.ViewEngines.Razor.Internal;
 namespace MustardBlack.ViewEngines.Razor
 {
 	/// <summary>
-	/// TODO: This needs to be transient
+	/// TODO: This needs to be per-request, bceause if the dependecy on IVBS, however its currently a singleton because of the dependency chain through IVRF. Fix this
 	/// </summary>
 	public class RazorViewRenderer : ViewRendererBase
 	{
 		readonly IViewResolver viewResolver;
 		readonly IViewBufferScope bufferScope;
-		IRazorPage razorPage;
 
 		public RazorViewRenderer(IViewResolver viewResolver, IViewBufferScope viewBufferScope, HtmlEncoder htmlEncoder) : base(htmlEncoder)
 		{
@@ -30,10 +29,10 @@ namespace MustardBlack.ViewEngines.Razor
 
 		public override async Task Render(ViewResult viewResult, ViewRenderingContext viewRenderingContext)
 		{
-			this.razorPage = GetViewInstance(viewResult, viewRenderingContext);
+			var razorPage = this.GetViewInstance(viewResult, viewRenderingContext);
 
-			var bodyWriter = await RenderPageAsync(razorPage, viewRenderingContext);
-			await RenderLayoutAsync(viewResult, viewRenderingContext, bodyWriter);
+			var bodyWriter = await this.RenderPageAsync(razorPage, viewRenderingContext);
+			await this.RenderLayoutAsync(razorPage, viewResult, viewRenderingContext, bodyWriter);
 		}
 
 		async Task<ViewBufferTextWriter> RenderPageAsync(IRazorPage page, ViewRenderingContext viewRenderingContext)
@@ -75,11 +74,10 @@ namespace MustardBlack.ViewEngines.Razor
 			}
 		}
 		
-		async Task RenderLayoutAsync(ViewResult viewResult, ViewRenderingContext viewRenderingContext, ViewBufferTextWriter bodyWriter)
+		async Task RenderLayoutAsync(IRazorPage previousPage, ViewResult viewResult, ViewRenderingContext viewRenderingContext, ViewBufferTextWriter bodyWriter)
 		{
 			// A layout page can specify another layout page. We'll need to continue
 			// looking for layout pages until they're no longer specified.
-			var previousPage = this.razorPage;
 			var renderedLayouts = new List<IRazorPage>();
 
 			// This loop will execute Layout pages from the inside to the outside. With each

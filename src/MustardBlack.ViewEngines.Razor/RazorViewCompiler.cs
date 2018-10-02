@@ -68,7 +68,10 @@ namespace MustardBlack.ViewEngines.Razor
 				InheritsDirective.Register(builder);
 				SectionDirective.Register(builder);
 
-				var metadataReferences = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(a => MetadataReference.CreateFromFile(a.Location)).ToArray();
+				var metadataReferences = AppDomain.CurrentDomain.GetAssemblies()
+				    .Where(a => !a.IsDynamic)
+				    .Select(a => MetadataReference.CreateFromFile(a.Location))
+				    .ToArray();
 
 				builder.Features.Add(new DefaultMetadataReferenceFeature { References = metadataReferences });
 				builder.Features.Add(new CompilationTagHelperFeature());
@@ -122,7 +125,7 @@ namespace MustardBlack.ViewEngines.Razor
 		public Type CompileFile(RazorViewCompilationData view)
 		{
 			var razorCSharpDocument = GenerateCSharp(view);
-			return CompileCSharp(view, razorCSharpDocument);
+			return this.CompileCSharp(view, view.ViewContents, razorCSharpDocument);
 		}
 
 		RazorCSharpDocument GenerateCSharp(RazorViewCompilationData view)
@@ -135,7 +138,7 @@ namespace MustardBlack.ViewEngines.Razor
 			return razorCSharpDocument;
 		}
 
-		Type CompileCSharp(RazorViewCompilationData view, RazorCSharpDocument razorCSharpDocument)
+		Type CompileCSharp(RazorViewCompilationData view, string source, RazorCSharpDocument razorCSharpDocument)
 		{
 			var compilerParameters = new CompilerParameters(this.referenceAssemblies.ToArray());
 			compilerParameters.IncludeDebugInformation = true;
@@ -144,7 +147,7 @@ namespace MustardBlack.ViewEngines.Razor
 			if (compilationResults.Errors.HasErrors)
 			{
 				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => $"[{error.ErrorNumber}] Line: {error.Line} Column: {error.Column} - {error.ErrorText}").Aggregate((s1, s2) => s1 + "\n" + s2);
-				throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + errors, razorCSharpDocument.GeneratedCode);
+				throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + errors, source, razorCSharpDocument.GeneratedCode);
 			}
 
 			var type = compilationResults.CompiledAssembly.GetType(view.Namespace + "." + view.ClassName);
