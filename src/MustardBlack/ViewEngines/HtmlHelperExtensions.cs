@@ -19,6 +19,7 @@ namespace MustardBlack.ViewEngines
         /// <param name="html"></param>
         /// <param name="viewPath">The virtual path to the view</param>
         /// <param name="viewData">The data for the view</param>
+        // TODO: Make async version
         public static IHtmlContent RenderView(this HtmlHelper html, string viewPath, object viewData = null)
         {
             if (string.IsNullOrEmpty(viewPath))
@@ -45,6 +46,7 @@ namespace MustardBlack.ViewEngines
                 var renderTask = viewEngine.Render(viewResult, renderingContext);
                 renderTask.GetAwaiter().GetResult();
 
+                // TODO: is this still the best approach?
                 return new HtmlString(stringBuilder.ToString());
             }
             catch (Exception e)

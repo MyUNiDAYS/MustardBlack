@@ -46,8 +46,7 @@ namespace MustardBlack.ViewEngines.Razor
 					if (!this.cache.ContainsKey(viewPath))
 					{
 						var compiled = this.CompileView(viewPath, fullJsPaths, fullLessPaths, fullViewPaths, fullViewPath);
-						return compiled;
-						//this.cache.Add(viewPath, new CachedItem(compiled, sourceCodeLastModified));
+						this.cache.Add(viewPath, new CachedItem(compiled, sourceCodeLastModified));
 					}
 				}
 			}
@@ -70,7 +69,7 @@ namespace MustardBlack.ViewEngines.Razor
 			var viewCompilationData = new RazorViewCompilationData
 			{
 				Namespace = Path.GetDirectoryName(viewPath.Substring(2)).Replace("\\", ".").Replace("/", "."),
-				ClassName = Path.GetFileName(viewPath).Replace(".", "_"),
+				ClassName = RazorViewCompiler.GetSafeClassName(Path.GetFileName(viewPath)),
 				FilePath = viewPath,
 				ViewContents = builder.ToString()
 			};

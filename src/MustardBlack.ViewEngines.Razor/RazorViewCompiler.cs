@@ -232,5 +232,14 @@ namespace MustardBlack.ViewEngines.Razor
 				return false;
 			}).ToArray();
 		}
+
+	    public static string GetSafeClassName(string input)
+	    {
+	        var safe = input.Replace('.', '_');
+	        if (safe[0] >= '0' && safe[0] <= '9')
+	            safe = '_' + safe;
+
+	        return safe;
+	    }
 	}
 }
