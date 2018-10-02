@@ -3,4 +3,4 @@ id MustardBlack.Build.Assets
 authors trullock
 description Builds MBs Assets
 files
-  bin/Debug ==> tools
+  bin/Release ==> tools
