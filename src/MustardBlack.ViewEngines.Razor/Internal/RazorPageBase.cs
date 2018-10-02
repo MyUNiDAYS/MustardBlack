@@ -312,7 +312,23 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 				return;
 			}
 
-			Write(value.ToString());
+            // Legacy usage support
+		    if (value is IHtmlString)
+		    {
+		        var bufferedWriter = writer as ViewBufferTextWriter;
+		        if (bufferedWriter == null || !bufferedWriter.IsBuffering)
+		        {
+                    writer.Write(value.ToString());
+		        }
+		        else
+		        {
+		            // Perf: This is the common case for IHtmlContent, ViewBufferTextWriter is inefficient
+		            // for writing character by character.
+		            bufferedWriter.Buffer.AppendHtml(value.ToString());
+		        }
+            }
+
+		    Write(value.ToString());
 		}
 
 		/// <summary>
