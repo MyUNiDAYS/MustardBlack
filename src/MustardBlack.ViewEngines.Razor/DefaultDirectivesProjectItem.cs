@@ -22,7 +22,7 @@ namespace MustardBlack.ViewEngines.Razor
 @using MustardBlack.ViewEngines
 @using Microsoft.CSharp.RuntimeBinder
 " + string.Join("\n", defaultNamespaces.Select(n => "@using " + n + ";")) + @"
-" + string.Join("\n", defaultTagHelpers.Select(t => "@addTagHelper " + t.Name + ", " + t.Assembly.GetName().Name));
+" + string.Join("\n", defaultTagHelpers.Select(t => "@addTagHelper " + t.Namespace + "." + t.Name + ", " + t.Assembly.GetName().Name));
 			var contentBytes = Encoding.UTF8.GetBytes(content);
 
 			this.defaultImportBytes = new byte[preamble.Length + contentBytes.Length];
