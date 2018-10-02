@@ -6,13 +6,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web;
-using Microsoft.AspNetCore.Mvc.Razor.Extensions;
 using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.Hosting;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Razor;
+using NanoIoC;
 
 namespace MustardBlack.ViewEngines.Razor
 {
@@ -33,12 +34,14 @@ namespace MustardBlack.ViewEngines.Razor
 		List<string> referenceAssemblies;
 		readonly CSharpCodeProvider codeProvider;
 
-		public RazorViewCompiler(IFileSystem fileSystem, IRazorConfiguration razorConfiguration)
+		public RazorViewCompiler(IFileSystem fileSystem, IRazorConfiguration razorConfiguration, IContainer container)
 		{
 			this.fileSystem = fileSystem;
 		    this.razorConfiguration = razorConfiguration;
 			this.razorTemplateEngine = BuildRazorTemplateEngine(RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/")));
-			this.defaultImports = new[] { RazorSourceDocument.ReadFrom(new DefaultDirectivesProjectItem(this.razorConfiguration.GetDefaultNamespaces())) };
+			var defaultTagHelpers = container.GetRegistrationsFor(typeof(ITagHelper)).Select(r => r.ConcreteType).ToArray();
+			var defaultDirectivesProjectItem = new DefaultDirectivesProjectItem(this.razorConfiguration.GetDefaultNamespaces(), defaultTagHelpers);
+			this.defaultImports = new[] { RazorSourceDocument.ReadFrom(defaultDirectivesProjectItem) };
 			this.GetReferenceAssemblies();
 
 			this.codeProvider = new CSharpCodeProvider();
@@ -76,9 +79,10 @@ namespace MustardBlack.ViewEngines.Razor
 				builder.Features.Add(new DefaultMetadataReferenceFeature { References = metadataReferences });
 				builder.Features.Add(new CompilationTagHelperFeature());
 				builder.Features.Add(new DefaultTagHelperDescriptorProvider());
-				builder.Features.Add(new ViewComponentTagHelperDescriptorProvider());
+				builder.Features.Add(new DefaultTagHelperDescriptorProvider2());
+				//builder.Features.Add(new ViewComponentTagHelperDescriptorProvider());
 				builder.Features.Add(new DocumentClassifierPass());
-				builder.Features.Add(new ViewComponentTagHelperPass());
+				//builder.Features.Add(new ViewComponentTagHelperPass());
 			});
 
 			var templateEngine = new RazorTemplateEngine(razorProjectEngine.Engine, fileSystem);

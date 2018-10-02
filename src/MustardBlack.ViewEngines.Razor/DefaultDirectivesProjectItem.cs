@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace MustardBlack.ViewEngines.Razor
 	{
 		readonly byte[] defaultImportBytes;
 
-		public DefaultDirectivesProjectItem(IEnumerable<string> defaultNamespaces)
+		public DefaultDirectivesProjectItem(IEnumerable<string> defaultNamespaces, IEnumerable<Type> defaultTagHelpers)
 		{
 			var preamble = Encoding.UTF8.GetPreamble();
 			var content = @"
@@ -20,7 +21,8 @@ namespace MustardBlack.ViewEngines.Razor
 @using System.Threading.Tasks
 @using MustardBlack.ViewEngines
 @using Microsoft.CSharp.RuntimeBinder
-" + string.Join("\n", defaultNamespaces.Select(n => "@using " + n + ";"));
+" + string.Join("\n", defaultNamespaces.Select(n => "@using " + n + ";")) + @"
+" + string.Join("\n", defaultTagHelpers.Select(t => "@addTagHelper " + t.Name + ", " + t.Assembly.GetName().Name));
 			var contentBytes = Encoding.UTF8.GetBytes(content);
 
 			this.defaultImportBytes = new byte[preamble.Length + contentBytes.Length];
