@@ -20,7 +20,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 	/// the writer and switches to writing to the unbuffered writer for all further write operations.
 	/// </para>
 	/// </summary>
-	sealed class ViewBufferTextWriter : TextWriter
+	public sealed class ViewBufferTextWriter : TextWriter
 	{
 		private readonly TextWriter _inner;
 		private readonly HtmlEncoder _htmlEncoder;
@@ -33,9 +33,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		public ViewBufferTextWriter(ViewBuffer buffer, Encoding encoding)
 		{
 			if (buffer == null)
-			{
 				throw new ArgumentNullException(nameof(buffer));
-			}
 
 			if (encoding == null)
 			{

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Razor;
 using NanoIoC;
+using Serilog;
 
 namespace MustardBlack.ViewEngines.Razor
 {
@@ -28,6 +29,8 @@ namespace MustardBlack.ViewEngines.Razor
 			GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly),
 			GetAssemblyPath(typeof(IHtmlString).Assembly)
 		};
+
+		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 
 		readonly RazorTemplateEngine razorTemplateEngine;
 		readonly RazorSourceDocument[] defaultImports;
@@ -146,6 +149,9 @@ namespace MustardBlack.ViewEngines.Razor
 			var compilerParameters = new CompilerParameters(this.referenceAssemblies.ToArray());
 			compilerParameters.IncludeDebugInformation = true;
 			compilerParameters.TempFiles.KeepFiles = false;
+
+			log.Debug("Compiling {viewPath} from {source} as {generatedCode}", view.FilePath, source, razorCSharpDocument.GeneratedCode);
+
 			var compilationResults = this.codeProvider.CompileAssemblyFromSource(compilerParameters, razorCSharpDocument.GeneratedCode);
 			if (compilationResults.Errors.HasErrors)
 			{

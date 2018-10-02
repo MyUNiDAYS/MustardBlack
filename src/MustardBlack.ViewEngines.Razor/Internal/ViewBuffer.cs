@@ -16,7 +16,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 	/// An <see cref="IHtmlContentBuilder"/> that is backed by a buffer provided by <see cref="IViewBufferScope"/>.
 	/// </summary>
 	[DebuggerDisplay("{DebuggerToString()}")]
-	sealed class ViewBuffer : IHtmlContentBuilder
+	public sealed class ViewBuffer : IHtmlContentBuilder
 	{
 		public static readonly int PartialViewPageSize = 32;
 		public static readonly int TagHelperPageSize = 32;

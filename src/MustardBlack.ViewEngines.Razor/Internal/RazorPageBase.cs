@@ -328,7 +328,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		        }
             }
 
-		    Write(value.ToString());
+			this.Write(value.ToString());
 		}
 
 		/// <summary>

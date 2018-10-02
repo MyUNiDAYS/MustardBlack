@@ -10,3 +10,4 @@ System.Collections.Immutable
 System.Reflection.Metadata
 System.Buffers
 NanoIoC
+Serilog
