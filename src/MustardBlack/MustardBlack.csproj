@@ -191,6 +191,7 @@
     <Compile Include="Security\AntiCSRFPipelineOperator.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="ViewEngines\HtmlHelper.cs" />
+    <Compile Include="ViewEngines\HtmlHelperExtensions.cs" />
     <Compile Include="ViewEngines\HtmlHelper`1.cs" />
     <Compile Include="ViewEngines\IHtmlHelper.cs" />
     <Compile Include="ViewEngines\IView.cs" />

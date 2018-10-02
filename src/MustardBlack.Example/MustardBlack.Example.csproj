@@ -64,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Areas\Example\Example\partial.cshtml" />
     <None Include="Areas\Example\Example\layout.cshtml" />
     <None Include="Areas\Example\Example\index.cshtml" />
     <Content Include="Web.config">
