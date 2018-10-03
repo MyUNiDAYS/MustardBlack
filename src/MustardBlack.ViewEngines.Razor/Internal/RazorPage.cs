@@ -190,16 +190,14 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		{
 			// a) all sections defined for this page are rendered.
 			// b) if no sections are defined, then the body is rendered if it's available.
-			if (PreviousSectionWriters != null && PreviousSectionWriters.Count > 0)
+			if (this.PreviousSectionWriters != null && this.PreviousSectionWriters.Count > 0)
 			{
-				var sectionsNotRendered = PreviousSectionWriters.Keys.Except(
-					renderedSections,
-					StringComparer.OrdinalIgnoreCase);
+				var sectionsNotRendered = this.PreviousSectionWriters.Keys.Except(this.renderedSections, StringComparer.OrdinalIgnoreCase);
 
 				string[] sectionsNotIgnored;
-				if (ignoredSections != null)
+				if (this.ignoredSections != null)
 				{
-					sectionsNotIgnored = sectionsNotRendered.Except(ignoredSections, StringComparer.OrdinalIgnoreCase).ToArray();
+					sectionsNotIgnored = sectionsNotRendered.Except(this.ignoredSections, StringComparer.OrdinalIgnoreCase).ToArray();
 				}
 				else
 				{
@@ -209,10 +207,10 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 				if (sectionsNotIgnored.Length > 0)
 				{
 					var sectionNames = string.Join(", ", sectionsNotIgnored);
-					throw new InvalidOperationException("Resources.FormatSectionsNotRendered(Path, sectionNames, nameof(IgnoreSection))");
+					throw new InvalidOperationException("The following sections weren't rendered: " + sectionNames);
 				}
 			}
-			else if (BodyContent != null && !renderedBody && !ignoreBody)
+			else if (this.BodyContent != null && !this.renderedBody && !this.ignoreBody)
 			{
 				// There are no sections defined, but RenderBody was NOT called.
 				// If a body was defined and the body not ignored, then RenderBody should have been called.
