@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Web;
+using System.Net;
 using MustardBlack.Hosting;
 using MustardBlack.Routing;
 
@@ -21,7 +21,7 @@ namespace MustardBlack.Handlers.Binding.Binders
 				if (value != null)
 				{
 					var strValue = value.ToString();
-					var decodedValue = HttpUtility.UrlDecode(strValue);
+					var decodedValue = WebUtility.UrlDecode(strValue);
 					return this.GetResult(type, decodedValue, name, request, routeValues, owner);
 				}
 			}

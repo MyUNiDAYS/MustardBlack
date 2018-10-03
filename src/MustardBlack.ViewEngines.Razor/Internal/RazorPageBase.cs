@@ -8,11 +8,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using HtmlString = Microsoft.AspNetCore.Html.HtmlString;
 
 namespace MustardBlack.ViewEngines.Razor.Internal
 {
@@ -311,22 +309,6 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 
 				return;
 			}
-
-            // Legacy usage support
-		    if (value is IHtmlString)
-		    {
-		        var bufferedWriter = writer as ViewBufferTextWriter;
-		        if (bufferedWriter == null || !bufferedWriter.IsBuffering)
-		        {
-                    writer.Write(value.ToString());
-		        }
-		        else
-		        {
-		            // Perf: This is the common case for IHtmlContent, ViewBufferTextWriter is inefficient
-		            // for writing character by character.
-		            bufferedWriter.Buffer.AppendHtml(value.ToString());
-		        }
-            }
 
 			this.Write(value.ToString());
 		}
