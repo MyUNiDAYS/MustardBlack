@@ -76,23 +76,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			EnsureMethodCanBeInvoked(nameof(IsSectionDefined));
 			return PreviousSectionWriters.ContainsKey(name);
 		}
-
-		/// <summary>
-		/// In layout pages, renders the content of the section named <paramref name="name"/>.
-		/// </summary>
-		/// <param name="name">The name of the section to render.</param>
-		/// <returns>An empty <see cref="IHtmlContent"/>.</returns>
-		/// <remarks>The method writes to the <see cref="RazorPageBase.Output"/> and the value returned is a token
-		/// value that allows the Write (produced due to @RenderSection(..)) to succeed. However the
-		/// value does not represent the rendered content.</remarks>
-		public HtmlString RenderSection(string name)
-		{
-			if (name == null)
-				throw new ArgumentNullException(nameof(name));
-
-			return RenderSection(name, required: true);
-		}
-
+		
 		/// <summary>
 		/// In layout pages, renders the content of the section named <paramref name="name"/>.
 		/// </summary>
@@ -102,7 +86,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// <remarks>The method writes to the <see cref="RazorPageBase.Output"/> and the value returned is a token
 		/// value that allows the Write (produced due to @RenderSection(..)) to succeed. However the
 		/// value does not represent the rendered content.</remarks>
-		public HtmlString RenderSection(string name, bool required)
+		public HtmlString RenderSection(string name, bool required = false)
 		{
 			if (name == null)
 				throw new ArgumentNullException(nameof(name));
