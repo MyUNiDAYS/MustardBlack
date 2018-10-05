@@ -130,7 +130,7 @@ namespace MustardBlack.ViewEngines.Razor
 
 		public Type CompileFile(RazorViewCompilationData view)
 		{
-			var razorCSharpDocument = GenerateCSharp(view);
+			var razorCSharpDocument = this.GenerateCSharp(view);
 			return this.CompileCSharp(view, view.ViewContents, razorCSharpDocument);
 		}
 
@@ -168,56 +168,24 @@ namespace MustardBlack.ViewEngines.Razor
 
 		public void CompileAndMergeFiles(IEnumerable<RazorViewCompilationData> viewCompilationDetails, string outputAssemblyName)
 		{
-//			var host = new RazorEngineHost(new CSharpRazorCodeLanguage());
-//
-//			foreach (var @namespace in this.razorConfiguration.GetDefaultNamespaces().Union(this.defaultNamespaces))
-//				host.NamespaceImports.Add(@namespace);
-//
-//			var engine = new RazorTemplateEngine(host);
-//
-//			var razorResults = viewCompilationDetails
-//				.Select(v =>
-//				{
-//					var stringReader = new StringReader(v.ViewContents);
-//					return engine.GenerateCode(stringReader, v.Name, "", v.Name);
-//				})
-//				.Select(r => r.GeneratedCode);
-//
-//			var assemblies = new List<string>();
-//			var appAssembly = GetApplicationAssembly();
-//
-//			assemblies.AddRange(this.defaultAssemblies);
-//			assemblies.AddRange(appAssembly.GetReferencedAssemblies().Select(GetAssemblyPath)); // assemblies referenced by current app
-//			assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(GetAssemblyPath)); // loaded assemblies (superset of above line?)
-//			//.AddRange(AssemblyRepository.GetApplicationAssemblies().Select(GetAssemblyPath)); // assemblies in app's folder
-//
-//			// assemblies named by configuration
-//			var configuredAssemblyNames = this.razorConfiguration.GetAssemblyNames();
-//			// TODO: cant just load here, use assembly repos to check uniqueness
-//			assemblies.AddRange(configuredAssemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
-//
-//			var assemblyNames = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToArray();
-//
-//			var outputAssemblyPath = Path.Combine(this.razorConfiguration.OutPath, outputAssemblyName + ".Views.Razor.dll");
-//
-//			var compilerParameters = new CompilerParameters(assemblyNames, outputAssemblyPath, true) { TempFiles = { KeepFiles = false } };
-//			var codeProvider = new CSharpCodeProvider();
-//			var compilationResults = codeProvider.CompileAssemblyFromDom(compilerParameters, razorResults.ToArray());
-//
-//			if (compilationResults.Errors.HasErrors)
-//			{
-//				var errors = compilationResults.Errors
-//					.OfType<CompilerError>()
-//					.Where(ce => !ce.IsWarning)
-//					.Select(error => $"[{error.ErrorNumber}] {error.FileName}: Line: {error.Line} Column: {error.Column} - {error.ErrorText}")
-//					.Aggregate((s1, s2) => s1 + "\n" + s2);
-//				//TODO: Format Errors nicely
-//				throw new ViewRenderException("Failed to compile dll `" + outputAssemblyPath + "`: " + errors);
-//			}
-//
-//			var assembly = Assembly.LoadFrom(outputAssemblyPath);
-//			if (assembly == null)
-//				throw new ViewRenderException("Error loading template assembly");
+			var outputAssemblyPath = Path.Combine(this.razorConfiguration.OutPath, outputAssemblyName + ".Views.Razor.dll");
+
+			var razorCSharpDocuments = viewCompilationDetails
+				.Select(this.GenerateCSharp)
+				.Select(d => d.GeneratedCode)
+				.ToArray();
+			
+			var compilerParameters = new CompilerParameters(this.referenceAssemblies.ToArray());
+			compilerParameters.IncludeDebugInformation = true;
+			compilerParameters.TempFiles.KeepFiles = false;
+			compilerParameters.OutputAssembly = outputAssemblyPath;
+
+			var compilationResults = this.codeProvider.CompileAssemblyFromSource(compilerParameters, razorCSharpDocuments);
+			if (compilationResults.Errors.HasErrors)
+			{
+				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => $"[{error.ErrorNumber}] Line: {error.Line} Column: {error.Column} - {error.ErrorText}").Aggregate((s1, s2) => s1 + "\n" + s2);
+				throw new ViewRenderException("Failed to compile view: " + errors);
+			}
 		}
 
 		/// <summary>
