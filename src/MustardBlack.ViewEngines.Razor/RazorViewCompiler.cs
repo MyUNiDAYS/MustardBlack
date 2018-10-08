@@ -215,7 +215,7 @@ namespace MustardBlack.ViewEngines.Razor
 
 	    public static string GetSafeClassName(string input)
 	    {
-	        var safe = input.Replace('.', '_');
+	        var safe = input.Replace('.', '_').Replace('-', '_');
 	        if (safe[0] >= '0' && safe[0] <= '9')
 	            safe = '_' + safe;
 

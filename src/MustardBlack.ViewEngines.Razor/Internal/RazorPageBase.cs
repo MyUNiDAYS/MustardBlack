@@ -48,9 +48,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 				return viewContext.Writer;
 			}
 		}
-
-		/// <inheritdoc />
-		public virtual string Path { get; set; }
+		
 
 		/// <inheritdoc />
 		public virtual IDictionary<string, RenderAsyncDelegate> SectionWriters { get; } = new Dictionary<string, RenderAsyncDelegate>(StringComparer.OrdinalIgnoreCase);
@@ -139,7 +137,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// </remarks>
 		public void StartTagHelperWritingScope(HtmlEncoder encoder)
 		{
-			var buffer = new ViewBuffer(BufferScope, Path, ViewBuffer.TagHelperPageSize);
+			var buffer = new ViewBuffer(BufferScope, this.GetType().AssemblyQualifiedName, ViewBuffer.TagHelperPageSize);
 			TagHelperScopes.Push(new TagHelperScopeInfo(buffer, this.Html.Encoder, this.RenderingContext.Writer));
 
 			// If passed an HtmlEncoder, override the property.

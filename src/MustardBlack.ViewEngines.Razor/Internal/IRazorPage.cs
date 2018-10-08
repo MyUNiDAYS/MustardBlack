@@ -31,12 +31,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// section being rendered.
 		/// </remarks>
 		bool IsLayoutBeingRendered { get; set; }
-
-		/// <summary>
-		/// Gets the application base relative path to the page.
-		/// </summary>
-		string Path { get; set; }
-
+		
 		/// <summary>
 		/// Gets or sets the path of a layout page.
 		/// </summary>

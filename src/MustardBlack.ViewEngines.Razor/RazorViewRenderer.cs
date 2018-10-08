@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -42,14 +43,14 @@ namespace MustardBlack.ViewEngines.Razor
 			{
 				// If we get here, this is likely the top-level page (not a partial) - this means
 				// that context.Writer is wrapping the output stream. We need to buffer, so create a buffered writer.
-				var buffer = new ViewBuffer(this.bufferScope, page.Path, ViewBuffer.ViewPageSize);
+				var buffer = new ViewBuffer(this.bufferScope, page.GetType().AssemblyQualifiedName, ViewBuffer.ViewPageSize);
 				writer = new ViewBufferTextWriter(buffer, viewRenderingContext.Writer.Encoding, this.htmlEncoder, viewRenderingContext.Writer);
 			}
 			else
 			{
 				// This means we're writing something like a partial, where the output needs to be buffered.
 				// Create a new buffer, but without the ability to flush.
-				var buffer = new ViewBuffer(this.bufferScope, page.Path, ViewBuffer.ViewPageSize);
+				var buffer = new ViewBuffer(this.bufferScope, page.GetType().AssemblyQualifiedName, ViewBuffer.ViewPageSize);
 				writer = new ViewBufferTextWriter(buffer, viewRenderingContext.Writer.Encoding);
 			}
 
@@ -98,11 +99,11 @@ namespace MustardBlack.ViewEngines.Razor
 
 				var layoutPage = GetLayoutPage(viewResult, viewRenderingContext, previousPage.Layout);
 
-				if (renderedLayouts.Count > 0 && renderedLayouts.Any(l => string.Equals(l.Path, layoutPage.Path, StringComparison.Ordinal)))
+				if (renderedLayouts.Count > 0 && renderedLayouts.Any(l => l.GetType() == layoutPage.GetType()))
 				{
 					// If the layout has been previously rendered as part of this view, we're potentially in a layout
 					// rendering cycle.
-					throw new InvalidOperationException("Layout has circular reference. Previous Page: `" + previousPage.Path + "`, Current Layout: `" + layoutPage.Path + "`");
+					throw new InvalidOperationException("Layout has circular reference. Previous Page: `" + previousPage.GetType() + "`, Current Layout: `" + layoutPage.GetType() + "`");
 				}
 
 				// Notify the previous page that any writes that are performed on it are part of sections being written
