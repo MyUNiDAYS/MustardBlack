@@ -102,7 +102,7 @@ namespace MustardBlack.ViewEngines.Razor
 				{
 					// If the layout has been previously rendered as part of this view, we're potentially in a layout
 					// rendering cycle.
-					throw new InvalidOperationException("Resources.FormatLayoutHasCircularReference(previousPage.Path, layoutPage.Path)");
+					throw new InvalidOperationException("Layout has circular reference. Previous Page: `" + previousPage.Path + "`, Current Layout: `" + layoutPage.Path + "`");
 				}
 
 				// Notify the previous page that any writes that are performed on it are part of sections being written
