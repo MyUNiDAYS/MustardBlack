@@ -1,7 +1,7 @@
 framework: net471
 source https://www.nuget.org/api/v2
 
-nuget Serilog 1.5.14
+nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
 nuget MuonLab.Validation ~> 1.3
