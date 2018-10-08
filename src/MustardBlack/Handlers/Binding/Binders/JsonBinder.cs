@@ -11,9 +11,11 @@ namespace MustardBlack.Handlers.Binding.Binders
 	{
 		public override bool CanBind(string name, Type type, IRequest request, RouteValues routeValues, object owner)
 		{
-			return !string.IsNullOrEmpty(request.ContentType) 
-			       && request.ContentType.ToLowerInvariant() == "application/json" 
-			       && !request.HttpMethod.IsSafe();
+			return request.ContentType != null
+			       && request.ContentType.MediaType.ToLowerInvariant() == "application/json"
+			       && !request.HttpMethod.IsSafe()
+			       && type.IsClass
+			       && type != typeof(string);
 		}
 
 		public override BindingResult Bind(Type type, string name, string value, IRequest request, RouteValues routeValues, object owner)

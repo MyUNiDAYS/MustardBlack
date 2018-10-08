@@ -12,7 +12,7 @@ namespace MustardBlack.Hosting
 
 		string UserAgent { get; }
 
-		string ContentType { get; }
+		ContentType ContentType { get; }
 
 		/// <summary>
 		/// The requested Url
