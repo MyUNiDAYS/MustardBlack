@@ -4,8 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
+using Serilog;
 
 namespace MustardBlack.ViewEngines.Razor.Internal
 {
@@ -14,6 +16,8 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 	/// </summary>
 	public abstract class RazorPage : RazorPageBase
 	{
+		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
+
 		readonly HashSet<string> renderedSections = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 		bool renderedBody;
 		bool ignoreBody;
@@ -196,26 +200,19 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 
 				string[] sectionsNotIgnored;
 				if (this.ignoredSections != null)
-				{
 					sectionsNotIgnored = sectionsNotRendered.Except(this.ignoredSections, StringComparer.OrdinalIgnoreCase).ToArray();
-				}
 				else
-				{
 					sectionsNotIgnored = sectionsNotRendered.ToArray();
-				}
 
 				if (sectionsNotIgnored.Length > 0)
-				{
-					var sectionNames = string.Join(", ", sectionsNotIgnored);
-					throw new InvalidOperationException("The following sections weren't rendered: " + sectionNames);
-				}
+					log.Warning("Section wasn't rendered {sectionNames}", sectionsNotIgnored);
 			}
 			else if (this.BodyContent != null && !this.renderedBody && !this.ignoreBody)
 			{
 				// There are no sections defined, but RenderBody was NOT called.
 				// If a body was defined and the body not ignored, then RenderBody should have been called.
-				var message = "Resources.FormatRenderBodyNotCalled(nameof(RenderBody), Path, nameof(IgnoreBody))";
-				throw new InvalidOperationException(message);
+
+				log.Warning("Body wasn't rendered, `" + nameof(RenderBody) + "` wasn't called");
 			}
 		}
 
