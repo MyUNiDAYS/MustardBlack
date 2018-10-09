@@ -2,7 +2,6 @@ using MustardBlack.Assets;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Javascript;
 using MustardBlack.Hosting;
-using NanoIoC;
 
 namespace MustardBlack.ViewEngines.Razor
 {
@@ -12,7 +11,7 @@ namespace MustardBlack.ViewEngines.Razor
 		readonly ICssPreprocessor cssPreprocessor;
 		readonly IAssetLoader assetLoader;
 
-		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, ICssPreprocessor cssPreprocessor, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration, IContainer container) : base(fileSystem, razorConfiguration, container)
+		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, ICssPreprocessor cssPreprocessor, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
 		{
 			this.jsCompressor = jsCompressor;
 			this.cssPreprocessor = cssPreprocessor;

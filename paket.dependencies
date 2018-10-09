@@ -15,7 +15,7 @@ nuget Microsoft.AspNetCore.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Razor.Language ~> 2.0
 nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.0
 nuget Microsoft.AspNetCore.Html.Abstractions ~> 2.0
-nuget Microsoft.CodeAnalysis ~> 2.0
+nuget Microsoft.CodeAnalysis 2.8
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
 nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform ~> 2.0 import_targets: false

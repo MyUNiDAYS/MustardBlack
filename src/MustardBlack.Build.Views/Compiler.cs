@@ -23,7 +23,7 @@ namespace MustardBlack.Build.Views
 			var razorConfiguration = new RazorConfiguration(webConfigPath, outPath);
 			var cssPreprocessor = new LessCssPreprocessor();
 			var fileSystem = new BasicFileSystem(inPath);
-			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem), razorConfiguration, null);
+			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
 
 			var views = Directory.GetFiles(inPath, "*.cshtml", SearchOption.AllDirectories).ToList();
 			if (!views.Any())
@@ -68,8 +68,10 @@ namespace MustardBlack.Build.Views
 							var trimmedLine = line.Trim();
 							if (!string.IsNullOrEmpty(trimmedLine))
 							{
-								if (trimmedLine.IndexOf("@inherits") == -1 && trimmedLine.EndsWith(">"))
-									viewContents.Append(trimmedLine);
+								if (trimmedLine.IndexOf("@section") == 0)
+									viewContents.AppendLine().AppendLine(trimmedLine);
+								else if (trimmedLine.IndexOf("@inherits") == 0)
+									viewContents.AppendLine().AppendLine(trimmedLine);
 								else
 									viewContents.AppendLine(trimmedLine);
 							}

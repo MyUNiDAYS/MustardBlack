@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace MustardBlack.Build.Views
 	public sealed class RazorConfiguration : IRazorConfiguration
 	{
 		readonly IEnumerable<string> namespaces;
+		readonly IEnumerable<Type> tagHelpers;
 		public string OutPath { get; }
-
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RazorConfiguration"/> class.
@@ -27,7 +28,14 @@ namespace MustardBlack.Build.Views
 				// Like this because if you load using ConfigurationManager, you need to reference 1000 MS assemblies.
 				var xmlNodeList = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/namespaces/add").Cast<XmlNode>();
 				this.namespaces = xmlNodeList.Select(e => e.Attributes["namespace"].Value).ToArray();
+
+				this.tagHelpers = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/taghelpers/add").Cast<XmlNode>().Select(e => Type.GetType(e.Attributes["type"].Value)).Where(t => t != null).ToArray();
 			}
+		}
+
+		public IEnumerable<Type> GetDefaultTagHelpers()
+		{
+			return this.tagHelpers;
 		}
 
 		/// <summary>

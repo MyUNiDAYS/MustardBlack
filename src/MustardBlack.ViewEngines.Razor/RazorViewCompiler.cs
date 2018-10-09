@@ -37,12 +37,12 @@ namespace MustardBlack.ViewEngines.Razor
 		List<string> referenceAssemblies;
 		readonly CSharpCodeProvider codeProvider;
 
-		public RazorViewCompiler(IFileSystem fileSystem, IRazorConfiguration razorConfiguration, IContainer container)
+		public RazorViewCompiler(IFileSystem fileSystem, IRazorConfiguration razorConfiguration)
 		{
 			this.fileSystem = fileSystem;
 		    this.razorConfiguration = razorConfiguration;
 			this.razorTemplateEngine = BuildRazorTemplateEngine(RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/")));
-			var defaultTagHelpers = container.GetRegistrationsFor(typeof(ITagHelper)).Select(r => r.ConcreteType).ToArray();
+			var defaultTagHelpers = razorConfiguration.GetDefaultTagHelpers();
 			var defaultDirectivesProjectItem = new DefaultDirectivesProjectItem(this.razorConfiguration.GetDefaultNamespaces(), defaultTagHelpers);
 			this.defaultImports = new[] { RazorSourceDocument.ReadFrom(defaultDirectivesProjectItem) };
 			this.GetReferenceAssemblies();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MustardBlack.ViewEngines.Razor
 {
@@ -13,5 +14,7 @@ namespace MustardBlack.ViewEngines.Razor
 		/// The full path to place compiled assemblies
 		/// </summary>
 		string OutPath { get; }
+
+		IEnumerable<Type> GetDefaultTagHelpers();
 	}
 }
