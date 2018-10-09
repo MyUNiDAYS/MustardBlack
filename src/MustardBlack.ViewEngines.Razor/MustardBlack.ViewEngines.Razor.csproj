@@ -44,7 +44,7 @@
     <Compile Include="DefaultDirectivesProjectItem.cs" />
     <Compile Include="DebugRazorViewLocator.cs" />
     <Compile Include="IRazorConfiguration.cs" />
-    <Compile Include="Legacy\RazorConfiguration.cs" />
+    <Compile Include="RazorConfiguration.cs" />
     <Compile Include="RazorViewRenderer.cs" />
     <Compile Include="Internal\ArrayPoolBufferSource.cs" />
     <Compile Include="Internal\CharArrayBufferSource.cs" />

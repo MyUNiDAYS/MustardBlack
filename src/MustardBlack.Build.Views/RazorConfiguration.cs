@@ -9,6 +9,8 @@ namespace MustardBlack.Build.Views
 	public sealed class RazorConfiguration : IRazorConfiguration
 	{
 		readonly IEnumerable<string> namespaces;
+		public string OutPath { get; }
+
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RazorConfiguration"/> class.
@@ -29,21 +31,11 @@ namespace MustardBlack.Build.Views
 		}
 
 		/// <summary>
-		/// Gets the assembly names to include in the generated assembly.
-		/// </summary>
-		public IEnumerable<string> GetAssemblyNames()
-		{
-			return new string[0];
-		}
-
-		/// <summary>
 		/// Gets the default namespaces to be included in the generated code.
 		/// </summary>
 		public IEnumerable<string> GetDefaultNamespaces()
 		{
 			return this.namespaces;
 		}
-		
-		public string OutPath { get; private set; }
 	}
 }

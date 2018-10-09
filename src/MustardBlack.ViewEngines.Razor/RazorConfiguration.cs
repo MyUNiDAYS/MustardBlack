@@ -28,15 +28,7 @@ namespace MustardBlack.ViewEngines.Razor
 			
 			this.namespaces = xmlNodeList.Select(e => e.Attributes["namespace"].Value).ToArray();
 		}
-
-		/// <summary>
-		/// Gets the assembly names to include in the generated assembly.
-		/// </summary>
-		public IEnumerable<string> GetAssemblyNames()
-		{
-			return new string[0];
-		}
-
+		
 		/// <summary>
 		/// Gets the default namespaces to be included in the generated code.
 		/// </summary>

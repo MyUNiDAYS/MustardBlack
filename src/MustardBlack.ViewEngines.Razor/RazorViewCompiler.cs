@@ -59,10 +59,7 @@ namespace MustardBlack.ViewEngines.Razor
 			assemblies.AddRange(appAssembly.GetReferencedAssemblies().Select(GetAssemblyPath)); // assemblies referenced by current app
 			assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(GetAssemblyPath)); // loaded assemblies (superset of above line?)
 			
-			var assemblyNames = this.razorConfiguration.GetAssemblyNames();
-			// TODO: cant just load here, use assembly repos to check uniqueness
-			assemblies.AddRange(assemblyNames.Select(Assembly.Load).Select(GetAssemblyPath));
-			this.referenceAssemblies = assemblies = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToList();
+			this.referenceAssemblies = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToList();
 		}
 
 		static RazorTemplateEngine BuildRazorTemplateEngine(RazorProjectFileSystem fileSystem)
