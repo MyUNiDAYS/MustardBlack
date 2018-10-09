@@ -19,7 +19,7 @@ nuget Microsoft.CodeAnalysis 2.8
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
 nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform ~> 2.0 import_targets: false
-nuget System.Collections.Immutable ~> 1.2
+nuget System.Collections.Immutable ~> 1.5
 nuget System.Reflection.Metadata ~> 1.4
 nuget Brotli.NET
 nuget DotNetZip 1.9
