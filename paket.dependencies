@@ -4,12 +4,12 @@ source https://www.nuget.org/api/v2
 nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
-nuget MuonLab.Validation ~> 1.3
+nuget MuonLab.Validation ~> 1.0
 nuget NUnit 2.6.4
 nuget YUICompressor.NET ~> 3.0
 nuget dotless 1.5.1
 nuget Newtonsoft.Json ~> 11.0
-nuget NSubstitute 3.1
+nuget NSubstitute ~> 3.0
 nuget FluentAssertions
 nuget Microsoft.AspNetCore.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Razor.Language ~> 2.0
@@ -19,9 +19,9 @@ nuget Microsoft.CodeAnalysis ~> 2.0
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
 nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform ~> 2.0 import_targets: false
-nuget System.Reflection.Metadata ~> 1.4
+nuget System.Reflection.Metadata ~> 1.0
 nuget Brotli.NET
-nuget DotNetZip 1.9
+nuget DotNetZip ~> 1.0
 nuget System.Buffers
 
 group BuildTools

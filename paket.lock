@@ -4,7 +4,7 @@ NUGET
     Brotli.NET (1.0.19)
     Castle.Core (4.3.1)
     dotless (1.5.1)
-    DotNetZip (1.9)
+    DotNetZip (1.11)
     EcmaScript.NET (2.0)
       System.Reflection.Emit (>= 4.3)
     FluentAssertions (5.4.2)

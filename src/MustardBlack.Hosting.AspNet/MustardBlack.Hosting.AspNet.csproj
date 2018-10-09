@@ -79,8 +79,8 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.1'">
       <ItemGroup>
-        <Reference Include="Ionic.Zip">
-          <HintPath>..\..\packages\DotNetZip\lib\Ionic.Zip.dll</HintPath>
+        <Reference Include="DotNetZip">
+          <HintPath>..\..\packages\DotNetZip\lib\net20\DotNetZip.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
