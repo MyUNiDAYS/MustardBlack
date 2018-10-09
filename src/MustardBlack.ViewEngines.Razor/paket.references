@@ -6,7 +6,6 @@ Microsoft.AspNetCore.Html.Abstractions
 Microsoft.CodeAnalysis
 Microsoft.CodeAnalysis.Razor
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform
-System.Collections.Immutable
 System.Reflection.Metadata
 System.Buffers
 NanoIoC

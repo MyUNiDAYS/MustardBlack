@@ -2,7 +2,6 @@ Serilog
 NanoIoC
 MuonLab.Validation
 System.Buffers
-System.Collections.Immutable
 System.Reflection.Metadata
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform
 Microsoft.AspNetCore.Razor
