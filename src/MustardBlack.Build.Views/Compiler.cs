@@ -99,8 +99,9 @@ namespace MustardBlack.Build.Views
 
 				viewData.Add(new RazorViewCompilationData
 				{
-					// TODO: set classname, filepath and namespace from view name.
-					//Name = name,
+					Namespace = Path.GetDirectoryName(view.Substring(inPath.Length + 1)).Replace("\\", ".").Replace("/", "."),
+					ClassName = RazorViewCompiler.GetSafeClassName(Path.GetFileName(view)),
+					FilePath = view,
 					ViewContents = viewContents.ToString()
 				});
 			}

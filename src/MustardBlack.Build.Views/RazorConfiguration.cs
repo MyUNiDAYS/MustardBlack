@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.ViewEngines.Razor;
 
 namespace MustardBlack.Build.Views
@@ -12,6 +13,8 @@ namespace MustardBlack.Build.Views
 		readonly IEnumerable<string> namespaces;
 		readonly IEnumerable<Type> tagHelpers;
 		public string OutPath { get; }
+
+		public ICompilerSettings CompilerSettings { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RazorConfiguration"/> class.
@@ -31,6 +34,8 @@ namespace MustardBlack.Build.Views
 
 				this.tagHelpers = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/taghelpers/add").Cast<XmlNode>().Select(e => Type.GetType(e.Attributes["type"].Value)).Where(t => t != null).ToArray();
 			}
+
+			this.CompilerSettings = new CompilerSettings(@"roslyn\csc.exe");
 		}
 
 		public IEnumerable<Type> GetDefaultTagHelpers()

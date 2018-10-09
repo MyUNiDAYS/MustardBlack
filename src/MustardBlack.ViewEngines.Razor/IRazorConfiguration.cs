@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 
 namespace MustardBlack.ViewEngines.Razor
 {
@@ -16,5 +17,7 @@ namespace MustardBlack.ViewEngines.Razor
 		string OutPath { get; }
 
 		IEnumerable<Type> GetDefaultTagHelpers();
+
+		ICompilerSettings CompilerSettings { get; }
 	}
 }

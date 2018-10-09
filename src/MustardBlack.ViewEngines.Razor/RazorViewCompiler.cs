@@ -47,7 +47,7 @@ namespace MustardBlack.ViewEngines.Razor
 			this.defaultImports = new[] { RazorSourceDocument.ReadFrom(defaultDirectivesProjectItem) };
 			this.GetReferenceAssemblies();
 
-			this.codeProvider = new CSharpCodeProvider();
+			this.codeProvider = new CSharpCodeProvider(razorConfiguration.CompilerSettings);
 		}
 
 		void GetReferenceAssemblies()
