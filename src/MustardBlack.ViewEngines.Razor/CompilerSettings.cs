@@ -9,9 +9,9 @@ namespace MustardBlack.ViewEngines.Razor
 		public string CompilerFullPath { get; }
 		public int CompilerServerTimeToLive { get; }
 
-		public CompilerSettings(string path = null)
+		public CompilerSettings(string path = @"bin\roslyn\csc.exe")
 		{
-			this.CompilerFullPath = path ?? GetCompilerFullPath(@"bin\roslyn\csc.exe");
+			this.CompilerFullPath = GetCompilerFullPath(path);
 			this.CompilerServerTimeToLive = 60;
 		}
 
