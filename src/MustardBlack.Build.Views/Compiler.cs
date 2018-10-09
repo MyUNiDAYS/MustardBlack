@@ -97,6 +97,7 @@ namespace MustardBlack.Build.Views
 
 				viewData.Add(new RazorViewCompilationData
 				{
+					// TODO: set classname, filepath and namespace from view name.
 					//Name = name,
 					ViewContents = viewContents.ToString()
 				});
