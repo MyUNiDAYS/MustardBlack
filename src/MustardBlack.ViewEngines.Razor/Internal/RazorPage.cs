@@ -145,7 +145,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		private async Task<HtmlString> RenderSectionAsyncCore(string sectionName, bool required)
 		{
 			if (renderedSections.Contains(sectionName))
-				throw new InvalidOperationException("Resources.FormatSectionAlreadyRendered(nameof(RenderSectionAsync), Path, sectionName)");
+				log.Warning("Section {section} already rendered", sectionName);
 
 			if (PreviousSectionWriters.TryGetValue(sectionName, out var renderDelegate))
 			{
