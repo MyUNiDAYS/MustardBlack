@@ -15,7 +15,8 @@ namespace MustardBlack.Hosting.AspNet
 				if (Path.IsPathRooted(path))
 					return path;
 
-				return HostingEnvironment.MapPath(path);
+				if (path.StartsWith("~/"))
+					return HostingEnvironment.MapPath(path);
 			}
 
 			if (path.StartsWith("~/"))

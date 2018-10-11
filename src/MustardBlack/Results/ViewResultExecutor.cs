@@ -49,8 +49,6 @@ namespace MustardBlack.Results
 				// TODO: render something useful
 				context.Response.ContentType = "text/plain";
 				context.Response.StatusCode = HttpStatusCode.InternalServerError;
-				context.Response.Write(e.Message);
-				context.Response.Write(e.StackTrace);
 				return;
 			}
 
