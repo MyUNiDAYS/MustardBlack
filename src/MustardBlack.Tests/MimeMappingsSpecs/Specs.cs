@@ -35,5 +35,11 @@ namespace MustardBlack.Tests.MimeMappingsSpecs
 		{
 			MimeMapping.GetMimeMapping("\foo\bar.js").Should().Be("application/javascript");
 		}
+
+		[Then]
+		public void SVG()
+		{
+			MimeMapping.GetMimeMapping("\foo\bar.SVG").Should().Be("image/svg+xml");
+		}
 	}
 }

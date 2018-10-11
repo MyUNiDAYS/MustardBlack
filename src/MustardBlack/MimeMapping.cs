@@ -359,6 +359,7 @@ namespace MustardBlack
 				AddMapping(".stl", "application/vnd.ms-pki.stl");
 				AddMapping(".sv4cpio", "application/x-sv4cpio");
 				AddMapping(".sv4crc", "application/x-sv4crc");
+				AddMapping(".svg", "image/svg+xml");
 				AddMapping(".swf", "application/x-shockwave-flash");
 				AddMapping(".t", "application/x-troff");
 				AddMapping(".tar", "application/x-tar");
