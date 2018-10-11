@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
 using System.Text;
-using System.Web;
 
 namespace MustardBlack
 {
@@ -48,12 +48,12 @@ namespace MustardBlack
 
 					if (!string.IsNullOrEmpty(key))
 					{
-						builder.Append(HttpUtility.UrlEncode(key));
+						builder.Append(WebUtility.UrlEncode(key));
 						builder.Append('=');
 					}
 
 					if(this.QueryCollection[key] != null)
-						builder.Append(HttpUtility.UrlEncode(this.QueryCollection[key]));
+						builder.Append(WebUtility.UrlEncode(this.QueryCollection[key]));
 				}
 
 				if (builder.Length == 1)
@@ -63,11 +63,78 @@ namespace MustardBlack
 			}
 			set
 			{
-				var collection = HttpUtility.ParseQueryString(value);
+				var collection = ParseQueryString(value);
 				this.QueryCollection = new NameValueCollection();
 				foreach (var key in collection.AllKeys)
 					this.QueryCollection.Add(key, collection[key]);
 			}
+		}
+
+		// Ported from System.Web
+		static NameValueCollection ParseQueryString(string input)
+		{
+			var query = new NameValueCollection();
+
+			if (string.IsNullOrWhiteSpace(input))
+				return query;
+
+			input = input.TrimStart('?');
+
+			var l = input.Length;
+			var i = 0;
+
+			while (i < l)
+			{
+				// find next & while noting first = on the way (and if there are more)
+				
+				int si = i;
+				int ti = -1;
+
+				while (i < l)
+				{
+					char ch = input[i];
+
+					if (ch == '=')
+					{
+						if (ti < 0)
+							ti = i;
+					}
+					else if (ch == '&')
+					{
+						break;
+					}
+
+					i++;
+				}
+
+				// extract the name / value pair
+
+				string name = null;
+				string value = null;
+
+				if (ti >= 0)
+				{
+					name = input.Substring(si, ti - si);
+					value = input.Substring(ti + 1, i - ti - 1);
+				}
+				else
+				{
+					value = input.Substring(si, i - si);
+				}
+
+				// add name / value pair to the collection
+
+				query.Add(WebUtility.UrlDecode(name), WebUtility.UrlDecode(value));
+
+				// trailing '&'
+
+				if (i == l - 1 && input[i] == '&')
+					query.Add(null, string.Empty);
+
+				i++;
+			}
+
+			return query;
 		}
 
 		/// <summary>

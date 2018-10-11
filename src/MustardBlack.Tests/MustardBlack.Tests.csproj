@@ -98,6 +98,7 @@
     <Compile Include="Helpers\TestResponseCookieCollection.cs" />
     <Compile Include="Hosting\RequestCookieCollectionSpecs\GettingAndSettingCookies.cs" />
     <Compile Include="Hosting\RequestCookieCollectionSpecs\Parsing.cs" />
+    <Compile Include="MimeMappingsSpecs\Specs.cs" />
     <Compile Include="ModRewrite\Complex\ComplexSpec1.cs" />
     <Compile Include="ModRewrite\FailureModRewriteSpecification.cs" />
     <Compile Include="ModRewrite\ModRewriteSpecification.cs" />

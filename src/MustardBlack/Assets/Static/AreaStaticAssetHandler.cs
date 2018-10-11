@@ -1,5 +1,4 @@
 using System.Net;
-using System.Web;
 using MustardBlack.Handlers;
 using MustardBlack.Hosting;
 using MustardBlack.Results;

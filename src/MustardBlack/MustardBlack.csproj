@@ -129,6 +129,7 @@
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="LinkHeader.cs" />
+    <Compile Include="MimeMapping.cs" />
     <Compile Include="ModRewrite\Engine.cs" />
     <Compile Include="ModRewrite\ModRewritePipelineOperator.cs" />
     <Compile Include="ModRewrite\Parser.cs" />
@@ -263,9 +264,6 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.1'">
       <ItemGroup>
-        <Reference Include="System.Web">
-          <Paket>True</Paket>
-        </Reference>
         <Reference Include="NanoIoC">
           <HintPath>..\..\packages\NanoIoC\lib\net46\NanoIoC.dll</HintPath>
           <Private>True</Private>
