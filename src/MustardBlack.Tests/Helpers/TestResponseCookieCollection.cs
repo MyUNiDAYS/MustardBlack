@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Web;
 using MustardBlack.Hosting;
 
 namespace MustardBlack.Tests.Helpers
@@ -28,17 +27,6 @@ namespace MustardBlack.Tests.Helpers
 		public void Set(ResponseCookie cookie)
 		{
 			this.cookies.Add(cookie.Name, cookie);
-
-			var httpCookie = new HttpCookie(cookie.Name, cookie.Value)
-			{
-				Domain = cookie.Domain,
-				Path = cookie.Path,
-				HttpOnly = cookie.HttpOnly,
-				Secure = cookie.Secure
-			};
-
-			if (cookie.Expires.HasValue)
-				httpCookie.Expires = cookie.Expires.Value;
 		}
 
 		public ResponseCookie Get(string name)

@@ -40,7 +40,10 @@ namespace MustardBlack.ViewEngines
 
 	    /// <inheritdoc />
 	    public IHtmlContent Raw(object value)
-		{
+	    {
+		    if (value == null)
+			    return null;
+
 			return new HtmlString(value.ToString());
 		}
 	}
