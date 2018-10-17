@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using MustardBlack.Pipeline;
+using MustardBlack.TempData;
 using MustardBlack.ViewEngines;
 using Serilog;
 
@@ -15,10 +16,12 @@ namespace MustardBlack.Results
 		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 		
 		readonly IViewRendererFinder viewRendererFinder;
+		readonly ITempDataMechanism tempDataMechanism;
 
-		public ViewResultExecutor(IViewRendererFinder viewRendererFinder)
+		public ViewResultExecutor(IViewRendererFinder viewRendererFinder, ITempDataMechanism tempDataMechanism)
 		{
 			this.viewRendererFinder = viewRendererFinder;
+			this.tempDataMechanism = tempDataMechanism;
 		}
 
 		public override void Execute(PipelineContext context, ViewResult result)
@@ -58,7 +61,7 @@ namespace MustardBlack.Results
 			context.Response.ContentType = "text/html";
 
 			SetLinkHeaders(context, result);
-			SetTempData(context, result.TempData);
+			this.tempDataMechanism.SetTempData(context, result.TempData);
 		}
 	}
 }

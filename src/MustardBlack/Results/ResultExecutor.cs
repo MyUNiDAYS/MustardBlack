@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using MustardBlack.Pipeline;
-using Newtonsoft.Json;
-using Serilog;
 
 namespace MustardBlack.Results
 {
 	public abstract class ResultExecutor<TResult> : IResultExecutor<TResult> where TResult : IResult
 	{
-		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
-
 		public abstract void Execute(PipelineContext context, TResult result);
 
 		public void Execute(PipelineContext context, object result)
@@ -44,28 +38,6 @@ namespace MustardBlack.Results
 			}
 
 			context.Response.Headers.Add("Link", builder.ToString());
-		}
-
-		protected static void SetTempData(PipelineContext context, IDictionary<string, object> tempData)
-		{
-			if (tempData.Keys.Count <= 0)
-				return;
-
-			var serializeObject = JsonConvert.SerializeObject(tempData);
-
-			// Temporary logging to see if we're outputting commas in cookies, we shouldnt be as it can b0rk things.
-			if (serializeObject != null && serializeObject.Contains(","))
-				log.Warning("Temp data contains a comma `{0}`", serializeObject);
-
-			var cookie = new ResponseCookie(
-				"temp",
-				value: serializeObject,
-                secure: true,
-				httpOnly: false,
-				domain: context.Request.Url.Domain()
-			);
-			
-			context.Response.Cookies.Set(cookie);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Javascript;
+using MustardBlack.TempData;
 using NanoIoC;
 
 namespace MustardBlack.NanoIoC
@@ -10,6 +11,7 @@ namespace MustardBlack.NanoIoC
 		{
 			container.Register<IJavascriptCompressor, YuiJavascriptCompressor>();
 			container.Register<ICssPreprocessor, LessCssPreprocessor>();
+			container.Register<ITempDataMechanism, CookieTempDataMechanism>();
 		}
 	}
 }

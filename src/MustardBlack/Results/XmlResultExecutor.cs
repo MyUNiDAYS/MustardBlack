@@ -3,11 +3,19 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using MustardBlack.Pipeline;
+using MustardBlack.TempData;
 
 namespace MustardBlack.Results
 {
 	public class XmlResultExecutor : ResultExecutor<XmlResult>
 	{
+		readonly ITempDataMechanism tempDataMechanism;
+
+		public XmlResultExecutor(ITempDataMechanism tempDataMechanism)
+		{
+			this.tempDataMechanism = tempDataMechanism;
+		}
+
 		public override void Execute(PipelineContext context, XmlResult result)
 		{
 			context.Response.ContentType = "application/xml";
@@ -16,7 +24,7 @@ namespace MustardBlack.Results
 			context.Response.StatusCode = result.StatusCode;
 
 			SetLinkHeaders(context, result);
-			SetTempData(context, result.TempData);
+			this.tempDataMechanism.SetTempData(context, result.TempData);
 
 			if (result.Data == null)
 				return;

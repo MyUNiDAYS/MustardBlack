@@ -191,6 +191,8 @@
     <Compile Include="Routing\RouteValues.cs" />
     <Compile Include="Routing\RoutingPipelineOperator.cs" />
     <Compile Include="Security\AntiCSRFPipelineOperator.cs" />
+    <Compile Include="TempData\CookieTempDataMechanism.cs" />
+    <Compile Include="TempData\ITempDataMechanism.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="ViewEngines\HtmlHelper.cs" />
     <Compile Include="ViewEngines\HtmlHelperExtensions.cs" />

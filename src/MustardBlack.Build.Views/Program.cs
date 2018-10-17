@@ -23,8 +23,14 @@ namespace MustardBlack.Build.Views
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				Console.WriteLine(e.StackTrace);
+				while (e != null)
+				{
+					Console.WriteLine(e.Message);
+					Console.WriteLine(e.StackTrace);
+					Console.WriteLine();
+					e = e.InnerException;
+				}
+
 				Environment.Exit(-1);
 			}
 		}

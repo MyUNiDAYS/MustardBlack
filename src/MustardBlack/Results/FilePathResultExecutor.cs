@@ -1,9 +1,17 @@
 using MustardBlack.Pipeline;
+using MustardBlack.TempData;
 
 namespace MustardBlack.Results
 {
 	sealed class FilePathResultExecutor : ResultExecutor<FilePathResult>
 	{
+		readonly ITempDataMechanism tempDataMechanism;
+
+		public FilePathResultExecutor(ITempDataMechanism tempDataMechanism)
+		{
+			this.tempDataMechanism = tempDataMechanism;
+		}
+
 		public override void Execute(PipelineContext context, FilePathResult result)
 		{
 			if (!string.IsNullOrEmpty(result.ContentDisposition))
@@ -17,7 +25,7 @@ namespace MustardBlack.Results
 			context.Response.StatusCode = result.StatusCode;
 
 			SetLinkHeaders(context, result);
-			SetTempData(context, result.TempData);
+			this.tempDataMechanism.SetTempData(context, result.TempData);
 		}
 	}
 }

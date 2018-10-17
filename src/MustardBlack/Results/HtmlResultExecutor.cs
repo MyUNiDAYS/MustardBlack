@@ -1,10 +1,18 @@
 ﻿using System.Text;
 using MustardBlack.Pipeline;
+using MustardBlack.TempData;
 
 namespace MustardBlack.Results
 {
 	public sealed class HtmlResultExecutor : ResultExecutor<HtmlResult>
 	{
+		readonly ITempDataMechanism tempDataMechanism;
+
+		public HtmlResultExecutor(ITempDataMechanism tempDataMechanism)
+		{
+			this.tempDataMechanism = tempDataMechanism;
+		}
+
 		public override void Execute(PipelineContext context, HtmlResult result)
 		{
 			var data = Encoding.UTF8.GetBytes(result.Html);
@@ -16,7 +24,7 @@ namespace MustardBlack.Results
 			context.Response.StatusCode = result.StatusCode;
 
 			SetLinkHeaders(context, result);
-			SetTempData(context, result.TempData);
+			this.tempDataMechanism.SetTempData(context, result.TempData);
 		}
 	}
 }
