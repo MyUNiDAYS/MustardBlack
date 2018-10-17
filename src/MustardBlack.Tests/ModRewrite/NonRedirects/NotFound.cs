@@ -1,5 +1,5 @@
 using System.Net;
-using FluentAssertions;
+
 using MustardBlack.Results;
 
 namespace MustardBlack.Tests.ModRewrite.NonRedirects
@@ -18,7 +18,7 @@ RewriteRule bar - [R=404]
 		public void Should404()
 		{
 			var result = this.handledResponse as EmptyResult;
-			result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+			result.StatusCode.ShouldEqual(HttpStatusCode.NotFound);
 		}
 	}
 }

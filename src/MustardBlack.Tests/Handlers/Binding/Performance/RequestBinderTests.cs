@@ -8,48 +8,48 @@ using MustardBlack.Handlers.Binding;
 using MustardBlack.Results;
 using MustardBlack.Routing;
 using NanoIoC;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Performance
 {
-	[Explicit]
 	public class RequestBinderTests : AutoMocker
 	{
-		[Test]
+		[ThenExplicit]
 		public void IntTest()
 		{
 			this.DoBindToForm("Int", CreateFormValues("7"), 10000);
 		}
 
-		[Test]
+		[ThenExplicit]
 		public void BoolTest()
 		{
 			this.DoBindToForm("Bool", CreateFormValues("true"), 10000);
 		}
 
-		[Test]
+		[ThenExplicit]
 		public void GuidTest()
 		{
 			this.DoBindToForm("Guid", CreateFormValues(Guid.NewGuid().ToString()), 10000);
 		}
 
-		[Test]
+		[ThenExplicit]
 		public void StringTest()
 		{
 			this.DoBindToForm("String", CreateFormValues("string-value"), 10000);
 		}
 
-		[Test]
+		[ThenExplicit]
 		public void EnumTest()
 		{
 			this.DoBindToForm("Enum", CreateFormValues(((int)DateTimeKind.Utc).ToString()), 10000);
 		}
 
-		[TestCase(0)]
-		[TestCase(1)]
-		[TestCase(10)]
-		[TestCase(100)]
-		[TestCase(1000)]
+		[TheoryExplicit]
+		[InlineData(0)]
+		[InlineData(1)]
+		[InlineData(10)]
+		[InlineData(100)]
+		[InlineData(1000)]
 		public void EnumerableTest(int count)
 		{
 			this.DoBindToForm("Enumerable", CreateFormValues(string.Join(",", Enumerable.Range(0, count))), 10000);
@@ -63,11 +63,12 @@ namespace MustardBlack.Tests.Handlers.Binding.Performance
 			};
 		}
 
-		[TestCase(0)]
-		[TestCase(1)]
-		[TestCase(10)]
-		[TestCase(100)]
-		[TestCase(1000)]
+		[TheoryExplicit]
+		[InlineData(0)]
+		[InlineData(1)]
+		[InlineData(10)]
+		[InlineData(100)]
+		[InlineData(1000)]
 		public void ListTest(int count)
 		{
 			var formValues = new NameValueCollection();
@@ -77,7 +78,7 @@ namespace MustardBlack.Tests.Handlers.Binding.Performance
 			this.DoBindToForm("List", formValues, 10000);
 		}
 
-		[Test]
+		[ThenExplicit]
 		public void ComplexTypeTest()
 		{
 			var formValues = new NameValueCollection();
@@ -85,7 +86,7 @@ namespace MustardBlack.Tests.Handlers.Binding.Performance
 			this.DoBindToForm("ComplexType", formValues, 10000);
 		}
 
-		[Test]
+		[ThenExplicit]
 		public void ResourceTest()
 		{
 			var formValues = new NameValueCollection();
@@ -107,7 +108,7 @@ namespace MustardBlack.Tests.Handlers.Binding.Performance
 			formValues[$"{name}Number"] = "123";
 		}
 
-		[Test]
+		[ThenExplicit]
 		public void ComplexResourceTest()
 		{
 			var formValues = new NameValueCollection();

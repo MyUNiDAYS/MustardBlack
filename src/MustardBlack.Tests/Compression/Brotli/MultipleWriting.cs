@@ -2,7 +2,7 @@
 using System.IO.Compression;
 using System.Text;
 using Brotli;
-using FluentAssertions;
+
 using MustardBlack.Hosting.AspNet;
 
 namespace MustardBlack.Tests.Compression.Brotli
@@ -38,7 +38,7 @@ namespace MustardBlack.Tests.Compression.Brotli
 				bs.CopyTo(msOutput);
 				msOutput.Seek(0, SeekOrigin.Begin);
 				var output = msOutput.ToArray();
-				Encoding.UTF8.GetString(output).Should().Be("onetwothree");
+				Encoding.UTF8.GetString(output).ShouldEqual("onetwothree");
 			}
 		}
 	}

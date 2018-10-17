@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Dictionary
 {
@@ -38,14 +38,14 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Dictionary
 			this.target = bindingResult.Object as TestResource;
 		}
 
-		[Test]
+		[Then]
 		public void BindsCorrectly()
 		{
-			this.target.dict.Should().NotBeNull();
-			this.target.dict.Count.Should().Be(3);
-			this.target.dict[new Guid("d01c7797-fa85-4d78-98ea-8127467dceba")].Should().Be("guidA");
-			this.target.dict[new Guid("9d2a40d2-8349-4e65-8cac-92c494c61722")].Should().Be("guidB");
-			this.target.dict[new Guid("92bb53d7-279f-44d9-949f-688bfbd46265")].Should().Be("guidC");
+			this.target.dict.ShouldNotBeNull();
+			this.target.dict.Count.ShouldEqual(3);
+			this.target.dict[new Guid("d01c7797-fa85-4d78-98ea-8127467dceba")].ShouldEqual("guidA");
+			this.target.dict[new Guid("9d2a40d2-8349-4e65-8cac-92c494c61722")].ShouldEqual("guidB");
+			this.target.dict[new Guid("92bb53d7-279f-44d9-949f-688bfbd46265")].ShouldEqual("guidC");
 		}
 
 		class TestResource

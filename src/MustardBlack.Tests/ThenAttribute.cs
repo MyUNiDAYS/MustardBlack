@@ -1,8 +1,8 @@
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests
 {
-	public class ThenAttribute : TestAttribute
+	public class ThenAttribute : FactAttribute
 	{
 	}
 }

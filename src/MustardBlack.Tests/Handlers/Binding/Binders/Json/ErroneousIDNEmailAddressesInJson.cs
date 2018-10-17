@@ -3,9 +3,9 @@ using System.Linq;
 using System.Text;
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
-using FluentAssertions;
+
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Json
 {
@@ -46,28 +46,28 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Json
 			this.target = (Json)bindingResult.Object;
 		}
 
-		[Test]
+		[Then]
 		public void ShouldNotDePunycodeEmailAddressesAndHaveErrors()
 		{
-			this.target.Email.Should().Be("nathan@学生..优惠.com");
-			this.target.DeepThing.EmailAddress.Should().Be("nath?an@学生优惠..com");
+			this.target.Email.ShouldEqual("nathan@学生..优惠.com");
+			this.target.DeepThing.EmailAddress.ShouldEqual("nath?an@学生优惠..com");
 			var bindingErrors = this.bindingResult.BindingErrors.ToArray();
-			bindingErrors.Length.Should().Be(2);
+			bindingErrors.Length.ShouldEqual(2);
 
 		}
 
-		[Test]
+		[Then]
 		public void NonEmailPropertyShouldWork()
 		{
-			this.target.SomethingElse.Should().Be("");
-			this.target.SomethingElseElse.Should().Be("");
+			this.target.SomethingElse.ShouldEqual("");
+			this.target.SomethingElseElse.ShouldEqual("");
 		}
 
-		[Test]
+		[Then]
 		public void EmptyEmailAddressesShouldWork()
 		{
-			this.target.OtherEmail.Should().BeNull();
-			this.target.AnotherEmail.Should().BeNull();
+			this.target.OtherEmail.ShouldBeNull();
+			this.target.AnotherEmail.ShouldBeNull();
 		}
 
 		public class Json

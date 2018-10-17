@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Guids
 {
@@ -25,10 +25,10 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Guids
 			this.target = (Guid)bindingResult.Object;
 		}
 
-		[Test]
+		[Then]
 		public void TheValueShouldBeEmpty()
 		{
-			this.target.Should().Be(Guid.Empty);
+			this.target.ShouldEqual(Guid.Empty);
 		}
 	}
 }

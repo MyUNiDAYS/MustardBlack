@@ -1,5 +1,5 @@
 using System.Net;
-using FluentAssertions;
+
 using MustardBlack.Results;
 
 namespace MustardBlack.Tests.ModRewrite
@@ -14,8 +14,8 @@ namespace MustardBlack.Tests.ModRewrite
 		{
 			var redirectResult = this.handledResponse as RedirectResult;
 
-			redirectResult.Location.ToString().Should().Be(this.ExpectedRedirectUrl);
-			redirectResult.StatusCode.Should().Be(this.ExpectedStatusCode);
+			redirectResult.Location.ToString().ShouldEqual(this.ExpectedRedirectUrl);
+			redirectResult.StatusCode.ShouldEqual(this.ExpectedStatusCode);
 		}
 	}
 }

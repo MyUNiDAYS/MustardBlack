@@ -1,4 +1,4 @@
-using FluentAssertions;
+
 
 namespace MustardBlack.Tests.UrlSpecs
 {
@@ -19,9 +19,9 @@ namespace MustardBlack.Tests.UrlSpecs
         [Then]
         public void DifferentUrlsShouldNotBeEqual()
         {
-	        this.uri1.Should().NotBe(this.uri2);
-			this.uri2.Should().NotBe(this.uri3);
-            this.uri1.Should().NotBe(this.uri3);
+	        this.uri1.ShouldNotEqual(this.uri2);
+			this.uri2.ShouldNotEqual(this.uri3);
+            this.uri1.ShouldNotEqual(this.uri3);
         }
     }
 }

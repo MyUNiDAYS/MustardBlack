@@ -1,9 +1,9 @@
 ﻿using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -34,16 +34,16 @@ namespace MustardBlack.Tests.Handlers.Binding
             this.target = (NullableEnumTestViewModel)bindingResult.Object;
         }
 
-        [Test]
+        [Then]
         public void TheEnumOnTheClassShouldBeBound()
         {
-	        this.target.Test.HasValue.Should().BeTrue();
+	        this.target.Test.HasValue.ShouldBeTrue();
         }
 
-        [Test]
+        [Then]
         public void TheEnumOnTheClassShouldHaveTheCorrectValue()
         {
-	        this.target.Test.Should().Be((NullableEnumTestViewModel.TestingEnum?)NullableEnumTestViewModel.TestingEnum.Test2);
+	        this.target.Test.ShouldEqual((NullableEnumTestViewModel.TestingEnum?)NullableEnumTestViewModel.TestingEnum.Test2);
         }
 
         internal sealed class NullableEnumTestViewModel

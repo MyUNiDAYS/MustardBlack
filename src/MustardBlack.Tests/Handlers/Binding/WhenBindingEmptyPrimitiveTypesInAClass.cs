@@ -1,9 +1,9 @@
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -48,22 +48,22 @@ namespace MustardBlack.Tests.Handlers.Binding
             this.target = bindingResult.Object as PrimitivesClass;
         }
 
-        [Test]
+        [Then]
         public void TheIntShouldBeSetToItsDefaultValue()
         {
-	        this.target.sbyteus.Should().Be(default(sbyte));
-	        this.target.byteus.Should().Be(default(byte));
-	        this.target.shortus.Should().Be(default(short));
-	        this.target.intus.Should().Be(default(int));
-	        this.target.uintus.Should().Be(default(uint));
-	        this.target.longus.Should().Be(default(long));
-	        this.target.ulongus.Should().Be(default(ulong));
-	        this.target.charus.Should().Be(default(char));
-	        this.target.floatus.Should().Be(default(float));
-	        this.target.doubleus.Should().Be(default(double ));
-	        this.target.boolus.Should().Be(default(bool));
-	        this.target.decimalus.Should().Be(default(decimal));
-	        this.target.stringus.Should().Be("");
+	        this.target.sbyteus.ShouldEqual(default(sbyte));
+	        this.target.byteus.ShouldEqual(default(byte));
+	        this.target.shortus.ShouldEqual(default(short));
+	        this.target.intus.ShouldEqual(default(int));
+	        this.target.uintus.ShouldEqual(default(uint));
+	        this.target.longus.ShouldEqual(default(long));
+	        this.target.ulongus.ShouldEqual(default(ulong));
+	        this.target.charus.ShouldEqual(default(char));
+	        this.target.floatus.ShouldEqual(default(float));
+	        this.target.doubleus.ShouldEqual(default(double ));
+	        this.target.boolus.ShouldEqual(default(bool));
+	        this.target.decimalus.ShouldEqual(default(decimal));
+	        this.target.stringus.ShouldEqual("");
         }
     }
 }

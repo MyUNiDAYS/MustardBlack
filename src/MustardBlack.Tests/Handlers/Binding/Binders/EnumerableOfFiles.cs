@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
@@ -41,8 +41,8 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders
 		{
 			var array = this.target.ToArray();
 
-			array[0].Should().Be(this.file1);
-			array[1].Should().Be(this.file2);
+			array[0].ShouldEqual(this.file1);
+			array[1].ShouldEqual(this.file2);
 		}
 
 		public sealed class TestFile : IFile

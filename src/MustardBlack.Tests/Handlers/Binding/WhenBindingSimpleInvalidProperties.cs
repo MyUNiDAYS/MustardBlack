@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -36,11 +36,11 @@ namespace MustardBlack.Tests.Handlers.Binding
 			this.target = bindingResult.Object as InnerClass;
 		}
 
-		[Test]
+		[Then]
 		public void AllPropertiesShouldHaveDefaultValues()
 		{
-			this.target.boolus.Should().Be(false);
-			this.target.dateus.Should().Be(DateTime.MinValue);
+			this.target.boolus.ShouldEqual(false);
+			this.target.dateus.ShouldEqual(DateTime.MinValue);
 		}
 	}
 }

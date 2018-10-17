@@ -1,8 +1,6 @@
-using FluentAssertions;
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.primitives
 {
@@ -33,14 +31,14 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.primitives
 			this.target = (TestClass)bindingResult.Object;
 		}
 
-		[Test]
+		[Then]
 		public void TheValueShouldBeEmpty()
 		{
-			this.target.Integer.Should().Be(0);
-			this.target.Decimal.Should().Be(0);
-			this.target.Double.Should().Be(0);
-			this.target.Char.Should().Be('\0');
-			this.target.Byte.Should().Be(0);
+			this.target.Integer.ShouldEqual(0);
+			this.target.Decimal.ShouldEqual(0);
+			this.target.Double.ShouldEqual(0);
+			this.target.Char.ShouldEqual('\0');
+			this.target.Byte.ShouldEqual((byte)0);
 		}
 
 		sealed class TestClass

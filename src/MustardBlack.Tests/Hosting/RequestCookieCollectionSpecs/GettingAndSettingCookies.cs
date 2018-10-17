@@ -1,9 +1,9 @@
-﻿using FluentAssertions;
+﻿
 using MustardBlack.Hosting;
 
 namespace MustardBlack.Tests.Hosting.RequestCookieCollectionSpecs
 {
-	sealed class GettingAndSettingCookies : Specification
+	public sealed class GettingAndSettingCookies : Specification
 	{
 		RequestCookieCollection subject;
 
@@ -28,25 +28,25 @@ namespace MustardBlack.Tests.Hosting.RequestCookieCollectionSpecs
 		[Then]
 		public void ParsedReplacentShouldContainNewValue()
 		{
-			this.subject.Get("name").Value.Should().Be("new value");
+			this.subject.Get("name").Value.ShouldEqual("new value");
 		}
 	
 		[Then]
 		public void DoubleAdditionShouldContainLatestValue()
 		{
-			this.subject.Get("name2").Value.Should().Be("new value 3");
+			this.subject.Get("name2").Value.ShouldEqual("new value 3");
 		}
 
 		[Then]
 		public void NewAdditionShouldContainNewValue()
 		{
-			this.subject.Get("name3").Value.Should().Be("new value 3");
+			this.subject.Get("name3").Value.ShouldEqual("new value 3");
 		}
 
 		[Then]
 		public void NonExistantShouldReturnNull()
 		{
-			this.subject.Get("i-dont-exist").Should().BeNull();
+			this.subject.Get("i-dont-exist").ShouldBeNull();
 		}
 	}
 }

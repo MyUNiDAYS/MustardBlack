@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
@@ -47,13 +47,13 @@ namespace MustardBlack.Tests.Handlers.Binding
 		[Then]
 		public void the_modes_should_be_bound_properly()
 		{
-			(this.bindingResult.Object as TestClass).Modes.Should().Be(Modes.One | Modes.Two | Modes.Four);
+			(this.bindingResult.Object as TestClass).Modes.ShouldEqual(Modes.One | Modes.Two | Modes.Four);
 		}
 
 		[Then]
 		public void report_should_be_valid()
 		{
-			this.bindingResult.Result.Should().Be(BindingResult.ResultType.Success);
+			this.bindingResult.Result.ShouldEqual(BindingResult.ResultType.Success);
 		}
 	}
 }

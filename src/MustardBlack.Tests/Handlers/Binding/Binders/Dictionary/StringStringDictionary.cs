@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Dictionary
 {
@@ -37,14 +37,14 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Dictionary
 			this.target = bindingResult.Object as TestResource;
 		}
 
-		[Test]
+		[Then]
 		public void BindsCorrectly()
 		{
-			this.target.dict.Should().NotBeNull();
-			this.target.dict.Count.Should().Be(3);
-			this.target.dict["keyA"].Should().Be("valueA");
-			this.target.dict["keyB"].Should().Be("valueB");
-			this.target.dict["keyC"].Should().Be("valueC");
+			this.target.dict.ShouldNotBeNull();
+			this.target.dict.Count.ShouldEqual(3);
+			this.target.dict["keyA"].ShouldEqual("valueA");
+			this.target.dict["keyB"].ShouldEqual("valueB");
+			this.target.dict["keyC"].ShouldEqual("valueC");
 		}
 
 		class TestResource

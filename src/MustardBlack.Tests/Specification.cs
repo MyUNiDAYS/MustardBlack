@@ -1,16 +1,13 @@
 using System;
-using NUnit.Framework;
 
 namespace MustardBlack.Tests
 {
-	[TestFixture]
-	public abstract class Specification
+	public abstract class Specification : IDisposable
 	{
 		Type expectedExceptionType;
 		Exception thrownException;
 
-		[TestFixtureSetUp]
-		public void SetUp()
+		protected Specification()
 		{
             this.Given();
 
@@ -40,8 +37,7 @@ namespace MustardBlack.Tests
 		protected virtual void Given() { }
 		protected abstract void When();
 
-		[TestFixtureTearDown]
-		public virtual void TidyUp()
+		public virtual void Dispose()
 		{
 		}
 	}

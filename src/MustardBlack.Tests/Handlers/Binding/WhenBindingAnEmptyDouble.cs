@@ -1,9 +1,9 @@
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -35,10 +35,10 @@ namespace MustardBlack.Tests.Handlers.Binding
             this.target = (double)bindingResult.Object;
         }
 
-        [Test]
+        [Then]
         public void TheIntShouldBeSetToItsDefaultValue()
         {
-	        this.target.Should().Be(default(double));
+	        this.target.ShouldEqual(default(double));
         }
     }
 }

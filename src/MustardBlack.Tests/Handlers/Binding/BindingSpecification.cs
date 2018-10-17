@@ -21,7 +21,7 @@ namespace MustardBlack.Tests.Handlers.Binding
 			this.Request.Form.Returns(new HeaderCollection());
 		}
 
-		public override void TidyUp()
+		public override void Dispose()
 		{
 			this.container.Reset();
 		}

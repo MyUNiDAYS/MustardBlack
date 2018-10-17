@@ -1,5 +1,5 @@
 using System;
-using FluentAssertions;
+
 
 namespace MustardBlack.Tests.UrlSpecs
 {
@@ -15,7 +15,7 @@ namespace MustardBlack.Tests.UrlSpecs
         [Then]
         public void ShoudlToStringProperly()
         {
-	        this.uri.ToString().Should().Be("/some/relative/path/");
+	        this.uri.ToString().ShouldEqual("/some/relative/path/");
         }
     }
 }

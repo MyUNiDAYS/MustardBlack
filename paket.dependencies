@@ -5,12 +5,11 @@ nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
 nuget MuonLab.Validation ~> 1.0
-nuget NUnit 2.6.4
+nuget xunit
 nuget YUICompressor.NET ~> 3.0
 nuget dotless 1.5.1
 nuget Newtonsoft.Json ~> 11.0
 nuget NSubstitute ~> 3.0
-nuget FluentAssertions
 nuget Microsoft.AspNetCore.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Razor.Language ~> 2.0
 nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.0

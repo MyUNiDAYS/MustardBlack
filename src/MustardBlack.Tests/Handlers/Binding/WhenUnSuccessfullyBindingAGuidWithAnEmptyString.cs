@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Specialized;
-using FluentAssertions;
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -36,16 +34,16 @@ namespace MustardBlack.Tests.Handlers.Binding
 	        this.target = this.bindingResult.Object;
 	    }
 
-	    [Test]
+	    [Then]
 	    public void TheGuidShouldBeCorrectlyBoundToAnEmptyGuid()
 	    {
-		    this.target.Should().BeOfType<Guid>().Subject.Should().Be(Guid.Empty);
+			this.target.ShouldEqual(Guid.Empty);
 	    }
 
-        [Test]
+        [Then]
         public void AFormatExceptionShouldNotBeInTheModelErrors()
         {
-	        this.bindingResult.BindingErrors.Should().BeEmpty();
+	        this.bindingResult.BindingErrors.ShouldBeEmpty();
         }
 	}
 }

@@ -1,4 +1,4 @@
-using FluentAssertions;
+
 
 namespace MustardBlack.Tests.UrlSpecs
 {
@@ -14,8 +14,8 @@ namespace MustardBlack.Tests.UrlSpecs
         [Then]
         public void ShoudlNotBeRemoved()
         {
-	        this.uri.Path.Should().Be("/some/relative/path/");
-	        this.uri.ToString().Should().Be("http://www.foo.com/some/relative/path/");
+	        this.uri.Path.ShouldEqual("/some/relative/path/");
+	        this.uri.ToString().ShouldEqual("http://www.foo.com/some/relative/path/");
         }
     }
 }

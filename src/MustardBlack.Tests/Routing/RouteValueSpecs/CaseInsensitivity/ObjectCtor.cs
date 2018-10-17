@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿
 using MustardBlack.Routing;
 
 namespace MustardBlack.Tests.Routing.RouteValueSpecs.CaseInsensitivity
@@ -19,7 +19,7 @@ namespace MustardBlack.Tests.Routing.RouteValueSpecs.CaseInsensitivity
 		[Then]
 		public void ShouldContainKeyCaseInsensitively()
 		{
-			this.subject.ContainsKey("foo").Should().BeTrue();
+			this.subject.ContainsKey("foo").ShouldBeTrue();
 		}
 	}
 }

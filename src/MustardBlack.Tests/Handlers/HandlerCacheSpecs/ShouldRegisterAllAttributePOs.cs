@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
+
 using MustardBlack.Handlers;
 using MustardBlack.Pipeline;
 using MustardBlack.Results;
@@ -70,8 +70,8 @@ namespace MustardBlack.Tests.Handlers.HandlerCacheSpecs
 		{
 			var handlerAction = this.handlerCache.GetHandlerAction(typeof(TestHandler), HttpMethod.Get);
 
-			handlerAction.Operators.Any(op => op.OperatorType == typeof(IAttributePipelineOperator<BaseAttribute>)).Should().BeTrue();
-			handlerAction.Operators.Any(op => op.OperatorType == typeof(IAttributePipelineOperator<DerivedAttribute>)).Should().BeTrue();
+			handlerAction.Operators.Any(op => op.OperatorType == typeof(IAttributePipelineOperator<BaseAttribute>)).ShouldBeTrue();
+			handlerAction.Operators.Any(op => op.OperatorType == typeof(IAttributePipelineOperator<DerivedAttribute>)).ShouldBeTrue();
 		}
 	}
 }

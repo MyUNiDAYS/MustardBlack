@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
-using FluentAssertions;
+
 using MustardBlack.Hosting.AspNet;
 
 namespace MustardBlack.Tests.Compression.Gzip
@@ -37,7 +37,7 @@ namespace MustardBlack.Tests.Compression.Gzip
 				bs.CopyTo(msOutput);
 				msOutput.Seek(0, SeekOrigin.Begin);
 				var output = msOutput.ToArray();
-				Encoding.UTF8.GetString(output).Should().Be("onetwothree");
+				Encoding.UTF8.GetString(output).ShouldEqual("onetwothree");
 			}
 		}
 	}

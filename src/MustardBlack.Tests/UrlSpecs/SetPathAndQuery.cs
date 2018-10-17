@@ -1,4 +1,4 @@
-using FluentAssertions;
+
 
 namespace MustardBlack.Tests.UrlSpecs
 {
@@ -19,13 +19,13 @@ namespace MustardBlack.Tests.UrlSpecs
         [Then]
         public void ShouldToStringProperly()
         {
-	        this.uri.ToString().Should().Be("http://www.foo.com/foo?new=query");
+	        this.uri.ToString().ShouldEqual("http://www.foo.com/foo?new=query");
         }
 
     	[Then]
     	public void ShouldParseQstringProperly()
 	    {
-		    this.uri.QueryCollection["new"].Should().Be("query");
+		    this.uri.QueryCollection["new"].ShouldEqual("query");
 	    }
     }
 }

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -40,15 +40,15 @@ namespace MustardBlack.Tests.Handlers.Binding
 			this.target = bindingResult.Object as InnerClass;
 		}
 
-		[Test]
+		[Then]
 		public void all_properties_should_be_correctly_bound()
 		{
-			this.target.boolus.Should().Be(true);
-			this.target.guidus.Should().Be(new Guid("24F216A2-C331-4374-B4B7-2FF497E41DA5"));
-			this.target.stringus.Should().Be("stringy");
-			this.target.dateus.Should().Be(new DateTime(2001, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-			this.target.intus.Should().Be(20);
-			this.target.doublus.Should().Be(50.5);
+			this.target.boolus.ShouldEqual(true);
+			this.target.guidus.ShouldEqual(new Guid("24F216A2-C331-4374-B4B7-2FF497E41DA5"));
+			this.target.stringus.ShouldEqual("stringy");
+			this.target.dateus.ShouldEqual(new DateTime(2001, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+			this.target.intus.ShouldEqual(20);
+			this.target.doublus.ShouldEqual(50.5);
 		}
 	}
 }

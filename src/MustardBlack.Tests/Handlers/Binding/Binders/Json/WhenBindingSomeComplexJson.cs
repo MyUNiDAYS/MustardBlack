@@ -1,10 +1,10 @@
 using System.IO;
 using System.Text;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Json
 {
@@ -50,26 +50,26 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Json
 			this.target = (Json)bindingResult.Object;
 		}
 
-		[Test]
+		[Then]
 		public void ItShouldBind()
 		{
-			this.target.Array.Should().NotBeNull();
-			this.target.Array.Length.Should().Be(2);
+			this.target.Array.ShouldNotBeNull();
+			this.target.Array.Length.ShouldEqual(2);
 
-			this.target.Array[0].Null.Should().BeNull();
-			this.target.Array[0].Strings.Length.Should().Be(2);
-			this.target.Array[0].Strings[0].Should().Be("foo1");
-			this.target.Array[0].Strings[1].Should().Be("foo2");
+			this.target.Array[0].Null.ShouldBeNull();
+			this.target.Array[0].Strings.Length.ShouldEqual(2);
+			this.target.Array[0].Strings[0].ShouldEqual("foo1");
+			this.target.Array[0].Strings[1].ShouldEqual("foo2");
 
-			this.target.Array[1].Null.Should().BeNull();
-			this.target.Array[1].Strings.Length.Should().Be(2);
-			this.target.Array[1].Strings[0].Should().Be("foo3");
-			this.target.Array[1].Strings[1].Should().Be("foo4");
+			this.target.Array[1].Null.ShouldBeNull();
+			this.target.Array[1].Strings.Length.ShouldEqual(2);
+			this.target.Array[1].Strings[0].ShouldEqual("foo3");
+			this.target.Array[1].Strings[1].ShouldEqual("foo4");
 
-			this.target.Single.Should().NotBeNull();
-			this.target.Single.Null.Should().BeNull();
-			this.target.Single.Strings.Length.Should().Be(1);
-			this.target.Single.Strings[0].Should().Be("foo5");
+			this.target.Single.ShouldNotBeNull();
+			this.target.Single.Null.ShouldBeNull();
+			this.target.Single.Strings.Length.ShouldEqual(1);
+			this.target.Single.Strings[0].ShouldEqual("foo5");
 		}
 
 		class Json

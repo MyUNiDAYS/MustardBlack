@@ -1,10 +1,10 @@
 using System.Collections.Specialized;
 using System.Linq;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -38,15 +38,15 @@ namespace MustardBlack.Tests.Handlers.Binding
 			this.target = bindingResult.Object as OuterClass;
 		}
 
-		[Test]
+		[Then]
 		public void all_properties_should_be_correctly_bound()
 		{
 			var middles = this.target.Middles.ToArray();
 
-			middles[0].Something.Should().Be("zero");
-			middles[2].Something.Should().Be("two");
-			middles[3].Something.Should().Be("three");
-			middles[4].Something.Should().Be("four");
+			middles[0].Something.ShouldEqual("zero");
+			middles[2].Something.ShouldEqual("two");
+			middles[3].Something.ShouldEqual("three");
+			middles[4].Something.ShouldEqual("four");
 		}
 	}
 }

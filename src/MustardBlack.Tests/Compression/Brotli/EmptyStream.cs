@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using FluentAssertions;
 using MustardBlack.Hosting.AspNet;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Compression.Brotli
 {
@@ -15,7 +14,7 @@ namespace MustardBlack.Tests.Compression.Brotli
 			this.memoryStream = new MemoryStream();
 			this.brotliStream = new BrotliStreamWrapper(this.memoryStream, () =>
 			{
-				Assert.Fail("Should not execute");
+				Assert.False(true, "Should not execute");
 			}, true);
 		}
 
@@ -27,7 +26,7 @@ namespace MustardBlack.Tests.Compression.Brotli
 		[Then]
 		public void MemoryStreamShouldBeEmpty()
 		{
-			this.memoryStream.Length.Should().Be(0);
+			this.memoryStream.Length.ShouldEqual(0);
 		}
 	}
 }

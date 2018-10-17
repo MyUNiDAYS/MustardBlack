@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -35,14 +35,14 @@ namespace MustardBlack.Tests.Handlers.Binding
 	        this.target = bindingResult.Object;
 	    }
 
-	    [Test]
+	    [Then]
 	    public void TheGuidShouldBeCorrectlyBound()
 	    {
 	        bool equality = (this.target.GetType() == (typeof (Guid)));
-		    equality.Should().BeTrue();
+		    equality.ShouldBeTrue();
 
 		    var equalityGuid = new Guid("0BAC2C27-B3A3-4BAD-94A4-9807808EA37C");
-		    equalityGuid.Should().Be((Guid)this.target);
+		    equalityGuid.ShouldEqual((Guid)this.target);
 	    }
 	}
 }

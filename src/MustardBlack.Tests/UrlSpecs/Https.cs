@@ -1,4 +1,4 @@
-using FluentAssertions;
+
 
 namespace MustardBlack.Tests.UrlSpecs
 {
@@ -14,7 +14,7 @@ namespace MustardBlack.Tests.UrlSpecs
         [Then]
         public void ShoudlBeRemoved()
         {
-	        this.uri.ToString().Should().Be("https://www.foo.com/");
+	        this.uri.ToString().ShouldEqual("https://www.foo.com/");
         }
     }
 }

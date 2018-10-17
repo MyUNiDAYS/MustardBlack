@@ -1,4 +1,4 @@
-using FluentAssertions;
+
 
 namespace MustardBlack.Tests.UrlSpecs
 {
@@ -19,26 +19,26 @@ namespace MustardBlack.Tests.UrlSpecs
 		[Then]
 		public void the_path_should_be_correct()
 		{
-			this.url.Path.Should().Be("/foo");
+			this.url.Path.ShouldEqual("/foo");
 		}
 
 		[Then]
 		public void the_path_and_query_should_be_correct()
 		{
-			this.url.PathAndQuery.Should().Be("/foo");
+			this.url.PathAndQuery.ShouldEqual("/foo");
 		}
 
 		[Then]
 		public void the_querystring_should_be_correct()
 		{
-			this.url.QueryString.Should().Be(string.Empty);
+			this.url.QueryString.ShouldEqual(string.Empty);
 		}
 
 
 		[Then]
 		public void tostring_should_return_the_full_url()
 		{
-			this.url.ToString().Should().Be("http://www.foo.com/foo");
+			this.url.ToString().ShouldEqual("http://www.foo.com/foo");
 		}
 	}
 }

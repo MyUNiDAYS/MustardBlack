@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -44,13 +44,13 @@ namespace MustardBlack.Tests.Handlers.Binding
 			this.target = bindingResult.Object as TestClass;
 		}
 
-		[Test]
+		[Then]
 		public void TheResultsShouldBeBoundCorrectly()
 		{
-			this.target.Table.ToList()[0].ToList()[0].Should().Be(1);
-			this.target.Table.ToList()[0].ToList()[1].Should().Be(2);
-			this.target.Table.ToList()[2].ToList()[0].Should().Be(1);
-			this.target.Table.ToList()[2].ToList()[1].Should().Be(4);
+			this.target.Table.ToList()[0].ToList()[0].ShouldEqual(1);
+			this.target.Table.ToList()[0].ToList()[1].ShouldEqual(2);
+			this.target.Table.ToList()[2].ToList()[0].ShouldEqual(1);
+			this.target.Table.ToList()[2].ToList()[1].ShouldEqual(4);
 		}
 
 		public class TestClass

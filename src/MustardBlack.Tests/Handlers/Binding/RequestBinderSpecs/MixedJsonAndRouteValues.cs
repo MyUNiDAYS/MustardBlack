@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using FluentAssertions;
+
 using MuonLab.Validation;
 using MustardBlack.Handlers;
 using MustardBlack.Handlers.Binding;
@@ -49,10 +49,10 @@ namespace MustardBlack.Tests.Handlers.Binding.RequestBinderSpecs
 		public void ShouldBindProperly()
 		{
 			var testResource = parameters[0] as TestResource;
-			testResource.Text.Should().Be("some text");
-			testResource.Number.Should().Be(3);
+			testResource.Text.ShouldEqual("some text");
+			testResource.Number.ShouldEqual(3);
 
-			parameters[1].Should().Be(Guid.Parse("3A814A58-C5B2-408D-BDA8-B80DDC725735"));
+			parameters[1].ShouldEqual(Guid.Parse("3A814A58-C5B2-408D-BDA8-B80DDC725735"));
 		}
 
 		sealed class TestHandler : Handler

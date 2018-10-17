@@ -1,9 +1,9 @@
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Bools
 {
@@ -35,10 +35,10 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Bools
             this.target = (bool?)bindingResult.Object;
         }
 
-        [Test]
+        [Then]
         public void TheValueShouldBeNull()
         {
-            this.target.Should().BeTrue();
+            this.target.ShouldBeTrue();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -34,10 +34,10 @@ namespace MustardBlack.Tests.Handlers.Binding
             this.target = (NullableNoValueEnumTestViewModel)bindingResult.Object;
         }
 
-        [Test]
+        [Then]
         public void TheEnumOnTheClassShouldBeNull()
         {
-	        this.target.Test.HasValue.Should().BeFalse();
+	        this.target.Test.HasValue.ShouldBeFalse();
         }
 
         internal sealed class NullableNoValueEnumTestViewModel

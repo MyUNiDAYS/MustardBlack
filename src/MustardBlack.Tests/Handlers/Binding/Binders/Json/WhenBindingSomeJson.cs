@@ -1,10 +1,10 @@
 using System.IO;
 using System.Text;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Json
 {
@@ -38,10 +38,10 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Json
 			this.target = (Json)bindingResult.Object;
 		}
 
-		[Test]
+		[Then]
 		public void ItShouldBind()
 		{
-			this.target.thing.Should().Be("foo");
+			this.target.thing.ShouldEqual("foo");
 		}
 
 		class Json

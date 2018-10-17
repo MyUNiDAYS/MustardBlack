@@ -1,9 +1,9 @@
 ﻿using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -34,10 +34,10 @@ namespace MustardBlack.Tests.Handlers.Binding
             this.target = (EnumTestViewModel)bindingResult.Object;
         }
 
-        [Test]
+        [Then]
         public void TheEnumOnTheClassShouldBeBound()
         {
-	        this.target.Test.Should().Be(EnumTestViewModel.TestingEnum.Test2);
+	        this.target.Test.ShouldEqual(EnumTestViewModel.TestingEnum.Test2);
         }
     }
 

@@ -1,4 +1,4 @@
-using FluentAssertions;
+
 
 namespace MustardBlack.Tests.UrlSpecs
 {
@@ -22,7 +22,7 @@ namespace MustardBlack.Tests.UrlSpecs
 		[Then]
 		public void the_resulting_url_should_have_the_correct_querystring()
 		{
-			this.url.ToString().Should().Be("http://www.foo.com/?b=x&c=y&d=z");
+			this.url.ToString().ShouldEqual("http://www.foo.com/?b=x&c=y&d=z");
 		}
 	}
 }

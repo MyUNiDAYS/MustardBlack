@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NanoIoC;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding
 {
@@ -45,22 +45,22 @@ namespace MustardBlack.Tests.Handlers.Binding
 		{
 			var bindingErrors = this.bindingResult.BindingErrors.ToArray();
 
-			bindingErrors[0].ParameterKey.Should().Be("Inner.dateus");
-			bindingErrors[0].ErrorKey.Should().Be("Invalid");
-			bindingErrors[0].AttemptedValue.Should().Be("i am not a date!");
+			bindingErrors[0].ParameterKey.ShouldEqual("Inner.dateus");
+			bindingErrors[0].ErrorKey.ShouldEqual("Invalid");
+			bindingErrors[0].AttemptedValue.ShouldEqual("i am not a date!");
 
 
-			bindingErrors[1].ParameterKey.Should().Be("Inner.intus");
-			bindingErrors[1].ErrorKey.Should().Be("Invalid");
-			bindingErrors[1].AttemptedValue.Should().Be("ha, do i look like an int?!");
+			bindingErrors[1].ParameterKey.ShouldEqual("Inner.intus");
+			bindingErrors[1].ErrorKey.ShouldEqual("Invalid");
+			bindingErrors[1].AttemptedValue.ShouldEqual("ha, do i look like an int?!");
 		}
 
-		[Test]
+		[Then]
 		public void AllPropertiesShouldHaveDefaultValues()
 		{
-			this.target.Inner.boolus.Should().Be(false);
-			this.target.Inner.dateus.Should().Be(DateTime.MinValue);
-			this.target.Inner.intus.Should().Be(0);
+			this.target.Inner.boolus.ShouldEqual(false);
+			this.target.Inner.dateus.ShouldEqual(DateTime.MinValue);
+			this.target.Inner.intus.ShouldEqual(0);
 		}
 	}
 }

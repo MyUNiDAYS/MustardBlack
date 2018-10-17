@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions;
+
 using MustardBlack.Applications;
 using MustardBlack.Authentication;
 using MustardBlack.Handlers;
@@ -40,9 +40,9 @@ namespace MustardBlack.Tests.Applications.ApplicationRouterSpecs
 		[Then]
 		public void TheFirstServingAppOnlyShouldServe()
 		{
-			this.pipelineContext.Items.ContainsKey("1").Should().BeFalse();
-			this.pipelineContext.Items.ContainsKey("2").Should().BeTrue();
-			this.pipelineContext.Items.ContainsKey("3").Should().BeFalse();
+			this.pipelineContext.Items.ContainsKey("1").ShouldBeFalse();
+			this.pipelineContext.Items.ContainsKey("2").ShouldBeTrue();
+			this.pipelineContext.Items.ContainsKey("3").ShouldBeFalse();
 		}
 
 		sealed class TestApplication : IApplication

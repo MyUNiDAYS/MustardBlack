@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using FluentAssertions;
+
 using MustardBlack.Handlers.Binding;
 using MustardBlack.Routing;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MustardBlack.Tests.Handlers.Binding.Binders.Dictionary
 {
@@ -40,17 +40,17 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders.Dictionary
 			this.target = bindingResult.Object as TestResource;
 		}
 
-		[Test]
+		[Then]
 		public void BindsCorrectly()
 		{
-			this.target.dict.Should().NotBeNull();
-			this.target.dict.Count.Should().Be(3);
-			this.target.dict["keyA"].Foo.Should().Be("fooA");
-			this.target.dict["keyA"].Bar.Should().Be("barA");
-			this.target.dict["keyB"].Foo.Should().Be("fooB");
-			this.target.dict["keyB"].Bar.Should().Be("barB");
-			this.target.dict["keyC"].Foo.Should().Be("fooC");
-			this.target.dict["keyC"].Bar.Should().Be("barC");
+			this.target.dict.ShouldNotBeNull();
+			this.target.dict.Count.ShouldEqual(3);
+			this.target.dict["keyA"].Foo.ShouldEqual("fooA");
+			this.target.dict["keyA"].Bar.ShouldEqual("barA");
+			this.target.dict["keyB"].Foo.ShouldEqual("fooB");
+			this.target.dict["keyB"].Bar.ShouldEqual("barB");
+			this.target.dict["keyC"].Foo.ShouldEqual("fooC");
+			this.target.dict["keyC"].Bar.ShouldEqual("barC");
 		}
 
 		class TestResource
