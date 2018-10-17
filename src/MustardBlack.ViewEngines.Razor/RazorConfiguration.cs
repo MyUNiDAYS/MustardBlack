@@ -18,14 +18,14 @@ namespace MustardBlack.ViewEngines.Razor
 
 		public RazorConfiguration(IFileSystem fileSystem)
 		{
+			this.namespaces = Enumerable.Empty<string>();
+			this.tagHelpers = Enumerable.Empty<Type>();
+
 			if (!fileSystem.Exists("~/web.config"))
 			{
 				this.namespaces = new string[0];
                 return;
 			}
-
-			this.namespaces = Enumerable.Empty<string>();
-			this.tagHelpers = Enumerable.Empty<Type>();
 
 			fileSystem.Read("~/web.config", reader =>
 			{
