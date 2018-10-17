@@ -8,7 +8,7 @@ using MustardBlack.Hosting;
 
 namespace MustardBlack.ViewEngines.Razor
 {
-	public sealed class RazorConfiguration : IRazorConfiguration
+	public class RazorConfiguration : IRazorConfiguration
 	{
 		IEnumerable<string> namespaces;
 		IEnumerable<Type> tagHelpers;
