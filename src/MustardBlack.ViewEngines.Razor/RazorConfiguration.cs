@@ -14,7 +14,7 @@ namespace MustardBlack.ViewEngines.Razor
 		IEnumerable<Type> tagHelpers;
 		public string OutPath => Path.GetTempPath();
 
-		public ICompilerSettings CompilerSettings { get; }
+		public ICompilerSettings CompilerSettings { get; protected set;  }
 
 		public RazorConfiguration(IFileSystem fileSystem)
 		{
