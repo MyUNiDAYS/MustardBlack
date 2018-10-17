@@ -142,6 +142,7 @@
     <Compile Include="Specification.cs" />
     <Compile Include="ThenAttribute.cs" />
     <Compile Include="UrlSpecs\AbsoluteString.cs" />
+    <Compile Include="UrlSpecs\EncodingCasing.cs" />
     <Compile Include="UrlSpecs\Equality.cs" />
     <Compile Include="UrlSpecs\FromUri.cs" />
     <Compile Include="UrlSpecs\FromUrl.cs" />

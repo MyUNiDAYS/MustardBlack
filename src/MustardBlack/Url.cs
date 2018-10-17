@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MustardBlack
 {
@@ -11,6 +12,8 @@ namespace MustardBlack
 	/// </summary>
 	public class Url
 	{
+		static Regex encodingRegex = new Regex("(%[A-F0-9]{2})", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+
 		static Uri baseUri = new Uri("https://base");
 
 		public bool IsAbsolute { get; set; }
@@ -48,12 +51,12 @@ namespace MustardBlack
 
 					if (!string.IsNullOrEmpty(key))
 					{
-						builder.Append(WebUtility.UrlEncode(key));
+						builder.Append(UrlEncode(key));
 						builder.Append('=');
 					}
 
 					if(this.QueryCollection[key] != null)
-						builder.Append(WebUtility.UrlEncode(this.QueryCollection[key]));
+						builder.Append(UrlEncode(this.QueryCollection[key]));
 				}
 
 				if (builder.Length == 1)
@@ -328,6 +331,13 @@ namespace MustardBlack
 		public override int GetHashCode()
 		{
 			return this.ToString().GetHashCode();
+		}
+
+		public static string UrlEncode(string input)
+		{
+			var encoded = WebUtility.UrlEncode(input);
+			// Turn url encoding into lower case for backwards compatability with .NET Framework
+			return encodingRegex.Replace(encoded, m => m.Value.ToLower());
 		}
 	}
 }
