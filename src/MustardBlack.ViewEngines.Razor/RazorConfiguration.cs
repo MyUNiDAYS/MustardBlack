@@ -29,8 +29,11 @@ namespace MustardBlack.ViewEngines.Razor
 				var doc = new XmlDocument();
 				doc.Load(reader);
 				// Like this because if you load using ConfigurationManager, you need to reference 1000 MS assemblies.
-				this.namespaces = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/namespaces/add").Cast<XmlNode>().Select(e => e.Attributes["namespace"].Value).ToArray();
-				this.tagHelpers = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/taghelpers/add").Cast<XmlNode>().Select(e => Type.GetType(e.Attributes["type"].Value)).Where(t => t != null).ToArray();
+				var namespaceNodes = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/namespaces/add");
+				this.namespaces = namespaceNodes?.Cast<XmlNode>().Select(e => e.Attributes["namespace"].Value).ToArray() ?? Enumerable.Empty<string>();
+
+				var tagHelperNodes = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/taghelpers/add");
+				this.tagHelpers = tagHelperNodes?.Cast<XmlNode>().Select(e => Type.GetType(e.Attributes["type"].Value)).Where(t => t != null).ToArray() ?? Enumerable.Empty<Type>();
 				return true;
 			});
 
