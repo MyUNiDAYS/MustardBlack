@@ -21,7 +21,7 @@ namespace MustardBlack.ViewEngines.Razor
 @using System.Threading.Tasks
 @using MustardBlack.ViewEngines
 @using Microsoft.CSharp.RuntimeBinder
-" + string.Join("\n", defaultNamespaces.Select(n => "@using " + n + ";")) + @"
+" + string.Join("\n", defaultNamespaces.Select(n => "@using " + n)) + @"
 " + string.Join("\n", defaultTagHelpers.Select(t => "@addTagHelper " + t.Namespace + "." + t.Name + ", " + t.Assembly.GetName().Name));
 			var contentBytes = Encoding.UTF8.GetBytes(content);
 
