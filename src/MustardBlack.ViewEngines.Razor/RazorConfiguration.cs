@@ -22,10 +22,7 @@ namespace MustardBlack.ViewEngines.Razor
 			this.tagHelpers = Enumerable.Empty<Type>();
 
 			if (!fileSystem.Exists("~/web.config"))
-			{
-				this.namespaces = new string[0];
-                return;
-			}
+				return;
 
 			fileSystem.Read("~/web.config", reader =>
 			{

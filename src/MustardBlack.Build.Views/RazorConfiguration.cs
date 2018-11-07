@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.ViewEngines.Razor;
@@ -32,7 +33,17 @@ namespace MustardBlack.Build.Views
 				var xmlNodeList = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/namespaces/add").Cast<XmlNode>();
 				this.namespaces = xmlNodeList.Select(e => e.Attributes["namespace"].Value).ToArray();
 
-				this.tagHelpers = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/taghelpers/add").Cast<XmlNode>().Select(e => Type.GetType(e.Attributes["type"].Value)).Where(t => t != null).ToArray();
+				xmlNodeList = doc.DocumentElement.SelectNodes("system.web.webPages.razor/pages/taghelpers/add").Cast<XmlNode>();
+				this.tagHelpers = xmlNodeList.Select(e =>
+					{
+						var typeName = e.Attributes["type"].Value;
+
+						return Type.GetType(typeName, assemblyName =>
+						{
+							return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == assemblyName.FullName);
+						}, null, true);
+					})
+					.Where(t => t != null).ToArray();
 			}
 
 			this.CompilerSettings = new CompilerSettings(@"roslyn\csc.exe");
