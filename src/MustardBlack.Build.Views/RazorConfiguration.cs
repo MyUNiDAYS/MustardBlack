@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.ViewEngines.Razor;
