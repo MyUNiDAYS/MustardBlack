@@ -11,19 +11,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\paket.lock = ..\paket.lock
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack", "MustardBlack\MustardBlack.csproj", "{823CDC0B-1F01-4E42-AB08-785FEF3FA4DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack", "MustardBlack\MustardBlack.csproj", "{823CDC0B-1F01-4E42-AB08-785FEF3FA4DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Tests", "MustardBlack.Tests\MustardBlack.Tests.csproj", "{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.Tests", "MustardBlack.Tests\MustardBlack.Tests.csproj", "{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.ViewEngines.Razor", "MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj", "{5DF08811-CA1F-4167-B837-77DDDDE98C62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.ViewEngines.Razor", "MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj", "{5DF08811-CA1F-4167-B837-77DDDDE98C62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Hosting.AspNet", "MustardBlack.Hosting.AspNet\MustardBlack.Hosting.AspNet.csproj", "{D4264C23-358F-4071-A7EE-5FE8C9345F26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Build.Assets", "MustardBlack.Build.Assets\MustardBlack.Build.Assets.csproj", "{CF07695A-F657-4075-8282-2A1604C9A674}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.Build.Assets", "MustardBlack.Build.Assets\MustardBlack.Build.Assets.csproj", "{CF07695A-F657-4075-8282-2A1604C9A674}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Build.Views", "MustardBlack.Build.Views\MustardBlack.Build.Views.csproj", "{CDB0E2B5-6C24-4420-9F2E-1B6E7F1C8423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.Build.Views", "MustardBlack.Build.Views\MustardBlack.Build.Views.csproj", "{CDB0E2B5-6C24-4420-9F2E-1B6E7F1C8423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Example", "MustardBlack.Example\MustardBlack.Example.csproj", "{7CE77C04-4C53-4C66-8163-34FFCC72F716}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Example.AspNet", "MustardBlack.Example\MustardBlack.Example.AspNet.csproj", "{7CE77C04-4C53-4C66-8163-34FFCC72F716}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Tests.Hosting.AspNet", "MustardBlack.Tests.Hosting.AspNet\MustardBlack.Tests.Hosting.AspNet.csproj", "{C9171220-78B6-49C2-AFEC-ADE866937307}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +76,12 @@ Global
 		{7CE77C04-4C53-4C66-8163-34FFCC72F716}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CE77C04-4C53-4C66-8163-34FFCC72F716}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{7CE77C04-4C53-4C66-8163-34FFCC72F716}.Test|Any CPU.Build.0 = Test|Any CPU
+		{C9171220-78B6-49C2-AFEC-ADE866937307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9171220-78B6-49C2-AFEC-ADE866937307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9171220-78B6-49C2-AFEC-ADE866937307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9171220-78B6-49C2-AFEC-ADE866937307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9171220-78B6-49C2-AFEC-ADE866937307}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{C9171220-78B6-49C2-AFEC-ADE866937307}.Test|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

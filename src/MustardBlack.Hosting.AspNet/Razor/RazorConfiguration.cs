@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Web;
 using System.Xml;
 using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
-using MustardBlack.Hosting;
+using MustardBlack.ViewEngines.Razor;
 
-namespace MustardBlack.ViewEngines.Razor
+namespace MustardBlack.Hosting.AspNet.Razor
 {
 	public class RazorConfiguration : IRazorConfiguration
 	{
@@ -51,6 +53,33 @@ namespace MustardBlack.ViewEngines.Razor
 		public IEnumerable<Type> GetDefaultTagHelpers()
 		{
 			return this.tagHelpers;
+		}
+
+		public Assembly GetApplicationAssembly()
+		{
+			// Try the EntryAssembly, this doesn't work for ASP.NET apps
+			var ass = Assembly.GetEntryAssembly();
+
+			// Look for web application assembly
+			var ctx = HttpContext.Current;
+			if (ctx != null)
+				ass = GetWebApplicationAssembly(ctx);
+
+			// Fallback to executing assembly
+			return ass ?? Assembly.GetExecutingAssembly();
+		}
+		
+		static Assembly GetWebApplicationAssembly(HttpContext context)
+		{
+			object app = context.ApplicationInstance;
+			if (app == null) return null;
+
+			var type = app.GetType();
+			// TODO: suspect "ASP" is no longer real/correct
+			while (type != null && type != typeof(object) && type.Namespace == "ASP")
+				type = type.BaseType;
+
+			return type.Assembly;
 		}
 	}
 }

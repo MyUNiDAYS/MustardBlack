@@ -53,7 +53,7 @@ namespace MustardBlack.ViewEngines.Razor
 		void GetReferenceAssemblies()
 		{
 			var assemblies = new List<string>();
-			var appAssembly = GetApplicationAssembly();
+			var appAssembly = this.razorConfiguration.GetApplicationAssembly();
 			assemblies.AddRange(this.defaultAssemblies);
 			assemblies.Add(GetAssemblyPath(appAssembly)); // current app
 			assemblies.AddRange(appAssembly.GetReferencedAssemblies().Select(GetAssemblyPath)); // assemblies referenced by current app
@@ -98,32 +98,6 @@ namespace MustardBlack.ViewEngines.Razor
 			return GetAssemblyPath(Assembly.Load(assembly));
 		}
 
-		static Assembly GetApplicationAssembly()
-		{
-			// Try the EntryAssembly, this doesn't work for ASP.NET apps
-			var ass = Assembly.GetEntryAssembly();
-
-			// Look for web application assembly
-			var ctx = HttpContext.Current;
-			if (ctx != null)
-				ass = GetWebApplicationAssembly(ctx);
-
-			// Fallback to executing assembly
-			return ass ?? (Assembly.GetExecutingAssembly());
-		}
-		
-		static Assembly GetWebApplicationAssembly(HttpContext context)
-		{
-			object app = context.ApplicationInstance;
-			if (app == null) return null;
-
-			var type = app.GetType();
-			// TODO: suspect "ASP" is no longer real/correct
-			while (type != null && type != typeof(object) && type.Namespace == "ASP")
-				type = type.BaseType;
-
-			return type.Assembly;
-		}
 
 		public Type CompileFile(RazorViewCompilationData view)
 		{

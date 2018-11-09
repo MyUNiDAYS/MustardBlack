@@ -157,10 +157,10 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2') Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
       <ItemGroup>
         <Reference Include="MuonLab.Validation">
-          <HintPath>..\..\packages\MuonLab.Validation\lib\net461\MuonLab.Validation.dll</HintPath>
+          <HintPath>..\..\packages\MuonLab.Validation\lib\netstandard2.0\MuonLab.Validation.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

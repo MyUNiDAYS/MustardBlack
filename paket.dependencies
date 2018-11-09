@@ -1,13 +1,13 @@
-framework: net472,netstandard2.0
+framework: netstandard2.0,net472
 source https://www.nuget.org/api/v2
 
 nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
-nuget MuonLab.Validation ~> 1.0
+nuget MuonLab.Validation ~> 2.0
 nuget xunit
 nuget YUICompressor.NET ~> 3.0
-nuget dotless 1.5.1
+nuget dotless ~> 1.0
 nuget Newtonsoft.Json ~> 11.0
 nuget NSubstitute ~> 3.0
 nuget Microsoft.AspNetCore.Razor ~> 2.0
