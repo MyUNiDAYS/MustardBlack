@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using MustardBlack;
 using MustardBlack.Results;
 using MustardBlack.ViewEngines.Razor.Internal;
+using NanoIoC;
 
 namespace MustardBlack.ViewEngines.Razor
 {
-	/// <summary>
-	/// TODO: This needs to be per-request, bceause if the dependecy on IVBS, however its currently a singleton because of the dependency chain through IVRF. Fix this
-	/// </summary>
 	public class RazorViewRenderer : ViewRendererBase
 	{
 		readonly IViewResolver viewResolver;
-		readonly IViewBufferScope bufferScope;
+		readonly IContainer container;
 
-		public RazorViewRenderer(IViewResolver viewResolver, IViewBufferScope viewBufferScope, HtmlEncoder htmlEncoder) : base(htmlEncoder)
+		public RazorViewRenderer(IViewResolver viewResolver, IContainer container, HtmlEncoder htmlEncoder) : base(htmlEncoder)
 		{
 			this.viewResolver = viewResolver;
-			this.bufferScope = viewBufferScope;
+			this.container = container;
 		}
 
 		public override bool CanRender(Type viewType)
@@ -32,25 +30,27 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			var razorPage = this.GetViewInstance(viewResult, viewRenderingContext);
 
-			var bodyWriter = await this.RenderPageAsync(razorPage, viewRenderingContext);
-			await this.RenderLayoutAsync(razorPage, viewResult, viewRenderingContext, bodyWriter);
+			var viewBufferScope = this.container.Resolve<IViewBufferScope>();
+
+			var bodyWriter = await this.RenderPageAsync(viewBufferScope, razorPage, viewRenderingContext);
+			await this.RenderLayoutAsync(viewBufferScope, razorPage, viewResult, viewRenderingContext, bodyWriter);
 		}
 
-		async Task<ViewBufferTextWriter> RenderPageAsync(IRazorPage page, ViewRenderingContext viewRenderingContext)
+		async Task<ViewBufferTextWriter> RenderPageAsync(IViewBufferScope bufferScope, IRazorPage page, ViewRenderingContext viewRenderingContext)
 		{
 			var writer = viewRenderingContext.Writer as ViewBufferTextWriter;
 			if (writer == null)
 			{
 				// If we get here, this is likely the top-level page (not a partial) - this means
 				// that context.Writer is wrapping the output stream. We need to buffer, so create a buffered writer.
-				var buffer = new ViewBuffer(this.bufferScope, page.GetType().AssemblyQualifiedName, ViewBuffer.ViewPageSize);
+				var buffer = new ViewBuffer(bufferScope, page.GetType().AssemblyQualifiedName, ViewBuffer.ViewPageSize);
 				writer = new ViewBufferTextWriter(buffer, viewRenderingContext.Writer.Encoding, this.htmlEncoder, viewRenderingContext.Writer);
 			}
 			else
 			{
 				// This means we're writing something like a partial, where the output needs to be buffered.
 				// Create a new buffer, but without the ability to flush.
-				var buffer = new ViewBuffer(this.bufferScope, page.GetType().AssemblyQualifiedName, ViewBuffer.ViewPageSize);
+				var buffer = new ViewBuffer(bufferScope, page.GetType().AssemblyQualifiedName, ViewBuffer.ViewPageSize);
 				writer = new ViewBufferTextWriter(buffer, viewRenderingContext.Writer.Encoding);
 			}
 
@@ -74,8 +74,8 @@ namespace MustardBlack.ViewEngines.Razor
 				//context.ExecutingFilePath = oldFilePath;
 			}
 		}
-		
-		async Task RenderLayoutAsync(IRazorPage previousPage, ViewResult viewResult, ViewRenderingContext viewRenderingContext, ViewBufferTextWriter bodyWriter)
+
+		async Task RenderLayoutAsync(IViewBufferScope bufferScope, IRazorPage previousPage, ViewResult viewResult, ViewRenderingContext viewRenderingContext, ViewBufferTextWriter bodyWriter)
 		{
 			// A layout page can specify another layout page. We'll need to continue
 			// looking for layout pages until they're no longer specified.
@@ -111,7 +111,7 @@ namespace MustardBlack.ViewEngines.Razor
 				previousPage.IsLayoutBeingRendered = true;
 				layoutPage.PreviousSectionWriters = previousPage.SectionWriters;
 				layoutPage.BodyContent = bodyWriter.Buffer;
-				bodyWriter = await RenderPageAsync(layoutPage, viewRenderingContext);
+				bodyWriter = await this.RenderPageAsync(bufferScope, layoutPage, viewRenderingContext);
 
 				renderedLayouts.Add(layoutPage);
 				previousPage = layoutPage;
@@ -133,7 +133,7 @@ namespace MustardBlack.ViewEngines.Razor
 				{
 					// This means we're writing to a 'real' writer, probably to the actual output stream.
 					// We're using PagedBufferedTextWriter here to 'smooth' synchronous writes of IHtmlContent values.
-					using (var writer = this.bufferScope.CreateWriter(viewRenderingContext.Writer))
+					using (var writer = bufferScope.CreateWriter(viewRenderingContext.Writer))
 						await bodyWriter.Buffer.WriteToAsync(writer, this.htmlEncoder);
 				}
 				else
@@ -157,7 +157,7 @@ namespace MustardBlack.ViewEngines.Razor
 			}
 
 			var layoutResult = new ViewResult(layoutType, viewResult.AreaName, viewResult.ViewData, viewResult.StatusCode);
-			return  this.GetViewInstance(layoutResult, viewRenderingContext);
+			return this.GetViewInstance(layoutResult, viewRenderingContext);
 		}
 
 		IRazorPage GetViewInstance(ViewResult viewResult, ViewRenderingContext context)

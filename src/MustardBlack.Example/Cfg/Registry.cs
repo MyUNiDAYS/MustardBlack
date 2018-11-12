@@ -29,7 +29,7 @@ namespace MustardBlack.Example.Cfg
 
 			container.Inject(ArrayPool<ViewBufferValue>.Shared);
 			container.Inject(ArrayPool<char>.Shared);
-			container.Register<IViewRenderer, RazorViewRenderer>(Lifecycle.Transient);
+			container.Register<IViewRenderer, RazorViewRenderer>();
 
 			container.Register<IViewBufferScope, MemoryPoolViewBufferScope>(Lifecycle.HttpContextOrExecutionContextLocal);
 		}
