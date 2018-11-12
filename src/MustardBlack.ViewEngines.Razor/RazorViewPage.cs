@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using System.Web;
+using System.Net;
 using MustardBlack.ViewEngines.Razor.Internal;
 
 namespace MustardBlack.ViewEngines.Razor
@@ -80,13 +80,10 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			if (value == null)
 				return null;
-
-			var htmlString = value as IHtmlString;
-			if (htmlString != null)
-				return htmlString.ToHtmlString();
-			
+						
 			var s = Convert.ToString(value, CultureInfo.CurrentUICulture);
-			return insideAttribute ? HttpUtility.HtmlAttributeEncode(s) : HttpUtility.HtmlEncode(s);
+			//return insideAttribute ? HttpUtility.HtmlAttributeEncode(s) : HttpUtility.HtmlEncode(s);
+			return WebUtility.HtmlEncode(s);
 		}
 	}
 }

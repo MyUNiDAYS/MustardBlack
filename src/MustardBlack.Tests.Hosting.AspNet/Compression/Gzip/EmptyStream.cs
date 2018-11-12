@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using MustardBlack.Hosting.AspNet;
-using Xunit;
 
-namespace MustardBlack.Tests.Compression.gzip
+namespace MustardBlack.Tests.Hosting.AspNet.Compression.Gzip
 {
 	public class EmptyStream : Specification
 	{

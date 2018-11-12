@@ -1,11 +1,9 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
-using Brotli;
-
 using MustardBlack.Hosting.AspNet;
 
-namespace MustardBlack.Tests.Compression.Brotli
+namespace MustardBlack.Tests.Hosting.AspNet.Compression.Brotli
 {
 	public class MultipleWriting : Specification
 	{
@@ -31,8 +29,8 @@ namespace MustardBlack.Tests.Compression.Brotli
 		[Then]
 		public void MemoryStreamShouldBeDecodable()
 		{
-			memoryStream.Position = 0;
-			using (var bs = new BrotliStream(memoryStream, CompressionMode.Decompress))
+			this.memoryStream.Position = 0;
+			using (var bs = new BrotliStream(this.memoryStream, CompressionMode.Decompress))
 			using (var msOutput = new MemoryStream())
 			{
 				bs.CopyTo(msOutput);

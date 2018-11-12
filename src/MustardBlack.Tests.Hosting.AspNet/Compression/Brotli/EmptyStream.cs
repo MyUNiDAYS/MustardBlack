@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using MustardBlack.Hosting.AspNet;
-using Xunit;
 
-namespace MustardBlack.Tests.Compression.Brotli
+namespace MustardBlack.Tests.Hosting.AspNet.Compression.Brotli
 {
 	public class EmptyStream : Specification
 	{

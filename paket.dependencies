@@ -1,29 +1,26 @@
 framework: netstandard2.0,net472
 source https://www.nuget.org/api/v2
 
+nuget NSubstitute
 nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
 nuget MuonLab.Validation ~> 2.0
 nuget xunit
 nuget YUICompressor.NET ~> 3.0
-nuget dotless ~> 1.0
+nuget dotless.core ~> 1.0
 nuget Newtonsoft.Json ~> 11.0
-nuget NSubstitute ~> 3.0
 nuget Microsoft.AspNetCore.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Razor.Language ~> 2.0
 nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.0
 nuget Microsoft.AspNetCore.Html.Abstractions ~> 2.0
+nuget Microsoft.AspNetCore.Hosting ~> 2.0
 nuget Microsoft.CodeAnalysis 2.8
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
-nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform ~> 2.0 import_targets: false
+nuget Microsoft.Extensions.DependencyModel
+nuget Microsoft.AspNetCore.Diagnostics
 nuget System.Reflection.Metadata ~> 1.0
 nuget Brotli.NET
 nuget DotNetZip ~> 1.0
 nuget System.Buffers
-
-group BuildTools
-source https://www.nuget.org/api/v2
-
-nuget NUnit.Runners.Net4 2.6.4

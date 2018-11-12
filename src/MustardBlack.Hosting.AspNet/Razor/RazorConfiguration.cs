@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Xml;
-using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.ViewEngines.Razor;
 
 namespace MustardBlack.Hosting.AspNet.Razor
@@ -15,9 +14,7 @@ namespace MustardBlack.Hosting.AspNet.Razor
 		IEnumerable<string> namespaces;
 		IEnumerable<Type> tagHelpers;
 		public string OutPath => Path.GetTempPath();
-
-		public ICompilerSettings CompilerSettings { get; protected set;  }
-
+		
 		public RazorConfiguration(IFileSystem fileSystem)
 		{
 			this.namespaces = Enumerable.Empty<string>();
@@ -38,8 +35,6 @@ namespace MustardBlack.Hosting.AspNet.Razor
 				this.tagHelpers = tagHelperNodes?.Cast<XmlNode>().Select(e => Type.GetType(e.Attributes["type"].Value)).Where(t => t != null).ToArray() ?? Enumerable.Empty<Type>();
 				return true;
 			});
-
-			this.CompilerSettings = new CompilerSettings(@"bin\roslyn\csc.exe");
 		}
 
 		/// <summary>

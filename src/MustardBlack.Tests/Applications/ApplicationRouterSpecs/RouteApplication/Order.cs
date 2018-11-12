@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using MustardBlack.Applications;
 using MustardBlack.Authentication;
 using MustardBlack.Handlers;
@@ -9,8 +8,9 @@ using MustardBlack.Hosting;
 using MustardBlack.Pipeline;
 using MustardBlack.Routing;
 using NSubstitute;
+using Xunit;
 
-namespace MustardBlack.Tests.Applications.ApplicationRouterSpecs
+namespace MustardBlack.Tests.Applications.ApplicationRouterSpecs.RouteApplication
 {
 	public class Order : Specification
 	{
@@ -27,14 +27,14 @@ namespace MustardBlack.Tests.Applications.ApplicationRouterSpecs
 				new TestApplication(3, true)
 			};
 
-			subject = new ApplicationRouter(this.applications);
+			this.subject = new ApplicationRouter(this.applications);
 
-			pipelineContext = new PipelineContext(Substitute.For<IRequest>(), Substitute.For<IResponse>());
+			this.pipelineContext = new PipelineContext(Substitute.For<IRequest>(), Substitute.For<IResponse>());
 		}
 
 		protected override void When()
 		{
-			subject.RouteApplication(pipelineContext).Wait();
+			this.subject.RouteApplication(this.pipelineContext).Wait();
 		}
 
 		[Then]

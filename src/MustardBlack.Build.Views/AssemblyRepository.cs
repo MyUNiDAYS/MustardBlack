@@ -45,9 +45,9 @@ namespace MustardBlack.Build.Views
 			string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 			LoadAssembliesFromPath(baseDirectory);
 
-			string privateBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
-			if (Directory.Exists(privateBinPath))
-				LoadAssembliesFromPath(privateBinPath);
+//			string privateBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
+//			if (Directory.Exists(privateBinPath))
+//				LoadAssembliesFromPath(privateBinPath);
 		}
 
 		public static void LoadAssembliesFromPath(string path)

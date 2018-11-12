@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 
 namespace MustardBlack.ViewEngines.Razor
 {
@@ -19,7 +18,6 @@ namespace MustardBlack.ViewEngines.Razor
 
 		IEnumerable<Type> GetDefaultTagHelpers();
 
-		ICompilerSettings CompilerSettings { get; }
 		Assembly GetApplicationAssembly();
 	}
 }

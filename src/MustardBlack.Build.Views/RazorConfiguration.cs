@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
-using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.ViewEngines.Razor;
 
 namespace MustardBlack.Build.Views
@@ -13,9 +13,7 @@ namespace MustardBlack.Build.Views
 		readonly IEnumerable<string> namespaces;
 		readonly IEnumerable<Type> tagHelpers;
 		public string OutPath { get; }
-
-		public ICompilerSettings CompilerSettings { get; }
-
+		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RazorConfiguration"/> class.
 		/// </summary>
@@ -44,13 +42,16 @@ namespace MustardBlack.Build.Views
 					})
 					.Where(t => t != null).ToArray();
 			}
-
-			this.CompilerSettings = new CompilerSettings(@"roslyn\csc.exe");
 		}
 
 		public IEnumerable<Type> GetDefaultTagHelpers()
 		{
 			return this.tagHelpers;
+		}
+
+		public Assembly GetApplicationAssembly()
+		{
+			return Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
 		}
 
 		/// <summary>

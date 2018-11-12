@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
-
 using MustardBlack.Hosting.AspNet;
 
-namespace MustardBlack.Tests.Compression.Gzip
+namespace MustardBlack.Tests.Hosting.AspNet.Compression.Gzip
 {
 	public class MultipleWriting : Specification
 	{
@@ -30,8 +29,8 @@ namespace MustardBlack.Tests.Compression.Gzip
 		[Then]
 		public void MemoryStreamShouldBeDecodable()
 		{
-			memoryStream.Position = 0;
-			using (var bs = new GZipStream(memoryStream, CompressionMode.Decompress))
+			this.memoryStream.Position = 0;
+			using (var bs = new GZipStream(this.memoryStream, CompressionMode.Decompress))
 			using (var msOutput = new MemoryStream())
 			{
 				bs.CopyTo(msOutput);
