@@ -1,8 +1,8 @@
 using System;
 
-namespace MustardBlack.ViewEngines
+namespace MustardBlack.ViewEngines.Razor
 {
-	public interface IViewWithData : IView
+	public interface IRazorViewPageWithData
 	{
 		void SetViewData(object viewData);
 		Type ViewDataType { get; }

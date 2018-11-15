@@ -1,92 +1,55 @@
 using System;
 using System.Globalization;
 using System.Web;
+using Microsoft.AspNetCore.Html;
+using MustardBlack.Pipeline;
+using MustardBlack.Results;
 using MustardBlack.ViewEngines.Razor.Internal;
+using NanoIoC;
+using HtmlString = Microsoft.AspNetCore.Html.HtmlString;
 
 namespace MustardBlack.ViewEngines.Razor
 {
-	public abstract class RazorViewPage : RazorPage, IView
+	public abstract class RazorViewPage : RazorPage
 	{
-		public override void SetHelpers(HtmlHelper htmlHelper, UrlHelper urlHelper)
-		{
-			this.Html = htmlHelper;
-			this.Url = urlHelper;
-		}
-		
-		/// <summary>
-		/// Gets the Html helper.
-		/// </summary>
-		public override HtmlHelper Html { get; protected set; }
+		public override ViewResult ViewResult { get; set; }
+		public override PipelineContext PipelineContext { get; set; }
+		public override IContainer Container { get; set; }
 
-		/// <summary>
-		/// Gets the Url helper.
-		/// </summary>
-		public override UrlHelper Url { get; protected set; }
-		
-//		protected virtual string BuildAttribute(Tuple<string, int> prefix, Tuple<string, int> suffix, params AttributeValue[] values)
-//		{
-//			var writtenAttribute = false;
-//			var attributeBuilder = new StringBuilder();
-//			
-//			attributeBuilder.Append(prefix.Item1);
-//			
-//            foreach (var value in values)
-//			{
-//				if (ShouldWriteValue(value.Value.Item1))
-//				{
-//					var stringValue = GetStringValue(value);
-//					var valuePrefix = value.Prefix.Item1;
-//					
-//					if (!(value.Value.Item1 is IHtmlString))
-//						stringValue = this.HtmlEncode(stringValue, true);
-//
-//					if (!string.IsNullOrEmpty(valuePrefix))
-//						attributeBuilder.Append(valuePrefix);
-//
-//					attributeBuilder.Append(stringValue);
-//					writtenAttribute = true;
-//				}
-//			}
-//
-//			attributeBuilder.Append(suffix.Item1);
-//
-//			// remove empty attributes
-//			var renderAttribute = writtenAttribute || values.Length == 0;
-//
-//			if (renderAttribute)
-//				return attributeBuilder.ToString();
-//
-//			return string.Empty;
-//		}
-//
-//		protected static string GetStringValue(AttributeValue value)
-//		{
-//			if (value.IsLiteral)
-//				return (string)value.Value.Item1;
-//
-//			if (value.Value.Item1 is IHtmlString)
-//				return ((IHtmlString)value.Value.Item1).ToHtmlString();
-//
-//			return value.Value.Item1.ToString();
-//		}
-		
 		/// <summary>
 		/// Html encodes an object if required
 		/// </summary>
 		/// <param name="value">Object to potentially encode</param>
-		/// <param name="insideAttribute"></param>
 		/// <returns>String representation, encoded if necessary</returns>
-		protected virtual string HtmlEncode(object value, bool insideAttribute)
+		protected virtual string HtmlEncode(object value)
 		{
 			if (value == null)
 				return null;
 
-			var htmlString = value as IHtmlString;
-			if (htmlString != null)
+			if (value is IHtmlString htmlString)
 				return htmlString.ToHtmlString();
 			
 			var s = Convert.ToString(value, CultureInfo.CurrentUICulture);
-			return insideAttribute ? HttpUtility.HtmlAttributeEncode(s) : HttpUtility.HtmlEncode(s);
+			return this.HtmlEncoder.Encode(s);
 		}
+
+		/// <summary>
+		/// Html encodes an object if required
+		/// </summary>
+		/// <param name="value">Object to potentially encode</param>
+		/// <returns>String representation, encoded if necessary</returns>
+		public virtual IHtmlContent Raw(string value)
+		{
+			if (value == null)
+				return null;
+			
+			return new HtmlString(value);
+		}
+
+		[Obsolete("Do not use, use `this` instead.")]
+		protected RazorViewPage Html => this;
+
+		[Obsolete("Do not use, use `this` instead.")]
+		protected RazorViewPage Url => this;
 	}
 }

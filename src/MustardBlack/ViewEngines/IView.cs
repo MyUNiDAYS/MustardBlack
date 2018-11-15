@@ -1,9 +1,13 @@
-﻿namespace MustardBlack.ViewEngines
+﻿using MustardBlack.Pipeline;
+using MustardBlack.Results;
+using NanoIoC;
+
+namespace MustardBlack.ViewEngines
 {
 	public interface IView
 	{
-		void SetHelpers(HtmlHelper htmlHelper, UrlHelper urlHelper);
-		HtmlHelper Html { get; }
-		UrlHelper Url { get; }
+		IContainer Container { get; set; }
+		ViewResult ViewResult { get; set; }
+		PipelineContext PipelineContext { get; set; }
 	}
 }

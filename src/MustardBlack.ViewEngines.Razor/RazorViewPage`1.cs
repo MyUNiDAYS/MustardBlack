@@ -2,17 +2,21 @@ using System;
 
 namespace MustardBlack.ViewEngines.Razor
 {
-	public abstract class RazorViewPage<TViewData> : RazorViewPage, IViewWithData
+	public abstract class RazorViewPage<TViewData> : RazorViewPage, IRazorViewPageWithData
 	{
-		protected TViewData ViewData { get; private set; }
-		protected new HtmlHelper<TViewData> Html => base.Html as HtmlHelper<TViewData>;
-		HtmlHelper IView.Html => this.Html;
-		public Type ViewDataType => typeof (TViewData);
+		protected TViewData ViewData { get; set; }
+		
+		[Obsolete("Do not use, use `this` instead.")]
+		protected new RazorViewPage<TViewData> Html => this;
 
-		public void SetViewData(object viewData)
+		[Obsolete("Do not use, use `this` instead.")]
+		protected new RazorViewPage<TViewData> Url => this;
+
+		void IRazorViewPageWithData.SetViewData(object viewData)
 		{
-			if(viewData != null)
-				this.ViewData = (TViewData) viewData;
+			this.ViewData = (TViewData) viewData;
 		}
+
+		Type IRazorViewPageWithData.ViewDataType => typeof(TViewData);
 	}
 }

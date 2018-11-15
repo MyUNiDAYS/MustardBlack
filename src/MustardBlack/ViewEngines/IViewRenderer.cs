@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using MustardBlack.Pipeline;
 using MustardBlack.Results;
 
 namespace MustardBlack.ViewEngines
@@ -10,6 +11,6 @@ namespace MustardBlack.ViewEngines
 	public interface IViewRenderer
 	{
 		bool CanRender(Type viewType);
-		Task Render(ViewResult viewResult, ViewRenderingContext viewRenderingContext);
+		Task Render(ViewResult viewResult, PipelineContext context, ViewRenderingContext viewRenderingContext);
 	}
 }

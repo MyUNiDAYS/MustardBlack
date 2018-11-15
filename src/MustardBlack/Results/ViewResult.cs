@@ -7,7 +7,6 @@ namespace MustardBlack.Results
 	{
 		public Type ViewType { get; }
 		public string AreaName { get; }
-		public string MasterPageOverride { get; set; }
 		public object ViewData { get; }
 		
 		public ViewResult(Type viewType, string areaName, object viewData, HttpStatusCode statusCode = HttpStatusCode.OK)

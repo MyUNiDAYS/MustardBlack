@@ -16,11 +16,11 @@ namespace MustardBlack.ViewEngines
         /// <summary>
         /// Renders a View
         /// </summary>
-        /// <param name="html"></param>
+        /// <param name="view"></param>
         /// <param name="viewPath">The virtual path to the view</param>
         /// <param name="viewData">The data for the view</param>
         // TODO: Make async version
-        public static IHtmlContent RenderView(this HtmlHelper html, string viewPath, object viewData = null)
+        public static IHtmlContent RenderView(this IView view, string viewPath, object viewData = null)
         {
             if (string.IsNullOrEmpty(viewPath))
                 throw new ArgumentException("viewPath");
@@ -30,20 +30,17 @@ namespace MustardBlack.ViewEngines
 
             try
             {
-                var viewType = Container.Global.Resolve<IViewResolver>().Resolve(viewPath);
-                var viewEngine = Container.Global.Resolve<IViewRendererFinder>().FindViewRenderer(viewType);
-                var viewResult = new ViewResult(viewType, html.ViewResult.AreaName, viewData);
+                var viewType = view.Container.Resolve<IViewResolver>().Resolve(viewPath);
+                var viewEngine = view.Container.Resolve<IViewRendererFinder>().FindViewRenderer(viewType);
+                var viewResult = new ViewResult(viewType, view.ViewResult.AreaName, viewData);
 
                 var stringBuilder = new StringBuilder();
                 var renderingContext = new ViewRenderingContext
                 {
-                    RequestUrl = html.RequestUrl,
-                    RequestState = html.RequestState,
-                    ContextItems = html.ContextItems,
                     Writer = new StringWriter(stringBuilder)
                 };
 
-                var renderTask = viewEngine.Render(viewResult, renderingContext);
+                var renderTask = viewEngine.Render(viewResult, view.PipelineContext, renderingContext);
                 renderTask.GetAwaiter().GetResult();
 
                 // TODO: is this still the best approach?

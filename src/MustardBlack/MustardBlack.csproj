@@ -195,9 +195,7 @@
     <Compile Include="TempData\CookieTempDataMechanism.cs" />
     <Compile Include="TempData\ITempDataMechanism.cs" />
     <Compile Include="Url.cs" />
-    <Compile Include="ViewEngines\HtmlHelper.cs" />
     <Compile Include="ViewEngines\HtmlHelperExtensions.cs" />
-    <Compile Include="ViewEngines\HtmlHelper`1.cs" />
     <Compile Include="ViewEngines\IHtmlHelper.cs" />
     <Compile Include="ViewEngines\IView.cs" />
     <Compile Include="ViewEngines\IViewCompiler.cs" />
@@ -205,11 +203,8 @@
     <Compile Include="ViewEngines\IViewRenderer.cs" />
     <Compile Include="ViewEngines\IViewRendererFinder.cs" />
     <Compile Include="ViewEngines\IViewResolver.cs" />
-    <Compile Include="ViewEngines\IViewWithData.cs" />
-    <Compile Include="ViewEngines\UrlHelper.cs" />
     <Compile Include="ViewEngines\ViewLoadException.cs" />
     <Compile Include="ViewEngines\ViewLocationException.cs" />
-    <Compile Include="ViewEngines\ViewRendererBase.cs" />
     <Compile Include="ViewEngines\ViewRendererFinder.cs" />
     <Compile Include="ViewEngines\ViewRenderException.cs" />
     <Compile Include="ViewEngines\ViewRenderingContext.cs" />

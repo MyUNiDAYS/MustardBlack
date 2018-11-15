@@ -3,32 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using MustardBlack;
+using MustardBlack.Pipeline;
 using MustardBlack.Results;
 using MustardBlack.ViewEngines.Razor.Internal;
 using NanoIoC;
 
 namespace MustardBlack.ViewEngines.Razor
 {
-	public class RazorViewRenderer : ViewRendererBase
+	public class RazorViewRenderer : IViewRenderer
 	{
 		readonly IViewResolver viewResolver;
 		readonly IContainer container;
+		readonly HtmlEncoder htmlEncoder;
 
-		public RazorViewRenderer(IViewResolver viewResolver, IContainer container, HtmlEncoder htmlEncoder) : base(htmlEncoder)
+		public RazorViewRenderer(IViewResolver viewResolver, IContainer container, HtmlEncoder htmlEncoder)
 		{
 			this.viewResolver = viewResolver;
 			this.container = container;
+			this.htmlEncoder = htmlEncoder;
 		}
 
-		public override bool CanRender(Type viewType)
+		public bool CanRender(Type viewType)
 		{
-			return viewType.IsOrDerivesFrom(typeof(RazorPage));
+			return viewType.IsOrDerivesFrom(typeof(RazorViewPage));
 		}
 
-		public override async Task Render(ViewResult viewResult, ViewRenderingContext viewRenderingContext)
+		public async Task Render(ViewResult viewResult, PipelineContext context, ViewRenderingContext viewRenderingContext)
 		{
-			var razorPage = this.GetViewInstance(viewResult, viewRenderingContext);
+			var razorPage = this.GetViewInstance(viewResult, context);
 
 			var viewBufferScope = this.container.Resolve<IViewBufferScope>();
 
@@ -97,7 +99,7 @@ namespace MustardBlack.ViewEngines.Razor
 					throw new InvalidOperationException(message);
 				}
 
-				var layoutPage = GetLayoutPage(viewResult, viewRenderingContext, previousPage.Layout);
+				var layoutPage = this.GetLayoutPage(viewResult, previousPage.PipelineContext, previousPage.Layout);
 
 				if (renderedLayouts.Count > 0 && renderedLayouts.Any(l => l.GetType() == layoutPage.GetType()))
 				{
@@ -144,7 +146,7 @@ namespace MustardBlack.ViewEngines.Razor
 			}
 		}
 
-		IRazorPage GetLayoutPage(ViewResult viewResult, ViewRenderingContext viewRenderingContext, string layoutPath)
+		IRazorPage GetLayoutPage(ViewResult viewResult, PipelineContext context, string layoutPath)
 		{
 			Type layoutType;
 			try
@@ -157,14 +159,36 @@ namespace MustardBlack.ViewEngines.Razor
 			}
 
 			var layoutResult = new ViewResult(layoutType, viewResult.AreaName, viewResult.ViewData, viewResult.StatusCode);
-			return this.GetViewInstance(layoutResult, viewRenderingContext);
+			return this.GetViewInstance(layoutResult, context);
 		}
 
-		IRazorPage GetViewInstance(ViewResult viewResult, ViewRenderingContext context)
+		IRazorPage GetViewInstance(ViewResult viewResult, PipelineContext context)
 		{
-			var view = Activator.CreateInstance(viewResult.ViewType) as IRazorPage;
-			this.HydrateView(viewResult, view, context);
-			return view;
+			var razorPage = Activator.CreateInstance(viewResult.ViewType) as RazorViewPage;
+			this.HydratePage(viewResult, razorPage, context);
+			return razorPage;
+		}
+
+		protected void HydratePage(ViewResult viewResult, RazorViewPage razorPage, PipelineContext context)
+		{
+			razorPage.ViewResult = viewResult;
+			razorPage.PipelineContext = context;
+			razorPage.Container = this.container;
+			razorPage.HtmlEncoder = this.htmlEncoder;
+			
+			if (razorPage is IRazorViewPageWithData)
+			{
+				var viewWithData = razorPage as IRazorViewPageWithData;
+
+				if (viewResult.ViewData == null)
+					throw new ArgumentNullException("viewData", "No viewdata passed to view `" + razorPage.GetType() + "`");
+
+				var actualViewDataType = viewResult.ViewData.GetType();
+				if (!actualViewDataType.IsOrDerivesFrom(viewWithData.ViewDataType))
+					throw new ArgumentException("`" + actualViewDataType + "` is not convertible to `" + viewWithData.ViewDataType + "` as defined in the view");
+				
+				viewWithData.SetViewData(viewResult.ViewData);
+			}
 		}
 	}
 }

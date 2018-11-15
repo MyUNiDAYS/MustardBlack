@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using MustardBlack.Pipeline;
+using MustardBlack.Results;
+using IContainer = NanoIoC.IContainer;
 
 namespace MustardBlack.ViewEngines.Razor.Internal
 {
@@ -26,6 +29,8 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		TextWriter pageWriter;
 		AttributeInfo attributeInfo;
 		TagHelperAttributeInfo tagHelperAttributeInfo;
+
+		public HtmlEncoder HtmlEncoder { get; set; }
 
 		public virtual ViewRenderingContext RenderingContext { get; set; }
 		
@@ -137,12 +142,12 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// </remarks>
 		public void StartTagHelperWritingScope(HtmlEncoder encoder)
 		{
-			var buffer = new ViewBuffer(BufferScope, this.GetType().AssemblyQualifiedName, ViewBuffer.TagHelperPageSize);
-			TagHelperScopes.Push(new TagHelperScopeInfo(buffer, this.Html.Encoder, this.RenderingContext.Writer));
+			var buffer = new ViewBuffer(this.BufferScope, this.GetType().AssemblyQualifiedName, ViewBuffer.TagHelperPageSize);
+			this.TagHelperScopes.Push(new TagHelperScopeInfo(buffer, this.HtmlEncoder, this.RenderingContext.Writer));
 
 			// If passed an HtmlEncoder, override the property.
 			if (encoder != null)
-			    this.Html.Encoder = encoder;
+			    this.HtmlEncoder = encoder;
 
 			// We need to replace the ViewContext's Writer to ensure that all content (including content written
 			// from HTML helpers) is redirected.
@@ -154,17 +159,17 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// <returns>The buffered <see cref="TagHelperContent"/>.</returns>
 		public TagHelperContent EndTagHelperWritingScope()
 		{
-			if (TagHelperScopes.Count == 0)
+			if (this.TagHelperScopes.Count == 0)
 				throw new InvalidOperationException("Resources.RazorPage_ThereIsNoActiveWritingScopeToEnd");
 
-			var scopeInfo = TagHelperScopes.Pop();
+			var scopeInfo = this.TagHelperScopes.Pop();
 
 			// Get the content written during the current scope.
 			var tagHelperContent = new DefaultTagHelperContent();
 			tagHelperContent.AppendHtml(scopeInfo.Buffer);
 
             // Restore previous scope.
-		    this.Html.Encoder = scopeInfo.HtmlEncoder;
+		    this.HtmlEncoder = scopeInfo.HtmlEncoder;
 			this.RenderingContext.Writer = scopeInfo.Writer;
 
 			return tagHelperContent;
@@ -182,7 +187,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		/// </remarks>
 		public void BeginWriteTagHelperAttribute()
 		{
-			if (pageWriter != null)
+			if (this.pageWriter != null)
 				throw new InvalidOperationException("Resources.RazorPage_NestingAttributeWritingScopesNotSupported");
 
 			var viewContext = this.RenderingContext;
@@ -282,7 +287,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			}
 
 			var writer = Output;
-			var encoder = this.Html.Encoder;
+			var encoder = this.HtmlEncoder;
 			if (value is IHtmlContent htmlContent)
 			{
 				var bufferedWriter = writer as ViewBufferTextWriter;
@@ -318,7 +323,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		public virtual void Write(string value)
 		{
 			var writer = Output;
-			var encoder = this.Html.Encoder;
+			var encoder = this.HtmlEncoder;
 			if (!string.IsNullOrEmpty(value))
 			{
 				// Perf: Encode right away instead of writing it character-by-character.
@@ -642,8 +647,8 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			}
 		}
 
-		public abstract void SetHelpers(HtmlHelper htmlHelper, UrlHelper urlHelper);
-		public abstract HtmlHelper Html { get; protected set; }
-		public abstract UrlHelper Url { get; protected set; }
+		public abstract IContainer Container { get; set; }
+		public abstract ViewResult ViewResult { get; set; }
+		public abstract PipelineContext PipelineContext { get; set; }
 	}
 }

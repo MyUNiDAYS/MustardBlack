@@ -21,11 +21,11 @@
 
 <a title="@("<p>do i get \"encoded\" properly?</p>")">I'm an anchor with a funny title attribute</a>
 
-@Html.Raw("<h2>I'm raw H2 HTML</h2>")
+@Raw("<h2>I'm raw H2 HTML</h2>")
 
 @("<b>I'm html encoded</b>")
 
-@Html.RenderView("~/Areas/Example/Example/1337_partial.cshtml")
+@this.RenderView("~/Areas/Example/Example/1337_partial.cshtml")
 
 @{
     // is Linq automatically imported?

@@ -32,15 +32,12 @@ namespace MustardBlack.Results
 
 			var renderingContext = new ViewRenderingContext
 			{
-				RequestUrl = context.Request.Url,
-				RequestState = context.Request.State,
-				ContextItems = context.Items,
 				Writer = new StringWriter(rendered)
 			};
 
 			try
 			{
-				renderer.Render(result, renderingContext).GetAwaiter().GetResult();
+				renderer.Render(result, context, renderingContext).GetAwaiter().GetResult();
 			}
 			catch (Exception e)
 			{
