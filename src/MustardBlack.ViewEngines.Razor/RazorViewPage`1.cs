@@ -4,7 +4,7 @@ namespace MustardBlack.ViewEngines.Razor
 {
 	public abstract class RazorViewPage<TViewData> : RazorViewPage, IRazorViewPageWithData
 	{
-		protected TViewData ViewData { get; set; }
+		public TViewData ViewData { get; set; }
 		
 		[Obsolete("Do not use, use `this` instead.")]
 		protected new RazorViewPage<TViewData> Html => this;

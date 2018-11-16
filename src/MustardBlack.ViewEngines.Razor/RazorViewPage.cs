@@ -1,6 +1,4 @@
 using System;
-using System.Globalization;
-using System.Web;
 using Microsoft.AspNetCore.Html;
 using MustardBlack.Pipeline;
 using MustardBlack.Results;
@@ -15,24 +13,7 @@ namespace MustardBlack.ViewEngines.Razor
 		public override ViewResult ViewResult { get; set; }
 		public override PipelineContext PipelineContext { get; set; }
 		public override IContainer Container { get; set; }
-
-		/// <summary>
-		/// Html encodes an object if required
-		/// </summary>
-		/// <param name="value">Object to potentially encode</param>
-		/// <returns>String representation, encoded if necessary</returns>
-		protected virtual string HtmlEncode(object value)
-		{
-			if (value == null)
-				return null;
-
-			if (value is IHtmlString htmlString)
-				return htmlString.ToHtmlString();
-			
-			var s = Convert.ToString(value, CultureInfo.CurrentUICulture);
-			return this.HtmlEncoder.Encode(s);
-		}
-
+		
 		/// <summary>
 		/// Html encodes an object if required
 		/// </summary>
