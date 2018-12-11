@@ -13,7 +13,7 @@ namespace MustardBlack.Handlers.Binding.Binders
 	{
 		public bool CanBind(string name, Type type, IRequest request, RouteValues routeValues, object owner)
 		{
-			return type.IsOrDerivesFrom(typeof(IList<>));
+			return type.IsOrDerivesFrom(typeof(IList<>)) && !type.IsArray;
 		}
 
 		public BindingResult Bind(string name, Type type, IRequest request, RouteValues routeValues, bool isNestedCall, object owner)

@@ -44,6 +44,7 @@
     <Compile Include="Applications\ApplicationRouterSpecs\RouteApplication\Order.cs" />
     <Compile Include="AutoMockedSpecification.cs" />
     <Compile Include="AutoMocker.cs" />
+    <Compile Include="Handlers\Binding\Binders\Lists\WhenBindingAList.cs" />
     <Compile Include="TheoryExplicitAttribute.cs" />
     <Compile Include="ThenExplicitAttribute.cs" />
     <Compile Include="ShouldExtensions.cs" />

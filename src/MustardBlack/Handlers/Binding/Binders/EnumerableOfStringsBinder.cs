@@ -10,7 +10,7 @@ namespace MustardBlack.Handlers.Binding.Binders
 	{
 		public override bool CanBind(string name, Type type, IRequest request, RouteValues routeValues, object owner)
 		{
-			return type == typeof (IEnumerable<string>);
+			return type == typeof (IEnumerable<string>) && !type.IsArray;
 		}
 
 		public override BindingResult Bind(Type type, string name, string value, IRequest request, RouteValues routeValues, object owner)
