@@ -10,10 +10,8 @@ using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.Hosting;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Razor;
-using NanoIoC;
 using Serilog;
 
 namespace MustardBlack.ViewEngines.Razor
@@ -146,8 +144,10 @@ namespace MustardBlack.ViewEngines.Razor
 			var compilerParameters = new CompilerParameters(this.referenceAssemblies.ToArray());
 			compilerParameters.IncludeDebugInformation = true;
 			compilerParameters.TempFiles.KeepFiles = false;
-
-			log.Debug("Compiling {viewPath} from {source} as {generatedCode}", view.FilePath, source, razorCSharpDocument.GeneratedCode);
+            
+		    log.Debug("Compiling {viewPath} - 1 of 3 log entries - Broken into entries 3 due to Seq raw payload limits. If you don't see log parts 2 and/or 3. They're too big, soz", view.FilePath);
+		    log.Debug("Compiling {viewPath} - 2 of 3 log entries - Source {source}", view.FilePath, source);
+		    log.Debug("Compiling {viewPath} - 3 of 3 log entries - GeneratedCode {generatedCode}", view.FilePath, razorCSharpDocument.GeneratedCode);
 
 			var compilationResults = this.codeProvider.CompileAssemblyFromSource(compilerParameters, razorCSharpDocument.GeneratedCode);
 			if (compilationResults.Errors.HasErrors)
