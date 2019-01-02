@@ -61,7 +61,8 @@ namespace MustardBlack.Hosting.AspNet
 
 		public string ContentType
 		{
-			set { this.context.Response.ContentType = value; }
+			get => this.context.Response.ContentType;
+			set => this.context.Response.ContentType = value;
 		}
 
 		public Stream OutputStream => this.context.Response.OutputStream;

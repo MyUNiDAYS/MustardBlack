@@ -11,7 +11,7 @@ namespace MustardBlack.Hosting
 		HttpStatusCode StatusCode { get; set; }
 		
 		IResponseCookieCollection Cookies { get; }
-		string ContentType { set; }
+		string ContentType { get; set; }
 		Stream OutputStream { get; }
 
 		void Write(string body);
