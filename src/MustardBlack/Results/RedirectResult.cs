@@ -2,7 +2,7 @@ using System.Net;
 
 namespace MustardBlack.Results
 {
-	public sealed class RedirectResult : Result
+	public class RedirectResult : Result
 	{
 		public readonly Url Location;
 
