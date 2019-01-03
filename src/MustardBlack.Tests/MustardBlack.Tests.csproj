@@ -52,6 +52,7 @@
     <Compile Include="Handlers\Results\TestResult.cs" />
     <Compile Include="Handlers\Results\TestResultExecutor.cs" />
     <Compile Include="Handlers\Results\ExecutorSpecs\TypeHeirarchyFallbackSpec.cs" />
+    <Compile Include="Hosting\ContentTypeSpecs\ImplicitCast.cs" />
     <Compile Include="TheoryExplicitAttribute.cs" />
     <Compile Include="ThenExplicitAttribute.cs" />
     <Compile Include="ShouldExtensions.cs" />

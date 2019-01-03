@@ -23,7 +23,7 @@ namespace MustardBlack.Handlers.Binding.Binders
 
 			if (request.HttpMethod == HttpMethod.Post || request.HttpMethod == HttpMethod.Put || request.HttpMethod == HttpMethod.Patch)
 			{
-				if (request.ContentType.MediaType == "multipart/form-data" || request.ContentType.MediaType == "application/x-www-form-urlencoded")
+				if (request.ContentType != null && (request.ContentType.MediaType == "multipart/form-data" || request.ContentType.MediaType == "application/x-www-form-urlencoded"))
 				{
 					var genericArgument = type.GetGenericArguments()[0];
 
