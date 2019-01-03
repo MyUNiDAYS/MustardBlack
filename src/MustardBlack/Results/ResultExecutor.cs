@@ -13,8 +13,8 @@ namespace MustardBlack.Results
 			if(result == null)
 				throw new ArgumentException("Result is cannot be null");
 
-			if (result.GetType() != typeof(TResult))
-				throw new ArgumentException("Result is not of type `" + typeof(TResult) + "`", nameof(result));
+			if (!result.GetType().IsOrDerivesFrom<TResult>())
+				throw new ArgumentException("Result is not/does not derive from type `" + typeof(TResult) + "`", nameof(result));
 		
 			this.Execute(context, (TResult)result);
 		}
