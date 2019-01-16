@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using MustardBlack.Handlers;
 using MustardBlack.Handlers.Binding;
@@ -16,7 +18,11 @@ namespace MustardBlack.Example.Cfg
 			Container.Global.Register<IHandlerCache>(c =>
 			{
 				var cache = new HandlerCache(Container.Global);
-				var types = this.GetType().Assembly.GetTypes().Where(t => typeof(IHandler).IsAssignableFrom(t)).ToArray();
+
+				IEnumerable<Type> types = this.GetType().Assembly.GetTypes();
+				types = types.Union(typeof(MustardBlack.Url).Assembly.GetTypes());
+				types = types.Where(t => typeof(IHandler).IsAssignableFrom(t)).ToArray();
+
 				cache.Warm(types);
 				return cache;
 			});

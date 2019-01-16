@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Example\Assets\Styles\styles.css" />
     <Compile Include="Areas\Example\Example\ExampleHandler.cs" />
     <Compile Include="Areas\Example\ExampleApplication.cs" />
     <Compile Include="Areas\Example\ExampleAreaRegistration.cs" />

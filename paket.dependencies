@@ -1,6 +1,7 @@
 framework: net472
 source https://www.nuget.org/api/v2
 
+nuget libsassnet 3.3.7-alpha-2 alpha
 nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
