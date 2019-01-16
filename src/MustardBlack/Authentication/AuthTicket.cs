@@ -4,9 +4,9 @@ namespace MustardBlack.Authentication
 {
 	public sealed class AuthTicket : IAuthTicket
 	{
-		public Guid UserId { get; }
+		public string UserId { get; }
 		public DateTime IssuedOn { get; }
-		public bool IsIdentified => this.UserId != Guid.Empty;
+		public bool IsIdentified => !string.IsNullOrEmpty(this.UserId);
 		public string Token { get; }
 
 		public AuthTicket()
@@ -14,14 +14,14 @@ namespace MustardBlack.Authentication
 			this.IssuedOn = DateTime.UtcNow;
 		}
 
-		public AuthTicket(Guid userId, string token = null)
+		public AuthTicket(string userId, string token = null)
 		{
 			this.UserId = userId;
 			this.Token = token ?? Guid.NewGuid().ToString();
 			this.IssuedOn = DateTime.UtcNow;
 		}
 
-		public AuthTicket(Guid userId, DateTime issuedOn, string token = null)
+		public AuthTicket(string userId, DateTime issuedOn, string token = null)
 		{
 			this.IssuedOn = issuedOn;
 			this.Token = token ?? Guid.NewGuid().ToString();

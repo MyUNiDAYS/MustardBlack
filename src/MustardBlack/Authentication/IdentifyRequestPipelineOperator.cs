@@ -45,7 +45,7 @@ namespace MustardBlack.Authentication
 			{
 				log.Debug("Request unidentified");
 
-				authTicket = new AuthTicket(Guid.Empty);
+				authTicket = new AuthTicket();
 				context.SetAuthTicket(authTicket);
 				context.Items["__OriginalAuthTicket"] = authTicket;
 				context.Items["__AuthenticationMethod"] = null;
