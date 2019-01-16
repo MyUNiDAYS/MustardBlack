@@ -30,7 +30,7 @@ namespace MustardBlack.Authentication
 
 		bool Equals(AuthTicket other)
 		{
-			return this.UserId.Equals(other.UserId) && this.IssuedOn.Equals(other.IssuedOn) && string.Equals(this.Token, other.Token);
+			return string.Equals(this.UserId, other.UserId) && this.IssuedOn.Equals(other.IssuedOn) && string.Equals(this.Token, other.Token);
 		}
 
 		public override bool Equals(object obj)
