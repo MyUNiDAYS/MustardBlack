@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using MustardBlack.Hosting;
 
 namespace MustardBlack.Assets
@@ -15,27 +16,27 @@ namespace MustardBlack.Assets
 			this.fileSystem = fileSystem;
 		}
 
-		public string GetAsset(string path, AssetFormat format)
+		public string GetAsset(string path, Regex nameMatch)
 		{
 			var fullPath = this.fileSystem.GetFullPath(path.ToLowerInvariant());
-			var filesContents = this.ReadFiles(fullPath, format);
+			var filesContents = this.ReadFiles(fullPath, nameMatch);
 
 			return filesContents;
 		}
 
-		string ReadFiles(string fullPath, AssetFormat format)
+		string ReadFiles(string fullPath, Regex nameMatch)
 		{
 			if (File.Exists(fullPath))
 				return ReadSingleFile(fullPath);
 
-			return this.ReadMultipleFiles(fullPath, format);
+			return this.ReadMultipleFiles(fullPath, nameMatch);
 		}
 
-		string ReadMultipleFiles(string fullPath, AssetFormat format)
+		string ReadMultipleFiles(string fullPath, Regex nameMatch)
 		{
 			var fileBuilder = new StringBuilder();
 
-			var files = ListFiles(fullPath, format);
+			var files = ListFiles(fullPath, nameMatch);
 			foreach (var file in files)
 			{
 				var singleFile = ReadSingleFile(file);
@@ -51,7 +52,7 @@ namespace MustardBlack.Assets
 				return streamReader.ReadToEnd();
 		}
 
-		static IEnumerable<string> ListFiles(string folder, AssetFormat format, List<string> files = null)
+		static IEnumerable<string> ListFiles(string folder, Regex nameMatch, List<string> files = null)
 		{
 			if (files == null)
 				files = new List<string>();
@@ -61,18 +62,11 @@ namespace MustardBlack.Assets
 
 			var directories = Directory.GetDirectories(folder).OrderBy(n => n);
 			foreach (var dir in directories)
-				ListFiles(dir, format, files);
+				ListFiles(dir, nameMatch, files);
 
-			var dirFiles = Directory.GetFiles(folder).Where(f =>
-			{
-				if (format == AssetFormat.Js)
-                    return (!f.EndsWith(".test.js") && f.EndsWith(".js"));
-
-				if (format == AssetFormat.Css)
-					return f.EndsWith(".css") || f.EndsWith(".less");
-
-				return false;
-			}).OrderBy(n => n);
+			var dirFiles = Directory.GetFiles(folder)
+				.Where(f => nameMatch.IsMatch(f))
+				.OrderBy(n => n);
 			files.AddRange(dirFiles);
 
 			return files;

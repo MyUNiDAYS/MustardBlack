@@ -80,7 +80,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
       <ItemGroup>
         <Reference Include="DotNetZip">
-          <HintPath>..\..\packages\DotNetZip\lib\net20\DotNetZip.dll</HintPath>
+          <HintPath>..\..\packages\DotNetZip\lib\net40\DotNetZip.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

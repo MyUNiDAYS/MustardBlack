@@ -10,7 +10,7 @@ namespace MustardBlack.NanoIoC
 		public void Register(IContainer container)
 		{
 			container.Register<IJavascriptCompressor, YuiJavascriptCompressor>();
-			container.Register<ICssPreprocessor, LessCssPreprocessor>();
+			container.Register<ICssPreprocessor, SassCssPreprocessor>();
 			container.Register<ITempDataMechanism, CookieTempDataMechanism>();
 		}
 	}

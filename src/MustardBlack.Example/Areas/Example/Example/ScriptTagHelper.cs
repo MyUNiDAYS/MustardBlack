@@ -34,7 +34,7 @@ namespace MustardBlack.Example.Areas.Example.Example
 
 			output.Content.SetHtmlContent(content);
 
-			this.response.Headers.Set("Content-Security-Policy", "default-src 'none'; script-src 'sha256-" + sha + "'");
+			this.response.Headers.Set("Content-Security-Policy", "script-src 'sha256-" + sha + "'");
 		}
 
 		static string ComputeSha256Hash(string rawData)

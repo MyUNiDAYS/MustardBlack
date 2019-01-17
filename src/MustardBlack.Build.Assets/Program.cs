@@ -18,17 +18,23 @@ namespace MustardBlack.Build.Assets
 
 			var assetLoader = new AssetLoader(new FakeFileSystem());
 			
-			// load asset
-			var assetFormat = (AssetFormat)Enum.Parse(typeof(AssetFormat), type, true);
-			var asset = assetLoader.GetAsset(path, assetFormat);
-			
-			if (string.IsNullOrWhiteSpace(asset))
-				return;
+			string asset = null;
+			string assetFormat = null;
 
-			if (assetFormat == AssetFormat.Css)
+			if (type == "less" || type == "css" || type == "sass")
 			{
-				var lessCssPreprocessor = new LessCssPreprocessor();
-				var result = lessCssPreprocessor.Process(asset);
+				ICssPreprocessor cssPreprocessor;
+
+				if (type == "sass")
+					cssPreprocessor = new SassCssPreprocessor();
+				else
+					cssPreprocessor = new LessCssPreprocessor();
+
+				asset = assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
+				if (string.IsNullOrWhiteSpace(asset))
+					return;
+
+				var result = cssPreprocessor.Process(asset);
 				if (result.Status != AssetProcessingResult.CompilationStatus.Success)
 				{
 					Console.WriteLine(result.Message);
@@ -36,19 +42,26 @@ namespace MustardBlack.Build.Assets
 				}
 
 				asset = result.Result;
+				assetFormat = "css;";
 			}
-			else if (assetFormat == AssetFormat.Js)
+			else if (type == "js")
 			{
 				var yuiJavascriptCompressor = new YuiJavascriptCompressor();
+
+				asset = assetLoader.GetAsset(path, AreaJavascriptHandler.FileMatch);
+				if (string.IsNullOrWhiteSpace(asset))
+					return;
+			
 				var result = yuiJavascriptCompressor.Compress(asset);
 				// TODO: handle failure
 				asset = result;
+				assetFormat = "js";
 			}
-			
+
 			var resourceIntegrityCheck = ComputeSha256Hash(asset);
 			Console.Write(resourceIntegrityCheck);
 
-			var outFile = Path.Combine(outPath, resourceIntegrityCheck + '.' + assetFormat.ToString().ToLowerInvariant());
+			var outFile = Path.Combine(outPath, resourceIntegrityCheck + '.' + assetFormat);
 			File.WriteAllText(outFile, asset);
 		}
 		

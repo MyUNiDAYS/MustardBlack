@@ -48,8 +48,10 @@
     <Compile Include="Assets\AssetProcessingResult.cs" />
     <Compile Include="Assets\Css\AreaCssHandler.cs" />
     <Compile Include="Assets\Css\ICssPreprocessor.cs" />
+    <Compile Include="Assets\Css\SassCompiler.cs" />
     <Compile Include="Assets\Css\LessCompiler.cs" />
     <Compile Include="Assets\Css\LessCssPreprocessor.cs" />
+    <Compile Include="Assets\Css\SassCssPreprocessor.cs" />
     <Compile Include="Assets\Css\StringLessLogger.cs" />
     <Compile Include="Assets\IAssetLoader.cs" />
     <Compile Include="Assets\Javascript\AreaJavascriptHandler.cs" />
@@ -240,6 +242,17 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
       <ItemGroup>
+        <Reference Include="LibSass.NET">
+          <HintPath>..\..\packages\libsassnet\lib\net40\LibSass.NET.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
+      <ItemGroup>
         <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
           <HintPath>..\..\packages\Microsoft.AspNetCore.Html.Abstractions\lib\netstandard2.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
           <Private>True</Private>
@@ -317,4 +330,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\..\packages\libsassnet\build\libsassnet.targets" Condition="Exists('..\..\packages\libsassnet\build\libsassnet.targets')" Label="Paket" />
 </Project>
