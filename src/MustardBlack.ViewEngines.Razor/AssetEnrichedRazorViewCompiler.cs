@@ -44,7 +44,7 @@ namespace MustardBlack.ViewEngines.Razor
 			if (string.IsNullOrEmpty(input))
 				return null;
 
-			var mixins = this.assetLoader.GetAsset("~/areas/" + areaName + "/", AssetFormat.Css);
+			var mixins = this.assetLoader.GetAsset("~/areas/" + areaName + "/", this.cssPreprocessor.FileMatch);
 
 			var cssResult = this.cssPreprocessor.Process(input, mixins);
 

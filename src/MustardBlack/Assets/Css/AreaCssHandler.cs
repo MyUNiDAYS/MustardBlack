@@ -25,7 +25,7 @@ namespace MustardBlack.Assets.Css
 			var area = request.Url.Path.Substring(1, request.Url.Path.IndexOf('.') - 1);
 			var path = "~/areas/" + area + "/assets/styles/";
 
-			var asset = this.assetLoader.GetAsset(path, AssetFormat.Css);
+			var asset = this.assetLoader.GetAsset(path, this.cssPreprocessor.FileMatch);
 			
 			var assetResult = this.cssPreprocessor.Process(asset);
 			if (assetResult.Status == AssetProcessingResult.CompilationStatus.Success)
