@@ -3,7 +3,8 @@ NUGET
   remote: https://www.nuget.org/api/v2
     Brotli.NET (1.0.19)
     Castle.Core (4.3.1)
-    dotless (1.5.1)
+    dotless.Core (1.6.7)
+      Microsoft.Extensions.DependencyInjection (>= 2.1.1)
     DotNetZip (1.13)
     EcmaScript.NET (2.0)
       System.Reflection.Emit (>= 4.3)
@@ -82,6 +83,9 @@ NUGET
       Microsoft.CodeAnalysis.Common (2.8)
       System.Composition (>= 1.0.31)
     Microsoft.CodeDom.Providers.DotNetCompilerPlatform (2.0.1) - import_targets: false
+    Microsoft.Extensions.DependencyInjection (2.2)
+      Microsoft.Extensions.DependencyInjection.Abstractions (>= 2.2)
+    Microsoft.Extensions.DependencyInjection.Abstractions (2.2)
     MuonLab.Validation (1.4.5)
     NanoIoC (2.1.9)
     Newtonsoft.Json (11.0.2)

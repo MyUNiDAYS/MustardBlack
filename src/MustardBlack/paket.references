@@ -2,7 +2,7 @@ NanoIoC
 Serilog
 Newtonsoft.Json
 MuonLab.Validation
-dotless
+dotless.Core
 YUICompressor.NET
 Microsoft.AspNetCore.Html.Abstractions
 libsassnet
