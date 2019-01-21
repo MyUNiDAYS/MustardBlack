@@ -92,7 +92,7 @@ NUGET
     NSubstitute (3.1)
       Castle.Core (>= 4.2)
       System.Threading.Tasks.Extensions (>= 4.3)
-    Serilog (2.7.1)
+    Serilog (2.8)
     Serilog.Exceptions (5.0)
       Serilog (>= 2.5)
     System.AppContext (4.3)
