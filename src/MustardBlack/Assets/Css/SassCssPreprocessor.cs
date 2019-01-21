@@ -8,7 +8,7 @@ namespace MustardBlack.Assets.Css
 	{
 		const string sassCompilerSeparatorColorRed = ".sass-compiler-separator{color:red}";
 
-		static readonly Regex fileMatch = new Regex(@"(\.sass|\.css)$", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
+		static readonly Regex fileMatch = new Regex(@"(\.sass|\.scss|\.css)$", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
 
 		public Regex FileMatch => fileMatch;
 
