@@ -11,10 +11,10 @@ nuget YUICompressor.NET ~> 3.0
 nuget dotless.Core ~> 1.0
 nuget Newtonsoft.Json ~> 11.0
 nuget NSubstitute ~> 3.0
-nuget Microsoft.AspNetCore.Razor ~> 2.2.0
-nuget Microsoft.AspNetCore.Razor.Language ~> 2.2.0
-nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.2.0
-nuget Microsoft.AspNetCore.Html.Abstractions ~> 2.2.0
+nuget Microsoft.AspNetCore.Razor ~> 2.1.0
+nuget Microsoft.AspNetCore.Razor.Language ~> 2.1.0
+nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.1.0
+nuget Microsoft.AspNetCore.Html.Abstractions ~> 2.1.0
 nuget Microsoft.CodeAnalysis 2.8
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
