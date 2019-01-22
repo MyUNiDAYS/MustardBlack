@@ -29,7 +29,7 @@ namespace MustardBlack.ViewEngines
 				viewType = locator.Locate(viewName);
 				if (viewType != null)
 				{
-					log.Debug("Found View {viewName} within {requestingNamespace} using {locator}", viewName, locator.GetType());
+					log.Debug("Found View {viewName} using {locator}", viewName, locator.GetType());
 					break;
 				}
 			}
