@@ -36,7 +36,7 @@ namespace MustardBlack.ViewEngines.Razor
 			// Example parser confusing syntax: `@{<text>if(1 < 2) f('=');</text>}`
 			// Hopefully this works around them all
 			var javascript = input.Replace("<", "@(_lessThanSymbol)");
-			return "<script type=\"text/javascript\">\n@{var _lessThanSymbol = new System.Web.HtmlString(\"<\");}window.currentPageScript=function(){\n" + javascript + "\n}\n</script>";
+			return "<script type=\"text/javascript\">\n@{var _lessThanSymbol = new Microsoft.AspNetCore.Html.HtmlString(\"<\");}window.currentPageScript=function(){\n" + javascript + "\n}\n</script>";
 		}
 		
 		public string PrepareCssForRazorCompilation(string input, string areaName)
