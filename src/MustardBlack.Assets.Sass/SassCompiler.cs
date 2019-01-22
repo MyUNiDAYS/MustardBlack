@@ -2,11 +2,11 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using LibSass.Compiler.Options;
 using Serilog;
 using ILogger = Serilog.ILogger;
-using LibSass.Compiler.Options;
 
-namespace MustardBlack.Assets.Css
+namespace MustardBlack.Assets.Sass
 {
 	public static class SassCompiler
 	{

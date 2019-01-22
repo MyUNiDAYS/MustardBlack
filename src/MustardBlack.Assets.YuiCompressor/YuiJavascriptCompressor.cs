@@ -1,6 +1,7 @@
+using MustardBlack.Assets.Javascript;
 using Yahoo.Yui.Compressor;
 
-namespace MustardBlack.Assets.Javascript
+namespace MustardBlack.Assets.YuiCompressor
 {
 	public sealed class YuiJavascriptCompressor : IJavascriptCompressor
 	{

@@ -2,9 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <AssemblyName>MustardBlack</AssemblyName>
-    <RootNamespace>MustardBlack</RootNamespace>
-    <PackageId>MustardBlack</PackageId>
+    <AssemblyName>MustardBlack.Assets.Sass</AssemblyName>
+    <RootNamespace>MustardBlack.Assets.Sass</RootNamespace>
+    <PackageId>MustardBlack.Assets.Sass</PackageId>
     <IsPackable>true</IsPackable>
     <Authors>MyUNiDAYS Ltd</Authors>
     <Company>MyUNiDAYS Ltd</Company>
@@ -16,7 +16,7 @@
     <None Include="paket.template" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\MustardBlack\MustardBlack.csproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

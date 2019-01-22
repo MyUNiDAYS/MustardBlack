@@ -39,21 +39,207 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyRepository.cs" />
-    <Compile Include="BasicFileSystem.cs" />
-    <Compile Include="Compiler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RazorConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="paket.references" />
-    <None Include="paket.template" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\*">
-      <Link>roslyn\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\csc.exe">
+      <Link>roslyn\csc.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\csc.exe.config">
+      <Link>roslyn\csc.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\csc.rsp">
+      <Link>roslyn\csc.rsp</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\csi.exe">
+      <Link>roslyn\csi.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\csi.exe.config">
+      <Link>roslyn\csi.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\csi.rsp">
+      <Link>roslyn\csi.rsp</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <Link>roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.CodeAnalysis.CSharp.dll">
+      <Link>roslyn\Microsoft.CodeAnalysis.CSharp.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <Link>roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.CodeAnalysis.dll">
+      <Link>roslyn\Microsoft.CodeAnalysis.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.CodeAnalysis.Scripting.dll">
+      <Link>roslyn\Microsoft.CodeAnalysis.Scripting.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.CodeAnalysis.VisualBasic.dll">
+      <Link>roslyn\Microsoft.CodeAnalysis.VisualBasic.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.CSharp.Core.targets">
+      <Link>roslyn\Microsoft.CSharp.Core.targets</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.DiaSymReader.Native.amd64.dll">
+      <Link>roslyn\Microsoft.DiaSymReader.Native.amd64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.DiaSymReader.Native.x86.dll">
+      <Link>roslyn\Microsoft.DiaSymReader.Native.x86.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.Managed.Core.targets">
+      <Link>roslyn\Microsoft.Managed.Core.targets</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.VisualBasic.Core.targets">
+      <Link>roslyn\Microsoft.VisualBasic.Core.targets</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\Microsoft.Win32.Primitives.dll">
+      <Link>roslyn\Microsoft.Win32.Primitives.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.AppContext.dll">
+      <Link>roslyn\System.AppContext.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Collections.Immutable.dll">
+      <Link>roslyn\System.Collections.Immutable.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Console.dll">
+      <Link>roslyn\System.Console.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Diagnostics.DiagnosticSource.dll">
+      <Link>roslyn\System.Diagnostics.DiagnosticSource.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Diagnostics.FileVersionInfo.dll">
+      <Link>roslyn\System.Diagnostics.FileVersionInfo.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Diagnostics.StackTrace.dll">
+      <Link>roslyn\System.Diagnostics.StackTrace.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Globalization.Calendars.dll">
+      <Link>roslyn\System.Globalization.Calendars.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.IO.Compression.dll">
+      <Link>roslyn\System.IO.Compression.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.IO.Compression.ZipFile.dll">
+      <Link>roslyn\System.IO.Compression.ZipFile.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.IO.FileSystem.dll">
+      <Link>roslyn\System.IO.FileSystem.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.IO.FileSystem.Primitives.dll">
+      <Link>roslyn\System.IO.FileSystem.Primitives.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Net.Http.dll">
+      <Link>roslyn\System.Net.Http.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Net.Sockets.dll">
+      <Link>roslyn\System.Net.Sockets.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Reflection.Metadata.dll">
+      <Link>roslyn\System.Reflection.Metadata.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Runtime.InteropServices.RuntimeInformation.dll">
+      <Link>roslyn\System.Runtime.InteropServices.RuntimeInformation.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Security.Cryptography.Algorithms.dll">
+      <Link>roslyn\System.Security.Cryptography.Algorithms.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Security.Cryptography.Encoding.dll">
+      <Link>roslyn\System.Security.Cryptography.Encoding.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Security.Cryptography.Primitives.dll">
+      <Link>roslyn\System.Security.Cryptography.Primitives.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Security.Cryptography.X509Certificates.dll">
+      <Link>roslyn\System.Security.Cryptography.X509Certificates.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Text.Encoding.CodePages.dll">
+      <Link>roslyn\System.Text.Encoding.CodePages.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Threading.Tasks.Extensions.dll">
+      <Link>roslyn\System.Threading.Tasks.Extensions.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.ValueTuple.dll">
+      <Link>roslyn\System.ValueTuple.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Xml.ReaderWriter.dll">
+      <Link>roslyn\System.Xml.ReaderWriter.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Xml.XmlDocument.dll">
+      <Link>roslyn\System.Xml.XmlDocument.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Xml.XPath.dll">
+      <Link>roslyn\System.Xml.XPath.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\System.Xml.XPath.XDocument.dll">
+      <Link>roslyn\System.Xml.XPath.XDocument.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\vbc.exe">
+      <Link>roslyn\vbc.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\vbc.exe.config">
+      <Link>roslyn\vbc.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\vbc.rsp">
+      <Link>roslyn\vbc.rsp</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\VBCSCompiler.exe">
+      <Link>roslyn\VBCSCompiler.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform\tools\RoslynLatest\VBCSCompiler.exe.config">
+      <Link>roslyn\VBCSCompiler.exe.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -69,7 +255,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2') Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
       <ItemGroup>
         <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
           <HintPath>..\..\packages\Microsoft.AspNetCore.Html.Abstractions\lib\netstandard2.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
@@ -80,7 +266,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2') Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
       <ItemGroup>
         <Reference Include="Microsoft.AspNetCore.Razor">
           <HintPath>..\..\packages\Microsoft.AspNetCore.Razor\lib\netstandard2.0\Microsoft.AspNetCore.Razor.dll</HintPath>
@@ -116,7 +302,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2') Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
       <ItemGroup>
         <Reference Include="System.Text.Encodings.Web">
           <HintPath>..\..\packages\System.Text.Encodings.Web\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>

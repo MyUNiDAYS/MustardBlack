@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace MustardBlack.Build.Views
+namespace MustardBlack.ViewEngines.Razor.Build
 {
 	static class AssemblyRepository
 	{
@@ -45,7 +45,7 @@ namespace MustardBlack.Build.Views
 			string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 			LoadAssembliesFromPath(baseDirectory);
 
-			string privateBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
+			string privateBinPath = Path.Combine(baseDirectory, "bin");
 			if (Directory.Exists(privateBinPath))
 				LoadAssembliesFromPath(privateBinPath);
 		}

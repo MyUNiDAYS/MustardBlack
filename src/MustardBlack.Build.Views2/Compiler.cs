@@ -4,11 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using MustardBlack.Assets;
-using MustardBlack.Assets.Css;
-using MustardBlack.Assets.Javascript;
-using MustardBlack.ViewEngines.Razor;
+using MustardBlack.Assets.Less;
+using MustardBlack.Assets.YuiCompressor;
 
-namespace MustardBlack.Build.Views
+namespace MustardBlack.ViewEngines.Razor.Build
 {
 	static class Compiler
 	{

@@ -2,6 +2,10 @@ using System.Buffers;
 using System.Text.Encodings.Web;
 using MuonLab.Validation;
 using MustardBlack.Applications;
+using MustardBlack.Assets.Css;
+using MustardBlack.Assets.Javascript;
+using MustardBlack.Assets.Sass;
+using MustardBlack.Assets.YuiCompressor;
 using MustardBlack.Example.Areas.Example;
 using MustardBlack.Hosting;
 using MustardBlack.Hosting.AspNet;
@@ -19,6 +23,10 @@ namespace MustardBlack.Example.Cfg
 			container.Register<IApplication, ExampleApplication>();
 			container.Register<IResolverContainer>(c => c);
 
+			//container.Register<ICssPreprocessor, LessCssPreprocessor>();
+			container.Register<ICssPreprocessor, SassCssPreprocessor>();
+			container.Register<IJavascriptCompressor, YuiJavascriptCompressor>();
+
 			container.Register<IFileSystem, AspNetFileSystem>();
 
 			container.Register<IErrorMessageResolver, DefaultErrorMessageResolver>();
@@ -31,7 +39,7 @@ namespace MustardBlack.Example.Cfg
 			container.Inject(ArrayPool<char>.Shared);
 			container.Register<IViewRenderer, RazorViewRenderer>();
 
-			container.Register<IViewBufferScope, MemoryPoolViewBufferScope>(Lifecycle.HttpContextOrExecutionContextLocal);
+			container.Register<IViewBufferScope, MemoryPoolViewBufferScope>(Lifecycle.ExecutionContextLocal);
 		}
 	}
 }

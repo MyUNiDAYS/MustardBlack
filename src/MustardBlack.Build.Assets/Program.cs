@@ -1,12 +1,14 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using MustardBlack.Assets;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Javascript;
+using MustardBlack.Assets.Less;
+using MustardBlack.Assets.Sass;
+using MustardBlack.Assets.YuiCompressor;
 
-namespace MustardBlack.Build.Assets
+namespace MustardBlack.Assets.Build
 {
 	sealed class Program
 	{
@@ -17,7 +19,7 @@ namespace MustardBlack.Build.Assets
 			var outPath = args[2].Replace("/", "\\");
 
 			var assetLoader = new AssetLoader(new FakeFileSystem());
-			
+
 			string asset = null;
 			string assetFormat = null;
 
@@ -51,7 +53,7 @@ namespace MustardBlack.Build.Assets
 				asset = assetLoader.GetAsset(path, AreaJavascriptHandler.FileMatch);
 				if (string.IsNullOrWhiteSpace(asset))
 					return;
-			
+
 				var result = yuiJavascriptCompressor.Compress(asset);
 				// TODO: handle failure
 				asset = result;
@@ -64,7 +66,7 @@ namespace MustardBlack.Build.Assets
 			var outFile = Path.Combine(outPath, resourceIntegrityCheck + '.' + assetFormat);
 			File.WriteAllText(outFile, asset);
 		}
-		
+
 		static string ComputeSha256Hash(string input)
 		{
 			using (var sha256Hash = SHA256.Create())

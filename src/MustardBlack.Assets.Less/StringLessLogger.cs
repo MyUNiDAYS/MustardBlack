@@ -1,7 +1,7 @@
 using System.Text;
 using dotless.Core.Loggers;
 
-namespace MustardBlack.Assets.Css
+namespace MustardBlack.Assets.Less
 {
 	public sealed class StringLessLogger : Logger
 	{

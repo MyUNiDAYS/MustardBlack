@@ -23,15 +23,15 @@ namespace MustardBlack.Hosting.AspNet
 		{
 			// Create Request
 			var request = new AspNetRequest(httpContext);
-			this.container.Inject<IRequest>(request, Lifecycle.HttpContextOrExecutionContextLocal);
+			this.container.Inject<IRequest>(request, Lifecycle.ExecutionContextLocal);
             
 			// Create Response
 			var response = new AspNetResponse(httpContext);
-			this.container.Inject<IResponse>(response, Lifecycle.HttpContextOrExecutionContextLocal);
+			this.container.Inject<IResponse>(response, Lifecycle.ExecutionContextLocal);
 
 			// Create a pipeline context
 			var pipelineContext = new PipelineContext(request, response);
-			this.container.Inject(pipelineContext, Lifecycle.HttpContextOrExecutionContextLocal);
+			this.container.Inject(pipelineContext, Lifecycle.ExecutionContextLocal);
 
 			// route the application
 			await this.applicationRouter.RouteApplication(pipelineContext);

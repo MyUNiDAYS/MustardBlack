@@ -1,11 +1,12 @@
-framework: net472
+strategy: min
+framework: net472,netstandard2.0
 source https://www.nuget.org/api/v2
 
-nuget libsassnet 3.3.7-alpha-2 alpha
+nuget libsassnetstandard
 nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
-nuget MuonLab.Validation ~> 1.0
+nuget MuonLab.Validation ~> 2.0
 nuget xunit
 nuget YUICompressor.NET ~> 3.0
 nuget dotless.Core ~> 1.0
@@ -15,10 +16,10 @@ nuget Microsoft.AspNetCore.Razor ~> 2.1.0
 nuget Microsoft.AspNetCore.Razor.Language ~> 2.1.0
 nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.1.0
 nuget Microsoft.AspNetCore.Html.Abstractions ~> 2.1.0
+nuget Microsoft.AspNetCore.Diagnostics ~> 2.1.0
 nuget Microsoft.CodeAnalysis 2.8
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
-nuget Microsoft.CodeDom.Providers.DotNetCompilerPlatform ~> 2.0 import_targets: false
 nuget System.Reflection.Metadata ~> 1.0
 nuget Brotli.NET
 nuget DotNetZip ~> 1.0

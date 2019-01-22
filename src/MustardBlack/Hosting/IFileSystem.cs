@@ -35,5 +35,12 @@ namespace MustardBlack.Hosting
 		/// <param name="path"></param>
 		/// <returns></returns>
 		DateTime GetLastWriteTime(string path);
+
+		/// <summary>
+		/// Writes the given stream to the given path
+		/// </summary>
+		/// <param name="stream"></param>
+		/// <param name="path"></param>
+		void Write(Stream stream, string path);
 	}
 }

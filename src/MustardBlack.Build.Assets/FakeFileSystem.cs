@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MustardBlack.Hosting;
 
-namespace MustardBlack.Build.Assets
+namespace MustardBlack.Assets.Build
 {
 	sealed class FakeFileSystem : IFileSystem
 	{
@@ -28,6 +28,11 @@ namespace MustardBlack.Build.Assets
 		}
 
 		public DateTime GetLastWriteTime(string path)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Write(Stream stream, string path)
 		{
 			throw new NotImplementedException();
 		}

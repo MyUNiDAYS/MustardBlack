@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MustardBlack.Hosting;
 
-namespace MustardBlack.Build.Views
+namespace MustardBlack.ViewEngines.Razor.Build
 {
 	public sealed class BasicFileSystem : IFileSystem
 	{
@@ -58,6 +58,17 @@ namespace MustardBlack.Build.Views
 		{
 			var fullPath = this.GetFullPath(path);
 			return File.GetLastWriteTimeUtc(fullPath);
+		}
+
+		public void Write(Stream stream, string path)
+		{
+			path = this.GetFullPath(path);
+
+			using (var fileStream = File.Create(path))
+			{
+				stream.Seek(0, SeekOrigin.Begin);
+				stream.CopyTo(fileStream);
+			}
 		}
 	}
 }

@@ -3,5 +3,12 @@ NanoIoC
 MuonLab.Validation
 System.Buffers
 System.Reflection.Metadata
-Microsoft.CodeDom.Providers.DotNetCompilerPlatform
 Microsoft.AspNetCore.Razor
+dotless.Core
+Newtonsoft.Json
+Microsoft.AspNetCore.Razor.Language
+Microsoft.CodeAnalysis
+Microsoft.CodeAnalysis.Razor
+System.Buffers
+Microsoft.AspNetCore.Razor.Runtime
+libsassnetstandard

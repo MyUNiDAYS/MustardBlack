@@ -63,5 +63,16 @@ namespace MustardBlack.Hosting.AspNet
 			var fullPath = this.GetFullPath(path);
 			return File.GetLastWriteTimeUtc(fullPath);
 		}
+
+		public void Write(Stream stream, string path)
+		{
+			path = this.GetFullPath(path);
+
+			using (var fileStream = File.Create(path))
+			{
+				stream.Seek(0, SeekOrigin.Begin);
+				stream.CopyTo(fileStream);
+			}
+		}
 	}
 }

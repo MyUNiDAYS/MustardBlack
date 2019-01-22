@@ -1,16 +1,14 @@
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Web;
-using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using MustardBlack.Hosting;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Razor;
 using Serilog;
 
@@ -24,16 +22,15 @@ namespace MustardBlack.ViewEngines.Razor
 	    readonly string[] defaultAssemblies =
 		{
 			GetAssemblyPath(typeof(System.Runtime.CompilerServices.CallSite).Assembly),
-			GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly),
-			GetAssemblyPath(typeof(IHtmlString).Assembly)
+			//GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly),
+			//GetAssemblyPath(typeof(IHtmlString).Assembly)
 		};
 
 		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 
 		readonly RazorTemplateEngine razorTemplateEngine;
 		readonly RazorSourceDocument[] defaultImports;
-		List<string> referenceAssemblies;
-		readonly CSharpCodeProvider codeProvider;
+		List<MetadataReference> referenceAssemblies;
 
 		public RazorViewCompiler(IFileSystem fileSystem, IRazorConfiguration razorConfiguration)
 		{
@@ -44,8 +41,6 @@ namespace MustardBlack.ViewEngines.Razor
 			var defaultDirectivesProjectItem = new DefaultDirectivesProjectItem(this.razorConfiguration.GetDefaultNamespaces(), defaultTagHelpers);
 			this.defaultImports = new[] { RazorSourceDocument.ReadFrom(defaultDirectivesProjectItem) };
 			this.GetReferenceAssemblies();
-
-			this.codeProvider = new CSharpCodeProvider(razorConfiguration.CompilerSettings);
 		}
 
 		void GetReferenceAssemblies()
@@ -57,7 +52,10 @@ namespace MustardBlack.ViewEngines.Razor
 			assemblies.AddRange(appAssembly.GetReferencedAssemblies().Select(GetAssemblyPath)); // assemblies referenced by current app
 			assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(GetAssemblyPath)); // loaded assemblies (superset of above line?)
 			
-			this.referenceAssemblies = assemblies.Distinct(p => Path.GetFileName(p).ToLowerInvariant()).ToList();
+			this.referenceAssemblies = assemblies
+				.Distinct(p => Path.GetFileName(p).ToLowerInvariant())
+				.Select(p => MetadataReference.CreateFromFile(p) as MetadataReference)
+				.ToList();
 		}
 
 		static RazorTemplateEngine BuildRazorTemplateEngine(RazorProjectFileSystem fileSystem)
@@ -102,26 +100,26 @@ namespace MustardBlack.ViewEngines.Razor
 			var ass = Assembly.GetEntryAssembly();
 
 			// Look for web application assembly
-			var ctx = HttpContext.Current;
-			if (ctx != null)
-				ass = GetWebApplicationAssembly(ctx);
+//			var ctx = HttpContext.Current;
+//			if (ctx != null)
+//				ass = GetWebApplicationAssembly(ctx);
 
 			// Fallback to executing assembly
 			return ass ?? (Assembly.GetExecutingAssembly());
 		}
 		
-		static Assembly GetWebApplicationAssembly(HttpContext context)
-		{
-			object app = context.ApplicationInstance;
-			if (app == null) return null;
-
-			var type = app.GetType();
-			// TODO: suspect "ASP" is no longer real/correct
-			while (type != null && type != typeof(object) && type.Namespace == "ASP")
-				type = type.BaseType;
-
-			return type.Assembly;
-		}
+//		static Assembly GetWebApplicationAssembly(HttpContext context)
+//		{
+//			object app = context.ApplicationInstance;
+//			if (app == null) return null;
+//
+//			var type = app.GetType();
+//			// TODO: suspect "ASP" is no longer real/correct
+//			while (type != null && type != typeof(object) && type.Namespace == "ASP")
+//				type = type.BaseType;
+//
+//			return type.Assembly;
+//		}
 
 		public Type CompileFile(RazorViewCompilationData view)
 		{
@@ -141,47 +139,72 @@ namespace MustardBlack.ViewEngines.Razor
 
 		Type CompileCSharp(RazorViewCompilationData view, string source, RazorCSharpDocument razorCSharpDocument)
 		{
-			var compilerParameters = new CompilerParameters(this.referenceAssemblies.ToArray());
-			compilerParameters.IncludeDebugInformation = true;
-			compilerParameters.TempFiles.KeepFiles = false;
-            
-		    log.Debug("Compiling {viewPath} - 1 of 3 log entries - Broken into entries 3 due to Seq raw payload limits. If you don't see log parts 2 and/or 3. They're too big, soz", view.FilePath);
-		    log.Debug("Compiling {viewPath} - 2 of 3 log entries - Source {source}", view.FilePath, source);
-		    log.Debug("Compiling {viewPath} - 3 of 3 log entries - GeneratedCode {generatedCode}", view.FilePath, razorCSharpDocument.GeneratedCode);
+			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+			var compilation = CSharpCompilation.Create("assembly",
+				new[] { CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode) },
+				this.referenceAssemblies,
+				cSharpCompilationOptions);
 
-			var compilationResults = this.codeProvider.CompileAssemblyFromSource(compilerParameters, razorCSharpDocument.GeneratedCode);
-			if (compilationResults.Errors.HasErrors)
+			log.Debug("Compiling {viewPath} - 1 of 3 log entries - Broken into entries 3 due to Seq raw payload limits. If you don't see log parts 2 and/or 3. They're too big, soz", view.FilePath);
+			log.Debug("Compiling {viewPath} - 2 of 3 log entries - Source {source}", view.FilePath, source);
+			log.Debug("Compiling {viewPath} - 3 of 3 log entries - GeneratedCode {generatedCode}", view.FilePath, razorCSharpDocument.GeneratedCode);
+
+			using (var assemblyStream = new MemoryStream())
+			using (var symbolStream = new MemoryStream())
 			{
-				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => $"[{error.ErrorNumber}] Line: {error.Line} Column: {error.Column} - {error.ErrorText}").Aggregate((s1, s2) => s1 + "\n" + s2);
-				throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + errors, source, razorCSharpDocument.GeneratedCode);
+				var result = compilation.Emit(assemblyStream, symbolStream);
+
+				var errors = result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+				if (errors.Any())
+				{
+					var message = errors.Select(e =>
+						{
+							var fileLinePositionSpan = e.Location.GetMappedLineSpan();
+							return $"[{e.Id}] Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character} - {e.Descriptor.Title}: {e.Descriptor.Description}";
+						}).Aggregate((s1, s2) => s1 + "\n" + s2);
+
+					throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + message, source, razorCSharpDocument.GeneratedCode);
+				}
+
+				var assembly = Assembly.Load(assemblyStream.ToArray(), symbolStream.ToArray());
+
+				var type = assembly.GetType(view.Namespace + "." + view.ClassName);
+				if (type == null)
+					throw new ViewRenderException($"Could not find type `{view.Namespace + "." + view.ClassName}` in assembly `{assembly.FullName}`");
+
+				return type;
 			}
-
-			var type = compilationResults.CompiledAssembly.GetType(view.Namespace + "." + view.ClassName);
-			if (type == null)
-				throw new ViewRenderException($"Could not find type `{view.Namespace + "." + view.ClassName}` in assembly `{compilationResults.CompiledAssembly.FullName}`");
-
-			return type;
 		}
 
 		public void CompileAndMergeFiles(IEnumerable<RazorViewCompilationData> viewCompilationDetails, string outputAssemblyName)
 		{
 			var outputAssemblyPath = Path.Combine(this.razorConfiguration.OutPath, outputAssemblyName + ".Views.Razor.dll");
 
-			var razorCSharpDocuments = viewCompilationDetails
-				.Select(this.GenerateCSharp)
-				.Select(d => d.GeneratedCode)
-				.ToArray();
-			
-			var compilerParameters = new CompilerParameters(this.referenceAssemblies.ToArray());
-			compilerParameters.IncludeDebugInformation = true;
-			compilerParameters.TempFiles.KeepFiles = false;
-			compilerParameters.OutputAssembly = outputAssemblyPath;
+			var cSharp = string.Join("\n", viewCompilationDetails.Select(this.GenerateCSharp).Select(d => d.GeneratedCode));
 
-			var compilationResults = this.codeProvider.CompileAssemblyFromSource(compilerParameters, razorCSharpDocuments);
-			if (compilationResults.Errors.HasErrors)
+			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+			var compilation = CSharpCompilation.Create("assembly",
+				new[] { CSharpSyntaxTree.ParseText(cSharp) },
+				this.referenceAssemblies,
+				cSharpCompilationOptions);
+			
+			using (var assemblyStream = new MemoryStream())
 			{
-				var errors = compilationResults.Errors.OfType<CompilerError>().Where(ce => !ce.IsWarning).Select(error => $"[{error.ErrorNumber}] File: {error.FileName} Line: {error.Line} Column: {error.Column} - {error.ErrorText}").Aggregate((s1, s2) => s1 + "\n" + s2);
-				throw new ViewRenderException("Failed to compile view: " + errors);
+				var result = compilation.Emit(assemblyStream);
+
+				var errors = result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+				if (errors.Any())
+				{
+					var message = errors.Select(e =>
+					{
+						var fileLinePositionSpan = e.Location.GetMappedLineSpan();
+						return $"[{e.Id}] Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character} - {e.Descriptor.Title}: {e.Descriptor.Description}";
+					}).Aggregate((s1, s2) => s1 + "\n" + s2);
+
+					throw new ViewRenderException("Failed to compile views: " + message);
+				}
+
+				this.fileSystem.Write(assemblyStream, outputAssemblyPath);
 			}
 		}
 
