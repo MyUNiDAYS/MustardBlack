@@ -15,6 +15,7 @@ nuget NSubstitute ~> 3.0
 nuget Microsoft.AspNetCore.Razor ~> 2.1.0
 nuget Microsoft.AspNetCore.Razor.Language ~> 2.1.0
 nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.1.0
+nuget Microsoft.AspNetCore.Http ~> 2.1.0
 nuget Microsoft.AspNetCore.Html.Abstractions ~> 2.1.0
 nuget Microsoft.AspNetCore.Diagnostics ~> 2.1.0
 nuget Microsoft.CodeAnalysis 2.8
