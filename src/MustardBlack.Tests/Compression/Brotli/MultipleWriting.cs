@@ -2,8 +2,7 @@
 using System.IO.Compression;
 using System.Text;
 using Brotli;
-
-using MustardBlack.Hosting.AspNet;
+using MustardBlack.Brotli.NET;
 
 namespace MustardBlack.Tests.Compression.Brotli
 {

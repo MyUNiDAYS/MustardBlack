@@ -1,5 +1,7 @@
 using System;
 using System.Web;
+using Brotli;
+using MustardBlack.Brotli.NET;
 
 namespace MustardBlack.Hosting.AspNet
 {

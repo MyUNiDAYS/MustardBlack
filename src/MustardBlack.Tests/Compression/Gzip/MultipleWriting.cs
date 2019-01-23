@@ -2,8 +2,6 @@
 using System.IO.Compression;
 using System.Text;
 
-using MustardBlack.Hosting.AspNet;
-
 namespace MustardBlack.Tests.Compression.Gzip
 {
 	public class MultipleWriting : Specification

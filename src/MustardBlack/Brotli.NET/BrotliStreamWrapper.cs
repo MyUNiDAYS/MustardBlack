@@ -4,9 +4,9 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using Brotli;
 
-namespace MustardBlack.Hosting.AspNet
+namespace MustardBlack.Brotli.NET
 {
-	sealed class BrotliStreamWrapper : BrotliStream
+	public sealed class BrotliStreamWrapper : BrotliStream
 	{
 		readonly Action writeAction;
 		bool written;
@@ -29,7 +29,7 @@ namespace MustardBlack.Hosting.AspNet
 					{
 						int num = 65536 - (int) this._availableOut;
 						Marshal.Copy(this._ptrOutputBuffer, this._managedBuffer, 0, num);
-						if(written)
+						if(this.written)
 							this._stream.Write(this._managedBuffer, 0, num);
 						this._availableOut = 65536U;
 						this._ptrNextOutput = this._ptrOutputBuffer;

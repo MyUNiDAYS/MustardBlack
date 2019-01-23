@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack", "MustardBlack\MustardBlack.csproj", "{823CDC0B-1F01-4E42-AB08-785FEF3FA4DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Tests", "MustardBlack.Tests\MustardBlack.Tests.csproj", "{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.ViewEngines.Razor", "MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj", "{5DF08811-CA1F-4167-B837-77DDDDE98C62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Hosting.AspNet", "MustardBlack.Hosting.AspNet\MustardBlack.Hosting.AspNet.csproj", "{D4264C23-358F-4071-A7EE-5FE8C9345F26}"
@@ -31,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.ViewEngines.Ra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Example.AspNet", "MustardBlack.Example.AspNet\MustardBlack.Example.AspNet.csproj", "{7CE77C04-4C53-4C66-8163-34FFCC72F716}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Tests", "MustardBlack.Tests\MustardBlack.Tests.csproj", "{E6E5B62A-AB10-451A-89DD-9627B5F70F18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,12 +44,6 @@ Global
 		{823CDC0B-1F01-4E42-AB08-785FEF3FA4DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{823CDC0B-1F01-4E42-AB08-785FEF3FA4DE}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{823CDC0B-1F01-4E42-AB08-785FEF3FA4DE}.Test|Any CPU.Build.0 = Release|Any CPU
-		{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}.Test|Any CPU.ActiveCfg = Release|Any CPU
-		{21180A8B-7F36-432F-97DE-21AE0E5BEEDA}.Test|Any CPU.Build.0 = Release|Any CPU
 		{5DF08811-CA1F-4167-B837-77DDDDE98C62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DF08811-CA1F-4167-B837-77DDDDE98C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DF08811-CA1F-4167-B837-77DDDDE98C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -98,6 +92,12 @@ Global
 		{7CE77C04-4C53-4C66-8163-34FFCC72F716}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CE77C04-4C53-4C66-8163-34FFCC72F716}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{7CE77C04-4C53-4C66-8163-34FFCC72F716}.Test|Any CPU.Build.0 = Test|Any CPU
+		{E6E5B62A-AB10-451A-89DD-9627B5F70F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6E5B62A-AB10-451A-89DD-9627B5F70F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6E5B62A-AB10-451A-89DD-9627B5F70F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6E5B62A-AB10-451A-89DD-9627B5F70F18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6E5B62A-AB10-451A-89DD-9627B5F70F18}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6E5B62A-AB10-451A-89DD-9627B5F70F18}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

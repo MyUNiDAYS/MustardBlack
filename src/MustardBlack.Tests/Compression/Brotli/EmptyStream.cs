@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using MustardBlack.Hosting.AspNet;
+using MustardBlack.Brotli.NET;
 using Xunit;
 
 namespace MustardBlack.Tests.Compression.Brotli
