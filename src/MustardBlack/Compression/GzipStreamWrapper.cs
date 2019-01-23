@@ -2,9 +2,9 @@
 using System.IO;
 using Ionic.Zlib;
 
-namespace MustardBlack.Hosting.AspNet
+namespace MustardBlack.Compression
 {
-	sealed class GzipStreamWrapper : GZipStream
+	public sealed class GzipStreamWrapper : GZipStream
 	{
 		readonly Action writeAction;
 		bool written;

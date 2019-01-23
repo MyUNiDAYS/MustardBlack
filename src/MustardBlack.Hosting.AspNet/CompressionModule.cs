@@ -1,7 +1,6 @@
 using System;
 using System.Web;
-using Brotli;
-using MustardBlack.Brotli.NET;
+using MustardBlack.Compression;
 
 namespace MustardBlack.Hosting.AspNet
 {

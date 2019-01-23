@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
-using Brotli;
-using MustardBlack.Brotli.NET;
+using MustardBlack.Compression;
+using BrotliStream = Brotli.BrotliStream;
 
 namespace MustardBlack.Tests.Compression.Brotli
 {

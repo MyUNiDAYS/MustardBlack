@@ -2,9 +2,9 @@
 using System.IO;
 using Ionic.Zlib;
 
-namespace MustardBlack.Hosting.AspNet
+namespace MustardBlack.Compression
 {
-	sealed class DeflateStreamWrapper : DeflateStream
+	public sealed class DeflateStreamWrapper : DeflateStream
 	{
 		readonly Action writeAction;
 		bool written;

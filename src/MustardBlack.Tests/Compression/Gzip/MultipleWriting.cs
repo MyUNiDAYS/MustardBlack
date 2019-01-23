@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
+using MustardBlack.Compression;
 
 namespace MustardBlack.Tests.Compression.Gzip
 {

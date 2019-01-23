@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using Brotli;
 
-namespace MustardBlack.Brotli.NET
+namespace MustardBlack.Compression
 {
 	public sealed class BrotliStreamWrapper : BrotliStream
 	{

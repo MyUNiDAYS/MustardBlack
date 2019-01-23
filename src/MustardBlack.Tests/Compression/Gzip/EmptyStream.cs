@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using MustardBlack.Compression;
 using Xunit;
 
 namespace MustardBlack.Tests.Compression.gzip
