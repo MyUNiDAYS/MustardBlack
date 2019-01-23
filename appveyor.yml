@@ -23,10 +23,18 @@ for:
 artifacts:
   - path: '*.nupkg'
 deploy:
-  provider: NuGet
-  api_key:
-    secure: lYIqcO230Ct+xY1Je+G17ImW6a3ZEHc1uBagpCQWdegbykpkCC3BB4QE0o+mF61/
-  on:
-    branch:
-      - master
-      - tidyviews
+  - provider: NuGet
+    api_key:
+      secure: lYIqcO230Ct+xY1Je+G17ImW6a3ZEHc1uBagpCQWdegbykpkCC3BB4QE0o+mF61/
+    on:
+      branch:
+        - master
+  - provider: NuGet # MyGet
+    server: https://www.myget.org/F/unidays-release/
+    api_key:
+      secure: 4yuwHXUFFa5ijOkkvvmEX/SjKhzWTvln7JtYrgVB1KdXcpF4o8WFAeNm6PTlwN+L
+    skip_symbols: true # Will be uploaded by former deployment job
+    on:
+      branch:
+        - master
+        - myget-dual-publish
