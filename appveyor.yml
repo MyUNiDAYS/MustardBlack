@@ -37,4 +37,3 @@ deploy:
     on:
       branch:
         - master
-        - myget-dual-publish
