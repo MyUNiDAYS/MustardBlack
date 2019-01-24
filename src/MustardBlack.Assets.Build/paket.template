@@ -1,5 +1,5 @@
 ﻿type file
-id MustardBlack.Build.Assets
+id MustardBlack.Assets.Build
 authors trullock
 description Builds MBs Assets
 files

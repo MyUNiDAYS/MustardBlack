@@ -1,5 +1,5 @@
 ﻿type file
-id MustardBlack.Build.Views
+id MustardBlack.ViewEngines.Razor.Build
 authors trullock
 description Builds MBs Views
 files
