@@ -12,4 +12,3 @@ Microsoft.CodeAnalysis.Razor
 System.Buffers
 Microsoft.AspNetCore.Razor.Runtime
 libsassnetstandard
-DotNetZip

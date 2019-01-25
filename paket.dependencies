@@ -20,7 +20,6 @@ nuget Microsoft.CodeAnalysis ~> 2.0
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
 nuget System.Reflection.Metadata ~> 1.0
-nuget DotNetZip ~> 1.0
 nuget System.Buffers
 
 nuget xunit

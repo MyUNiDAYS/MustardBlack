@@ -172,13 +172,6 @@
       </ItemGroup>
     </When>
   </Choose>
-  <ItemGroup>
-        <Reference Include="DotNetZip">
-          <HintPath>..\..\packages\DotNetZip\lib\netstandard2.0\DotNetZip.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
   <Choose>
     <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2') Or ($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
       <ItemGroup>
@@ -1370,26 +1363,6 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
-      <ItemGroup>
-        <Reference Include="System.Security.AccessControl">
-          <HintPath>..\..\packages\System.Security.AccessControl\lib\netstandard2.0\System.Security.AccessControl.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
-      <ItemGroup>
-        <Reference Include="System.Security.AccessControl">
-          <HintPath>..\..\packages\System.Security.AccessControl\ref\netstandard2.0\System.Security.AccessControl.dll</HintPath>
-          <Private>False</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.2'">
       <ItemGroup>
         <Reference Include="System.Security.Cryptography.Algorithms">
@@ -1559,46 +1532,6 @@
       <ItemGroup>
         <Reference Include="System.Security.Cryptography.X509Certificates">
           <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates\ref\netstandard1.4\System.Security.Cryptography.X509Certificates.dll</HintPath>
-          <Private>False</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
-      <ItemGroup>
-        <Reference Include="System.Security.Permissions">
-          <HintPath>..\..\packages\System.Security.Permissions\lib\netstandard2.0\System.Security.Permissions.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
-      <ItemGroup>
-        <Reference Include="System.Security.Permissions">
-          <HintPath>..\..\packages\System.Security.Permissions\ref\netstandard2.0\System.Security.Permissions.dll</HintPath>
-          <Private>False</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
-      <ItemGroup>
-        <Reference Include="System.Security.Principal.Windows">
-          <HintPath>..\..\packages\System.Security.Principal.Windows\lib\netstandard2.0\System.Security.Principal.Windows.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v2.0')">
-      <ItemGroup>
-        <Reference Include="System.Security.Principal.Windows">
-          <HintPath>..\..\packages\System.Security.Principal.Windows\ref\netstandard2.0\System.Security.Principal.Windows.dll</HintPath>
           <Private>False</Private>
           <Paket>True</Paket>
         </Reference>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Ionic.Zlib;
+using System.IO.Compression;
 
 namespace MustardBlack.Compression
 {
@@ -9,7 +9,7 @@ namespace MustardBlack.Compression
 		readonly Action writeAction;
 		bool written;
 
-		public GzipStreamWrapper(Stream baseStream, Action writeAction, bool leaveOpen = false) : base(baseStream, CompressionMode.Compress, CompressionLevel.Default, leaveOpen)
+		public GzipStreamWrapper(Stream baseStream, Action writeAction, bool leaveOpen = false) : base(baseStream, CompressionMode.Compress, leaveOpen)
 		{
 			this.writeAction = writeAction;
 		}
