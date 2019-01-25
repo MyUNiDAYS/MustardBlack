@@ -19,4 +19,5 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="Compression/Brotli.NET/Brotli.NET.targets" />
 </Project>
