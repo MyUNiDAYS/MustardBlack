@@ -36,6 +36,13 @@ namespace MustardBlack.Hosting.AspNet
 						this.bootstrapper?.Bootstrap();
 					}
 				}
+				catch (TypeInitializationException e)
+				{
+					if (e.InnerException is ReflectionTypeLoadException inner)
+						throw new BootException(inner.LoaderExceptions, e);
+					else
+						throw;
+				}
 				catch (ReflectionTypeLoadException e)
 				{
 					throw new BootException(e.LoaderExceptions, e);
