@@ -18,6 +18,14 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Compression\Brotli.NET\Brotli.NET.targets">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="MustardBlack.targets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="Compression/Brotli.NET/Brotli.NET.targets" />
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
