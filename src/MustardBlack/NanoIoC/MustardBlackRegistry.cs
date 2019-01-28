@@ -1,3 +1,4 @@
+using MustardBlack.Assets.Css;
 using MustardBlack.TempData;
 using NanoIoC;
 
@@ -8,6 +9,7 @@ namespace MustardBlack.NanoIoC
 		public void Register(IContainer container)
 		{
 			container.Register<ITempDataMechanism, CookieTempDataMechanism>();
+			container.Register<IAreaCssPreprocessorFinder, ContainerAreaCssPreprocessorFinder>();
 		}
 	}
 }

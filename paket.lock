@@ -17,7 +17,7 @@ NUGET
       System.Drawing.Common (>= 4.5) - restriction: || (&& (== net472) (< net45)) (== netcoreapp2.1) (== netcoreapp2.2) (== netstandard2.0)
     EcmaScript.NET (2.0)
       System.Reflection.Emit (>= 4.3)
-    libsassnetstandard (3.3.7)
+    libsassnetstandard (3.3.8) - import_targets: true
     Microsoft.AspNetCore.Diagnostics (2.2)
       Microsoft.AspNetCore.Diagnostics.Abstractions (>= 2.2)
       Microsoft.AspNetCore.Hosting.Abstractions (>= 2.2)

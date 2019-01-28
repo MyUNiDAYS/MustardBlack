@@ -236,6 +236,7 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\..\packages\libsassnetstandard\build\libsassnetstandard.targets" Condition="Exists('..\..\packages\libsassnetstandard\build\libsassnetstandard.targets')" Label="Paket" />
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll">
       <Paket>True</Paket>

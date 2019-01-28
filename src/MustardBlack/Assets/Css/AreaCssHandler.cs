@@ -12,12 +12,12 @@ namespace MustardBlack.Assets.Css
 	public sealed class AreaCssHandler : Handler
 	{
 		readonly IAssetLoader assetLoader;
-		readonly ICssPreprocessor cssPreprocessor;
+		readonly IAreaCssPreprocessorFinder areaCssPreprocessorFinder;
 
-		public AreaCssHandler(IAssetLoader assetLoader, ICssPreprocessor cssPreprocessor)
+		public AreaCssHandler(IAssetLoader assetLoader, IAreaCssPreprocessorFinder areaCssPreprocessorFinder)
 		{
 			this.assetLoader = assetLoader;
-			this.cssPreprocessor = cssPreprocessor;
+			this.areaCssPreprocessorFinder = areaCssPreprocessorFinder;
 		}
 
 		public IResult Get(IRequest request)
@@ -25,9 +25,10 @@ namespace MustardBlack.Assets.Css
 			var area = request.Url.Path.Substring(1, request.Url.Path.IndexOf('.') - 1);
 			var path = "~/areas/" + area + "/assets/styles/";
 
-			var asset = this.assetLoader.GetAsset(path, this.cssPreprocessor.FileMatch);
+			var cssPreprocessor = this.areaCssPreprocessorFinder.FindCssPreprocessorForArea(area);
+			var asset = this.assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
 			
-			var assetResult = this.cssPreprocessor.Process(asset);
+			var assetResult = cssPreprocessor.Process(asset);
 			if (assetResult.Status == AssetProcessingResult.CompilationStatus.Success)
 				return new FileContentResult("text/css", Encoding.UTF8.GetBytes(assetResult.Result));
 
