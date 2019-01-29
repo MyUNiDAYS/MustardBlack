@@ -15,18 +15,21 @@ namespace MustardBlack.Assets.Sass
 
 		public AssetProcessingResult Process(string input, string mixins = null)
 		{
-			var lessBuilder = new StringBuilder();
+			if (string.IsNullOrWhiteSpace(input))
+				return new AssetProcessingResult(AssetProcessingResult.CompilationStatus.Success, string.Empty);
+
+			var sassBuilder = new StringBuilder();
 
 			if (!string.IsNullOrEmpty(mixins))
 			{
 				// This exists because our LessCompiler this was ported from doesnt let us omit the mixins after input compilation.
 				// Maybe we can be cleaner with the Sass here
-				lessBuilder.Append(sassCompilerSeparatorColorRed);
+				sassBuilder.Append(sassCompilerSeparatorColorRed);
 			}
 
-			lessBuilder.Append(input);
+			sassBuilder.Append(input);
 
-			var cssCompilationResult = SassCompiler.TryCompile(lessBuilder.ToString(), mixins);
+			var cssCompilationResult = SassCompiler.TryCompile(sassBuilder.ToString(), mixins);
 
 			if (cssCompilationResult.Status != AssetProcessingResult.CompilationStatus.Success || string.IsNullOrEmpty(mixins))
 				return cssCompilationResult;

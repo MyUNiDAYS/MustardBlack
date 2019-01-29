@@ -14,6 +14,9 @@ namespace MustardBlack.Assets.Less
 
 		public AssetProcessingResult Process(string input, string mixins = null)
 		{
+			if(string.IsNullOrWhiteSpace(input))
+				return new AssetProcessingResult(AssetProcessingResult.CompilationStatus.Success, string.Empty);
+
 			var lessBuilder = new StringBuilder();
 
 			if (!string.IsNullOrEmpty(mixins))
