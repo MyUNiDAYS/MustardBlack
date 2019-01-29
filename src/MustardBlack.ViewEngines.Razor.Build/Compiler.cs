@@ -4,14 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using MustardBlack.Assets;
+using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Less;
+using MustardBlack.Assets.Sass;
 using MustardBlack.Assets.YuiCompressor;
 
 namespace MustardBlack.ViewEngines.Razor.Build
 {
 	static class Compiler
 	{
-		public static void Compile(string inPath, string outPath, string assemblyName)
+		public static void Compile(string inPath, string outPath, string cssMode, string assemblyName)
 		{
 			var binPath = Path.Combine(inPath, "bin");
 			var webConfigPath = Path.Combine(inPath, "web.config");
@@ -20,9 +22,10 @@ namespace MustardBlack.ViewEngines.Razor.Build
 			AssemblyRepository.LoadAssembliesFromPath(binPath);
 
 			var razorConfiguration = new RazorConfiguration(webConfigPath, outPath);
-			var cssPreprocessor = new LessCssPreprocessor();
+
+			var areaCssPreprocessorFinder = new PredeterminedAreaCssPreprocessorFinder(cssMode);
 			var fileSystem = new BasicFileSystem(inPath);
-			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessor, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
+			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), areaCssPreprocessorFinder, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
 
 			var views = Directory.GetFiles(inPath, "*.cshtml", SearchOption.AllDirectories).ToList();
 			if (!views.Any())

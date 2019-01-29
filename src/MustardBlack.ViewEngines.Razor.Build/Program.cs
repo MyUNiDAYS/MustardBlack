@@ -15,11 +15,12 @@ namespace MustardBlack.ViewEngines.Razor.Build
 
 			var inPath = Path.GetFullPath(args[0]);
 			var outPath = Path.GetFullPath(args[1]);
-			var assemblyName = args[2];
+			var css = Path.GetFullPath(args[2]);
+			var assemblyName = args[3];
 
 			try
 			{
-				Compiler.Compile(inPath, outPath, assemblyName);
+				Compiler.Compile(inPath, outPath, css, assemblyName);
 			}
 			catch (Exception e)
 			{
