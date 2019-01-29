@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using MustardBlack.Compression;
 
 namespace MustardBlack.Hosting.AspNet
 {

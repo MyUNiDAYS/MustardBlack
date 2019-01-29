@@ -1,6 +1,0 @@
-﻿type file
-id MustardBlack.Build.Views
-authors trullock
-description Builds MBs Views
-files
-  bin/Release ==> tools

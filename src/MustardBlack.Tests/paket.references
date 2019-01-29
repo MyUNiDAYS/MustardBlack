@@ -1,7 +1,9 @@
-xunit
 NSubstitute
 NanoIoC
 Newtonsoft.Json
-Brotli.NET
-DotNetZip
 MuonLab.Validation
+Serilog
+
+xunit
+Microsoft.NET.Test.Sdk
+xunit.runner.visualstudio

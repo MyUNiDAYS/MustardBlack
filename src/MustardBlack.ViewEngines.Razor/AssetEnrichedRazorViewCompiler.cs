@@ -8,13 +8,13 @@ namespace MustardBlack.ViewEngines.Razor
 	public class AssetEnrichedRazorViewCompiler : RazorViewCompiler
 	{
 		readonly IJavascriptCompressor jsCompressor;
-		readonly ICssPreprocessor cssPreprocessor;
+		readonly IAreaCssPreprocessorFinder areaCssPreprocessorFinder;
 		readonly IAssetLoader assetLoader;
 
-		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, ICssPreprocessor cssPreprocessor, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
+		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, IAreaCssPreprocessorFinder areaCssPreprocessorFinder, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
 		{
 			this.jsCompressor = jsCompressor;
-			this.cssPreprocessor = cssPreprocessor;
+			this.areaCssPreprocessorFinder = areaCssPreprocessorFinder;
 			this.assetLoader = assetLoader;
 		}
 		
@@ -44,9 +44,11 @@ namespace MustardBlack.ViewEngines.Razor
 			if (string.IsNullOrEmpty(input))
 				return null;
 
-			var mixins = this.assetLoader.GetAsset("~/areas/" + areaName + "/", this.cssPreprocessor.FileMatch);
+			var cssPreprocessor = this.areaCssPreprocessorFinder.FindCssPreprocessorForArea(areaName);
 
-			var cssResult = this.cssPreprocessor.Process(input, mixins);
+			var mixins = this.assetLoader.GetAsset("~/areas/" + areaName + "/", cssPreprocessor.FileMatch);
+
+			var cssResult = cssPreprocessor.Process(input, mixins);
 
 			var css = cssResult.Status == AssetProcessingResult.CompilationStatus.Success ? cssResult.Result : cssResult.Message;
 			css = css.Replace("@", "@@");

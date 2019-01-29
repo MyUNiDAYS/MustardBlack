@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyName>MustardBlack.Assets.Sass</AssemblyName>
+    <RootNamespace>MustardBlack.Assets.Sass</RootNamespace>
+    <PackageId>MustardBlack.Assets.Sass</PackageId>
+    <IsPackable>true</IsPackable>
+    <Authors>MyUNiDAYS Ltd</Authors>
+    <Company>MyUNiDAYS Ltd</Company>
+    <Product>MustardBlack</Product>
+    <Copyright>MyUNiDAYS Ltd</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="paket.references" />
+    <None Include="paket.template" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MustardBlack\MustardBlack.csproj" />
+  </ItemGroup>
+  <!-- <Import Project="..\..\packages\libsassnetstandard\build\libsassnetstandard.targets" /> -->
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

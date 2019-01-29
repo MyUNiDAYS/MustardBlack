@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 
 namespace MustardBlack.ViewEngines.Razor
 {
@@ -10,14 +9,12 @@ namespace MustardBlack.ViewEngines.Razor
 		/// Gets the default namespaces.
 		/// </summary>
 		IEnumerable<string> GetDefaultNamespaces();
-
+		
 		/// <summary>
 		/// The full path to place compiled assemblies
 		/// </summary>
 		string OutPath { get; }
 
 		IEnumerable<Type> GetDefaultTagHelpers();
-
-		ICompilerSettings CompilerSettings { get; }
 	}
 }

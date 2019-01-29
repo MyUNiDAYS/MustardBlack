@@ -1,0 +1,6 @@
+﻿type file
+id MustardBlack.ViewEngines.Razor.Build
+authors trullock
+description Builds MBs Views
+files
+  bin/Release ==> tools

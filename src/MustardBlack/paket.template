@@ -1,2 +1,9 @@
-﻿type project
+﻿type file
+id MustardBlack
 authors trullock
+description MustardBlack
+files
+  bin/Release/netstandard2.0/MustardBlack.dll ==> lib/netstandard2.0
+  bin/Release/netstandard2.0/MustardBlack.pdb ==> lib/netstandard2.0
+  bin/Release/netstandard2.0/brolib*.* ==> build
+  bin/Release/netstandard2.0/MustardBlack.targets ==> build

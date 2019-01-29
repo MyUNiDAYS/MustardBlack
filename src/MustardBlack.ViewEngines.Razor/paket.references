@@ -3,9 +3,9 @@ Microsoft.AspNetCore.Razor.Language
 Microsoft.AspNetCore.Razor.Runtime
 Microsoft.AspNetCore.Mvc.Razor.Extensions
 Microsoft.AspNetCore.Html.Abstractions
+Microsoft.AspNetCore.Diagnostics
 Microsoft.CodeAnalysis
 Microsoft.CodeAnalysis.Razor
-Microsoft.CodeDom.Providers.DotNetCompilerPlatform
 System.Reflection.Metadata
 System.Buffers
 NanoIoC

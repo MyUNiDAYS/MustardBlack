@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
-
-using MustardBlack.Hosting.AspNet;
+using MustardBlack.Compression;
 
 namespace MustardBlack.Tests.Compression.Gzip
 {

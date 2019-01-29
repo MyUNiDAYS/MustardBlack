@@ -1,0 +1,6 @@
+﻿type file
+id MustardBlack.Assets.Build
+authors trullock
+description Builds MBs Assets
+files
+  bin/Release ==> tools
