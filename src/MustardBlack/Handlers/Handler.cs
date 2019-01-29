@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using MustardBlack.Hosting;
 using MustardBlack.Pipeline;
 using MustardBlack.Results;
@@ -15,14 +16,15 @@ namespace MustardBlack.Handlers
 		// TODO: log base here if possible
 
 		public PipelineContext Context { get; set; }
-		
+
 		/// <summary>
 		/// Creates a new ViewResult
 		/// </summary>
 		/// <param name="name">The name of the view</param>
 		/// <param name="resource">The data associated with the view</param>
+		/// <param name="statusCode">The status-code of the result</param>
 		/// <returns></returns>
-		protected ViewResult View(string name, object resource = null)
+		protected ViewResult View(string name, object resource = null, HttpStatusCode statusCode = HttpStatusCode.OK)
 		{
 			var viewResolver = Container.Global.Resolve<IViewResolver>();
 
@@ -36,7 +38,7 @@ namespace MustardBlack.Handlers
 				name += ".cshtml";
 
 			var viewType = viewResolver.Resolve(name);
-			var viewResult = new ViewResult(viewType, this.Context.AreaName(), resource);
+			var viewResult = new ViewResult(viewType, this.Context.AreaName(), resource, statusCode);
 			
 			return viewResult;
 		}
