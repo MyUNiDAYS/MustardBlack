@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using MustardBlack.Handlers;
@@ -12,12 +13,12 @@ namespace MustardBlack.Assets.Css
 	public sealed class AreaCssHandler : Handler
 	{
 		readonly IAssetLoader assetLoader;
-		readonly IAreaCssPreprocessorFinder areaCssPreprocessorFinder;
+		readonly IEnumerable<ICssPreprocessor> cssPreprocessors;
 
-		public AreaCssHandler(IAssetLoader assetLoader, IAreaCssPreprocessorFinder areaCssPreprocessorFinder)
+		public AreaCssHandler(IAssetLoader assetLoader, IEnumerable<ICssPreprocessor> cssPreprocessors)
 		{
 			this.assetLoader = assetLoader;
-			this.areaCssPreprocessorFinder = areaCssPreprocessorFinder;
+			this.cssPreprocessors = cssPreprocessors;
 		}
 
 		public IResult Get(IRequest request)
@@ -25,14 +26,19 @@ namespace MustardBlack.Assets.Css
 			var area = request.Url.Path.Substring(1, request.Url.Path.IndexOf('.') - 1);
 			var path = "~/areas/" + area + "/assets/styles/";
 
-			var cssPreprocessor = this.areaCssPreprocessorFinder.FindCssPreprocessorForArea(area);
-			var asset = this.assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
-			
-			var assetResult = cssPreprocessor.Process(asset);
-			if (assetResult.Status == AssetProcessingResult.CompilationStatus.Success)
-				return new FileContentResult("text/css", Encoding.UTF8.GetBytes(assetResult.Result));
+			foreach (var cssPreprocessor in this.cssPreprocessors)
+			{
+				var asset = this.assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
 
-			return new FileContentResult("text/css", Encoding.UTF8.GetBytes(assetResult.Message), HttpStatusCode.InternalServerError);
+				if (string.IsNullOrWhiteSpace(asset))
+					continue;
+
+				var assetResult = cssPreprocessor.Process(asset);
+				if (assetResult.Status == AssetProcessingResult.CompilationStatus.Success)
+					return new FileContentResult("text/css", Encoding.UTF8.GetBytes(assetResult.Result));
+			}
+
+			return new EmptyResult(HttpStatusCode.NotFound);
 		}
 	}
 }

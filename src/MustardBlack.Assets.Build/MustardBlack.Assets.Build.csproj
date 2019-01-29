@@ -9,8 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MustardBlack.Assets.Less\MustardBlack.Assets.Less.csproj" />
-    <ProjectReference Include="..\MustardBlack.Assets.Sass\MustardBlack.Assets.Sass.csproj" />
     <ProjectReference Include="..\MustardBlack.Assets.YuiCompressor\MustardBlack.Assets.YuiCompressor.csproj" />
     <ProjectReference Include="..\MustardBlack\MustardBlack.csproj" />
   </ItemGroup>

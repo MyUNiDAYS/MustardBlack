@@ -13,7 +13,7 @@ namespace MustardBlack.ViewEngines.Razor.Build
 {
 	static class Compiler
 	{
-		public static void Compile(string inPath, string outPath, string cssMode, string assemblyName)
+		public static void Compile(string inPath, string outPath, string assemblyName)
 		{
 			var binPath = Path.Combine(inPath, "bin");
 			var webConfigPath = Path.Combine(inPath, "web.config");
@@ -22,10 +22,10 @@ namespace MustardBlack.ViewEngines.Razor.Build
 			AssemblyRepository.LoadAssembliesFromPath(binPath);
 
 			var razorConfiguration = new RazorConfiguration(webConfigPath, outPath);
-
-			var areaCssPreprocessorFinder = new PredeterminedAreaCssPreprocessorFinder(cssMode);
+			
 			var fileSystem = new BasicFileSystem(inPath);
-			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), areaCssPreprocessorFinder, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
+			var cssPreprocessors = new ICssPreprocessor[] {new LessCssPreprocessor(), new SassCssPreprocessor()};
+			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessors, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
 
 			var views = Directory.GetFiles(inPath, "*.cshtml", SearchOption.AllDirectories).ToList();
 			if (!views.Any())
@@ -96,7 +96,9 @@ namespace MustardBlack.ViewEngines.Razor.Build
 					foreach (var cssFile in cssPaths)
 						cssBuilder.AppendLine(File.ReadAllText(cssFile));
 
-					viewContents.Insert(0, razorViewCompiler.PrepareCssForRazorCompilation(cssBuilder.ToString(), areaName));
+					var css = razorViewCompiler.PrepareCssForRazorCompilation(cssBuilder.ToString(), areaName);
+					if(!string.IsNullOrWhiteSpace(css))
+						viewContents.Insert(0, css);
 				}
 
 				viewData.Add(new RazorViewCompilationData

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MustardBlack.Assets;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Javascript;
@@ -8,13 +9,13 @@ namespace MustardBlack.ViewEngines.Razor
 	public class AssetEnrichedRazorViewCompiler : RazorViewCompiler
 	{
 		readonly IJavascriptCompressor jsCompressor;
-		readonly IAreaCssPreprocessorFinder areaCssPreprocessorFinder;
+		readonly IEnumerable<ICssPreprocessor> cssPreprocessors;
 		readonly IAssetLoader assetLoader;
 
-		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, IAreaCssPreprocessorFinder areaCssPreprocessorFinder, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
+		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, IEnumerable<ICssPreprocessor> cssPreprocessors, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
 		{
 			this.jsCompressor = jsCompressor;
-			this.areaCssPreprocessorFinder = areaCssPreprocessorFinder;
+			this.cssPreprocessors = cssPreprocessors;
 			this.assetLoader = assetLoader;
 		}
 		
@@ -43,17 +44,23 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			if (string.IsNullOrEmpty(input))
 				return null;
+			
+			foreach(var cssPreprocessor in this.cssPreprocessors)
+			{
+				var styles = this.assetLoader.GetAsset("~/areas/" + areaName + "/", cssPreprocessor.FileMatch);
 
-			var cssPreprocessor = this.areaCssPreprocessorFinder.FindCssPreprocessorForArea(areaName);
+				if (string.IsNullOrWhiteSpace(styles))
+					continue;
 
-			var mixins = this.assetLoader.GetAsset("~/areas/" + areaName + "/", cssPreprocessor.FileMatch);
+				var cssResult = cssPreprocessor.Process(input, styles);
 
-			var cssResult = cssPreprocessor.Process(input, mixins);
+				var css = cssResult.Status == AssetProcessingResult.CompilationStatus.Success ? cssResult.Result : cssResult.Message;
+				css = css.Replace("@", "@@");
 
-			var css = cssResult.Status == AssetProcessingResult.CompilationStatus.Success ? cssResult.Result : cssResult.Message;
-			css = css.Replace("@", "@@");
+				return "<style type=\"text/css\">" + css + "</style>";
+			}
 
-			return "<style type=\"text/css\">" + css + "</style>";
+			return null;
 		}
 	}
 }

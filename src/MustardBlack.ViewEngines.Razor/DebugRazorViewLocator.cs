@@ -125,8 +125,10 @@ namespace MustardBlack.ViewEngines.Razor
 			var lessBuilder = new StringBuilder();
 			foreach (var lessFile in fullLessPaths)
 				this.fileSystem.Read(lessFile, reader => lessBuilder.AppendLine(reader.ReadToEnd()));
-			
-			builder.Insert(0, this.compiler.PrepareCssForRazorCompilation(lessBuilder.ToString(), areaName));
+
+			var css = this.compiler.PrepareCssForRazorCompilation(lessBuilder.ToString(), areaName);
+			if(!string.IsNullOrWhiteSpace(css))
+				builder.Insert(0, css);
 		}
 
 		void AppendJavascript(IEnumerable<string> fullJsPaths, StringBuilder builder)

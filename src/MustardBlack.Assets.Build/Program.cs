@@ -23,28 +23,27 @@ namespace MustardBlack.Assets.Build
 			string asset = null;
 			string assetFormat = null;
 
-			if (type == "less" || type == "css" || type == "sass")
+			if (type == "css")
 			{
-				ICssPreprocessor cssPreprocessor;
+				var cssPreprocessors = new ICssPreprocessor[] { new LessCssPreprocessor(), new SassCssPreprocessor() };
 
-				if (type == "sass")
-					cssPreprocessor = new SassCssPreprocessor();
-				else
-					cssPreprocessor = new LessCssPreprocessor();
-
-				asset = assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
-				if (string.IsNullOrWhiteSpace(asset))
-					return;
-
-				var result = cssPreprocessor.Process(asset);
-				if (result.Status != AssetProcessingResult.CompilationStatus.Success)
+				foreach (var cssPreprocessor in cssPreprocessors)
 				{
-					Console.WriteLine(result.Message);
-					Environment.Exit(-1);
-				}
+					asset = assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
+					if (string.IsNullOrWhiteSpace(asset))
+						continue;
 
-				asset = result.Result;
-				assetFormat = "css;";
+					var result = cssPreprocessor.Process(asset);
+					if (result.Status != AssetProcessingResult.CompilationStatus.Success)
+					{
+						Console.WriteLine(result.Message);
+						Environment.Exit(-1);
+					}
+
+					asset = result.Result;
+					assetFormat = "css;";
+				}
+				
 			}
 			else if (type == "js")
 			{

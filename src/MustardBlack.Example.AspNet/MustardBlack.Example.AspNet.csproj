@@ -80,14 +80,6 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MustardBlack.Assets.Less\MustardBlack.Assets.Less.csproj">
-      <Project>{7b518da6-8db7-4e9e-b453-61d57f3e057c}</Project>
-      <Name>MustardBlack.Assets.Less</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MustardBlack.Assets.Sass\MustardBlack.Assets.Sass.csproj">
-      <Project>{a68b1654-2894-4eac-9ea2-55c716673fc1}</Project>
-      <Name>MustardBlack.Assets.Sass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MustardBlack.Assets.YuiCompressor\MustardBlack.Assets.YuiCompressor.csproj">
       <Project>{47a5dcb5-1fa8-462c-80eb-1f0e2e0f422a}</Project>
       <Name>MustardBlack.Assets.YuiCompressor</Name>
