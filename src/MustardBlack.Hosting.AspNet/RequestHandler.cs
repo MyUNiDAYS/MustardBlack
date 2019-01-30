@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Extensions.DependencyInjection;
 using MustardBlack.Applications;
 using MustardBlack.Pipeline;
 using NanoIoC;
@@ -23,15 +24,15 @@ namespace MustardBlack.Hosting.AspNet
 		{
 			// Create Request
 			var request = new AspNetRequest(httpContext);
-			this.container.Inject<IRequest>(request, Lifecycle.ExecutionContextLocal);
+			this.container.Inject<IRequest>(request, ServiceLifetime.Scoped);
             
 			// Create Response
 			var response = new AspNetResponse(httpContext);
-			this.container.Inject<IResponse>(response, Lifecycle.ExecutionContextLocal);
+			this.container.Inject<IResponse>(response, ServiceLifetime.Scoped);
 
 			// Create a pipeline context
 			var pipelineContext = new PipelineContext(request, response);
-			this.container.Inject(pipelineContext, Lifecycle.ExecutionContextLocal);
+			this.container.Inject(pipelineContext, ServiceLifetime.Scoped);
 
 			// route the application
 			await this.applicationRouter.RouteApplication(pipelineContext);

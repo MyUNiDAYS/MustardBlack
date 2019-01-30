@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using MustardBlack.Pipeline;
 using NanoIoC;
 
@@ -11,6 +12,6 @@ namespace MustardBlack.NanoIoC
 	{
 		protected override Type OpenGenericTypeToClose => typeof(IAttributePipelineOperator<>);
 
-		public override Lifecycle Lifecycle => Lifecycle.Transient;
+		public override ServiceLifetime ServiceLifetime => ServiceLifetime.Transient;
 	}
 }

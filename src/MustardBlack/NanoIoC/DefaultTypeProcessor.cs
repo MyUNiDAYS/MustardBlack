@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using NanoIoC;
 
 namespace MustardBlack.NanoIoC
@@ -15,7 +16,7 @@ namespace MustardBlack.NanoIoC
 			foreach (var face in interfaces)
 			{
 				if (face.Name == "I" + type.Name)
-					container.Register(face, type, Lifecycle.Singleton);
+					container.Register(face, type, ServiceLifetime.Singleton);
 			}
 		}
 	}

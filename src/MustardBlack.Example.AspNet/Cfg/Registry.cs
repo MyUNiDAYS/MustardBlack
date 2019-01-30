@@ -1,5 +1,6 @@
 using System.Buffers;
 using System.Text.Encodings.Web;
+using Microsoft.Extensions.DependencyInjection;
 using MuonLab.Validation;
 using MustardBlack.Applications;
 using MustardBlack.Assets.Css;
@@ -39,7 +40,7 @@ namespace MustardBlack.Example.Cfg
 			container.Inject(ArrayPool<char>.Shared);
 			container.Register<IViewRenderer, RazorViewRenderer>();
 
-			container.Register<IViewBufferScope, MemoryPoolViewBufferScope>(Lifecycle.ExecutionContextLocal);
+			container.Register<IViewBufferScope, MemoryPoolViewBufferScope>(ServiceLifetime.Scoped);
 		}
 	}
 }

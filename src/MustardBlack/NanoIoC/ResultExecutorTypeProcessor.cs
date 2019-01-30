@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using MustardBlack.Results;
 using NanoIoC;
 
@@ -11,6 +12,6 @@ namespace MustardBlack.NanoIoC
 	{
 		protected override Type OpenGenericTypeToClose => typeof(IResultExecutor<>);
 
-		public override Lifecycle Lifecycle => Lifecycle.Singleton;
+		public override ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 	}
 }
