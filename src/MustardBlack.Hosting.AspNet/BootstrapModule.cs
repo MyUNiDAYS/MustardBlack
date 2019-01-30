@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
+using MustardBlack.Extensions;
 
 namespace MustardBlack.Hosting.AspNet
 {
@@ -38,14 +39,11 @@ namespace MustardBlack.Hosting.AspNet
 				}
 				catch (TypeInitializationException e)
 				{
-					if (e.InnerException is ReflectionTypeLoadException inner)
-						throw new BootException(inner.LoaderExceptions, e);
-					else
-						throw;
+					throw e.CreateDetailedException();
 				}
 				catch (ReflectionTypeLoadException e)
 				{
-					throw new BootException(e.LoaderExceptions, e);
+					throw e.CreateDetailedException();
 				}
 				finally
 				{

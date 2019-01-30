@@ -43,7 +43,6 @@
     <Compile Include="AspNetRequest.cs" />
     <Compile Include="AspNetResponse.cs" />
     <Compile Include="AspNetResponseCookieCollection.cs" />
-    <Compile Include="BootException.cs" />
     <Compile Include="BootstrapModule.cs" />
     <Compile Include="CompressionModule.cs" />
     <Compile Include="HeaderCloakingModule.cs" />
