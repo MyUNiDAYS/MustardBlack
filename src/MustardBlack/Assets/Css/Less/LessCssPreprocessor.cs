@@ -1,14 +1,13 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using MustardBlack.Assets.Css;
 
-namespace MustardBlack.Assets.Less
+namespace MustardBlack.Assets.Css.Less
 {
 	public sealed class LessCssPreprocessor : ICssPreprocessor
 	{
 		const string lessCompilerSeparatorColorRed = ".less-compiler-separator{color:red}";
-		static readonly Regex fileMatch = new Regex(@"(\.less|\.css)$", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
+		static readonly Regex fileMatch = new Regex(@"\.less$", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
 
 		public Regex FileMatch => fileMatch;
 

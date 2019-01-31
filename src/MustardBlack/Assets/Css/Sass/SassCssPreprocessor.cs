@@ -1,15 +1,14 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using MustardBlack.Assets.Css;
 
-namespace MustardBlack.Assets.Sass
+namespace MustardBlack.Assets.Css.Sass
 {
 	public sealed class SassCssPreprocessor : ICssPreprocessor
 	{
 		const string sassCompilerSeparatorColorRed = ".sass-compiler-separator{color:red}";
 
-		static readonly Regex fileMatch = new Regex(@"(\.sass|\.scss|\.css)$", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
+		static readonly Regex fileMatch = new Regex(@"(\.sass|\.scss)$", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
 
 		public Regex FileMatch => fileMatch;
 

@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using MustardBlack.Assets;
 using MustardBlack.Assets.Css;
-using MustardBlack.Assets.Less;
-using MustardBlack.Assets.Sass;
+using MustardBlack.Assets.Css.Css;
+using MustardBlack.Assets.Css.Less;
+using MustardBlack.Assets.Css.Sass;
 using MustardBlack.Assets.YuiCompressor;
 
 namespace MustardBlack.ViewEngines.Razor.Build
@@ -24,7 +25,7 @@ namespace MustardBlack.ViewEngines.Razor.Build
 			var razorConfiguration = new RazorConfiguration(webConfigPath, outPath);
 			
 			var fileSystem = new BasicFileSystem(inPath);
-			var cssPreprocessors = new ICssPreprocessor[] {new LessCssPreprocessor(), new SassCssPreprocessor()};
+			var cssPreprocessors = new ICssPreprocessor[] {new CssPreprocessor(), new LessCssPreprocessor(), new SassCssPreprocessor()};
 			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessors, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
 
 			var views = Directory.GetFiles(inPath, "*.cshtml", SearchOption.AllDirectories).ToList();

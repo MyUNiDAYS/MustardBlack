@@ -6,7 +6,7 @@ using LibSass.Compiler.Options;
 using Serilog;
 using ILogger = Serilog.ILogger;
 
-namespace MustardBlack.Assets.Sass
+namespace MustardBlack.Assets.Css.Sass
 {
 	public static class SassCompiler
 	{

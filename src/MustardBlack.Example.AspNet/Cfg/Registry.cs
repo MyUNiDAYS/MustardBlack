@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using MuonLab.Validation;
 using MustardBlack.Applications;
 using MustardBlack.Assets.Css;
+using MustardBlack.Assets.Css.Css;
+using MustardBlack.Assets.Css.Less;
+using MustardBlack.Assets.Css.Sass;
 using MustardBlack.Assets.Javascript;
-using MustardBlack.Assets.Sass;
 using MustardBlack.Assets.YuiCompressor;
 using MustardBlack.Example.Areas.Example;
 using MustardBlack.Hosting;
@@ -24,7 +26,8 @@ namespace MustardBlack.Example.Cfg
 			container.Register<IApplication, ExampleApplication>();
 			container.Register<IResolverContainer>(c => c);
 
-			//container.Register<ICssPreprocessor, LessCssPreprocessor>();
+			container.Register<ICssPreprocessor, CssPreprocessor>();
+			container.Register<ICssPreprocessor, LessCssPreprocessor>();
 			container.Register<ICssPreprocessor, SassCssPreprocessor>();
 			container.Register<IJavascriptCompressor, YuiJavascriptCompressor>();
 

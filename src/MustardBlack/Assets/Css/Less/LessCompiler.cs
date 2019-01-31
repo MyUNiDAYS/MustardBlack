@@ -8,7 +8,7 @@ using dotless.Core.Parser;
 using Serilog;
 using ILogger = Serilog.ILogger;
 
-namespace MustardBlack.Assets.Less
+namespace MustardBlack.Assets.Css.Less
 {
 	public static class LessCompiler
 	{
