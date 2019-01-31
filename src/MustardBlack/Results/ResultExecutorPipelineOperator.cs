@@ -18,10 +18,10 @@ namespace MustardBlack.Results
 			this.container = container;
 		}
 
-		public Task<PipelineContinuation> Operate(PipelineContext context)
+		public async Task<PipelineContinuation> Operate(PipelineContext context)
 		{
 			if(context.Result == null)
-				return Task.FromResult(PipelineContinuation.Continue);
+				return PipelineContinuation.Continue;
 
 			var resultExecutorType = this.GetResultExecutorType(context.Result);
 
@@ -32,10 +32,10 @@ namespace MustardBlack.Results
 			else
 			{
 				var resultExecutor = this.container.Resolve(resultExecutorType) as IResultExecutor;
-				resultExecutor.Execute(context, context.Result);
+				await resultExecutor.Execute(context, context.Result);
 			}
 			
-			return Task.FromResult(PipelineContinuation.Continue);
+			return PipelineContinuation.Continue;
 		}
 
 		Type GetResultExecutorType(IResult result)

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.TempData;
 
@@ -12,7 +13,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override void Execute(PipelineContext context, PlainTextResult result)
+		public override Task Execute(PipelineContext context, PlainTextResult result)
 		{
 			context.Response.ContentType = "text/plain";
 
@@ -24,6 +25,8 @@ namespace MustardBlack.Results
 
 			if (result.Data != null)
 				context.Response.Write(result.Data);
+			
+			return Task.CompletedTask;
 		}
 	}
 }

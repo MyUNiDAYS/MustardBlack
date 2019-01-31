@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using MustardBlack.Pipeline;
@@ -16,7 +17,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override void Execute(PipelineContext context, XmlResult result)
+		public override Task Execute(PipelineContext context, XmlResult result)
 		{
 			context.Response.ContentType = "application/xml";
 
@@ -27,7 +28,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism.SetTempData(context, result.TempData);
 
 			if (result.Data == null)
-				return;
+				return Task.CompletedTask;
 
 			string xml;
 
@@ -46,6 +47,8 @@ namespace MustardBlack.Results
 			}
 
 			context.Response.Write(xml);
+
+			return Task.CompletedTask;
 		}
 	}
 }

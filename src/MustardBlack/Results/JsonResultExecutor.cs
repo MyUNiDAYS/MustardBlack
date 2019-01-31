@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.TempData;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override void Execute(PipelineContext context, JsonResult result)
+		public override Task Execute(PipelineContext context, JsonResult result)
 		{
 			context.Response.ContentType = "application/json";
 
@@ -28,6 +29,8 @@ namespace MustardBlack.Results
 				var entity = JsonConvert.SerializeObject(result.Data, result.SerializerSettings);
 				context.Response.Write(entity);
 			}
+
+			return Task.CompletedTask;
 		}
 	}
 }

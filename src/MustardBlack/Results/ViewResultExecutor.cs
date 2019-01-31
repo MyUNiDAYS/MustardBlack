@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.TempData;
 using MustardBlack.ViewEngines;
@@ -24,7 +25,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override void Execute(PipelineContext context, ViewResult result)
+		public override async Task Execute(PipelineContext context, ViewResult result)
 		{
 			var rendered = new StringBuilder();
 			
@@ -37,7 +38,7 @@ namespace MustardBlack.Results
 
 			try
 			{
-				renderer.Render(result, context, renderingContext).GetAwaiter().GetResult();
+				await renderer.Render(result, context, renderingContext);
 			}
 			catch (Exception e)
 			{
@@ -47,7 +48,6 @@ namespace MustardBlack.Results
 #endif
 
 				// TODO: render something useful
-				context.Response.ContentType = "text/plain";
 				context.Response.StatusCode = HttpStatusCode.InternalServerError;
 				return;
 			}

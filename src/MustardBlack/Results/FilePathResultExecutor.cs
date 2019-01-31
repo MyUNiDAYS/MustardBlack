@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.TempData;
 
@@ -12,7 +13,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override void Execute(PipelineContext context, FilePathResult result)
+		public override Task Execute(PipelineContext context, FilePathResult result)
 		{
 			if (!string.IsNullOrEmpty(result.ContentDisposition))
 				context.Response.Headers.Add("Content-Disposition", result.ContentDisposition);
@@ -26,6 +27,8 @@ namespace MustardBlack.Results
 
 			SetLinkHeaders(context, result);
 			this.tempDataMechanism.SetTempData(context, result.TempData);
+
+			return Task.CompletedTask;
 		}
 	}
 }

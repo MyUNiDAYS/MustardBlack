@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.TempData;
 
@@ -12,7 +13,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override void Execute(PipelineContext context, FileStreamResult result)
+		public override Task Execute(PipelineContext context, FileStreamResult result)
 		{
 			context.Response.SetCacheHeaders(result);
 			context.Response.StatusCode = result.StatusCode;
@@ -31,7 +32,7 @@ namespace MustardBlack.Results
 				{
 					int bytesRead = result.FileStream.Read(buffer, 0, 0x1000);
 					if (bytesRead == 0)
-						return;
+						return Task.CompletedTask;
 
 					context.Response.OutputStream.Write(buffer, 0, bytesRead);
 				}

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MustardBlack.Pipeline;
 using MustardBlack.TempData;
 
@@ -12,7 +13,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override void Execute(PipelineContext context, EmptyResult result)
+		public override Task Execute(PipelineContext context, EmptyResult result)
 		{
 			context.Response.SetCacheHeaders(result);
 			context.Response.StatusCode = result.StatusCode;
@@ -20,6 +21,8 @@ namespace MustardBlack.Results
 			SetLinkHeaders(context, result);
 
 			this.tempDataMechanism.SetTempData(context, result.TempData);
+
+			return Task.CompletedTask;
 		}
 	}
 }

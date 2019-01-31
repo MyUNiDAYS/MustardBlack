@@ -1,4 +1,5 @@
-﻿using MustardBlack.Pipeline;
+﻿using System.Threading.Tasks;
+using MustardBlack.Pipeline;
 using MustardBlack.Results;
 using NanoIoC;
 
@@ -29,9 +30,11 @@ namespace MustardBlack.Tests.Handlers.Results.ExecutorSpecs
 
 		public class DerivedTestResultExecutor : ResultExecutor<DerivedTestResult>
 		{
-			public override void Execute(PipelineContext context, DerivedTestResult result)
+			public override Task Execute(PipelineContext context, DerivedTestResult result)
 			{
 				context.Items["DerivedExecuted"] = true;
+
+				return Task.CompletedTask;
 			}
 		}
 	}
