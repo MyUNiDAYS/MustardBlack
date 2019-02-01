@@ -160,7 +160,7 @@ namespace MustardBlack.ViewEngines.Razor
 					var message = errors.Select(e =>
 						{
 							var fileLinePositionSpan = e.Location.GetMappedLineSpan();
-							return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.Descriptor.Title}`: `{e.Descriptor.Description}` `{e.GetMessage()}`";
+							return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.GetMessage()}`";
 						}).Aggregate((s1, s2) => s1 + "\n" + s2);
 
 					throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + message, source, razorCSharpDocument.GeneratedCode);
@@ -199,7 +199,7 @@ namespace MustardBlack.ViewEngines.Razor
 					var message = errors.Select(e =>
 					{
 						var fileLinePositionSpan = e.Location.GetMappedLineSpan();
-						return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.Descriptor.Title}` `{e.Descriptor.Description}` `{e.GetMessage()}`";
+						return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.GetMessage()}`";
 					}).Aggregate((s1, s2) => s1 + "\n" + s2);
 
 					throw new ViewRenderException("Failed to compile views: " + message);
