@@ -141,7 +141,7 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 			var compilation = CSharpCompilation.Create("assembly",
-				new[] { CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode, path: view.FilePath) },
+				new[] { CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode, path: view.FilePath, encoding: Encoding.UTF8) },
 				this.referenceAssemblies,
 				cSharpCompilationOptions);
 
@@ -183,7 +183,7 @@ namespace MustardBlack.ViewEngines.Razor
 			var syntaxTrees = viewCompilationDetails.Select(d =>
 			{
 				var razorCSharpDocument = this.GenerateCSharp(d);
-				return CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode, path: d.FilePath);
+				return CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode, path: d.FilePath, encoding: Encoding.UTF8);
 			}).ToArray();
 			
 			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
