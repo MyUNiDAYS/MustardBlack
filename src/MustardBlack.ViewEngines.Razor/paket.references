@@ -6,7 +6,9 @@ Microsoft.AspNetCore.Html.Abstractions
 Microsoft.AspNetCore.Diagnostics
 Microsoft.CodeAnalysis
 Microsoft.CodeAnalysis.Razor
+Microsoft.CSharp
 System.Reflection.Metadata
 System.Buffers
 NanoIoC
 Serilog
+System.Dynamic.Runtime

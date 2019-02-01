@@ -19,6 +19,7 @@ nuget Microsoft.AspNetCore.Diagnostics ~> 2.0
 nuget Microsoft.CodeAnalysis ~> 2.0
 nuget Microsoft.CodeAnalysis.Razor ~> 2.0
 nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
+nuget Microsoft.CSharp
 nuget System.Reflection.Metadata ~> 1.0
 nuget System.Buffers
 

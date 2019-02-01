@@ -22,7 +22,7 @@ namespace MustardBlack.ViewEngines.Razor
 	    readonly string[] defaultAssemblies =
 		{
 			GetAssemblyPath(typeof(System.Runtime.CompilerServices.CallSite).Assembly),
-			//GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly),
+			GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly),
 			//GetAssemblyPath(typeof(IHtmlString).Assembly)
 		};
 
