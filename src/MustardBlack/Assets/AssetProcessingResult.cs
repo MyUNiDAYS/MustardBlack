@@ -16,7 +16,8 @@ namespace MustardBlack.Assets
 		public enum CompilationStatus
 		{
 			Success = 1,
-			Failure = 2
+			Failure = 2,
+			Skipped = 3
 		}
 	}
 }

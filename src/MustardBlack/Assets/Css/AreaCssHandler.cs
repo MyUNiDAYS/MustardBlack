@@ -36,6 +36,8 @@ namespace MustardBlack.Assets.Css
 				var assetResult = cssPreprocessor.Process(asset);
 				if (assetResult.Status == AssetProcessingResult.CompilationStatus.Success)
 					return new FileContentResult("text/css", Encoding.UTF8.GetBytes(assetResult.Result));
+				if(assetResult.Status == AssetProcessingResult.CompilationStatus.Failure)
+					return new FileContentResult("text/plain", Encoding.UTF8.GetBytes(assetResult.Message));
 			}
 
 			return new EmptyResult(HttpStatusCode.NotFound);

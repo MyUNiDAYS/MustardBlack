@@ -39,7 +39,7 @@ namespace MustardBlack.Assets.Css.Sass
 		public static AssetProcessingResult TryCompile(string sass, string mixins = null)
 		{
 			if (string.IsNullOrWhiteSpace(sass))
-				return new AssetProcessingResult(AssetProcessingResult.CompilationStatus.Success, string.Empty);
+				return new AssetProcessingResult(AssetProcessingResult.CompilationStatus.Skipped);
 
 			var lastImportIndex = sass.LastIndexOf("@import", StringComparison.OrdinalIgnoreCase);
 

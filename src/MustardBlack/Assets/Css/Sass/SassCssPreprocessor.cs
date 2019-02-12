@@ -15,7 +15,7 @@ namespace MustardBlack.Assets.Css.Sass
 		public AssetProcessingResult Process(string input, string mixins = null)
 		{
 			if (string.IsNullOrWhiteSpace(input))
-				return new AssetProcessingResult(AssetProcessingResult.CompilationStatus.Success, string.Empty);
+				return new AssetProcessingResult(AssetProcessingResult.CompilationStatus.Skipped, string.Empty);
 
 			var sassBuilder = new StringBuilder();
 
