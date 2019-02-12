@@ -54,6 +54,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Example\Assets\Styles\styles.css" />
