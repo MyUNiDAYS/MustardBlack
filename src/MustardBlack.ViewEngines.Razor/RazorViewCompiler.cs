@@ -178,7 +178,8 @@ namespace MustardBlack.ViewEngines.Razor
 
 		public void CompileAndMergeFiles(IEnumerable<RazorViewCompilationData> viewCompilationDetails, string outputAssemblyName)
 		{
-			var outputAssemblyPath = Path.Combine(this.razorConfiguration.OutPath, outputAssemblyName + ".Views.Razor.dll");
+			var moduleName = outputAssemblyName + ".Views.Razor";
+			var outputAssemblyPath = Path.Combine(this.razorConfiguration.OutPath, moduleName + ".dll");
 
 			var syntaxTrees = viewCompilationDetails.Select(d =>
 			{
@@ -186,7 +187,7 @@ namespace MustardBlack.ViewEngines.Razor
 				return CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode, path: d.FilePath, encoding: Encoding.UTF8);
 			}).ToArray();
 			
-			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, moduleName: moduleName);
 			var compilation = CSharpCompilation.Create("assembly", syntaxTrees, this.referenceAssemblies, cSharpCompilationOptions);
 			
 			using (var assemblyStream = new MemoryStream())
