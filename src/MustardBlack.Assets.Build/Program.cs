@@ -34,14 +34,22 @@ namespace MustardBlack.Assets.Build
 						continue;
 
 					var result = cssPreprocessor.Process(asset);
-					if (result.Status != AssetProcessingResult.CompilationStatus.Success)
+
+					if (result.Status == AssetProcessingResult.CompilationStatus.Skipped)
+						continue;
+
+					if (result.Status == AssetProcessingResult.CompilationStatus.Failure)
 					{
 						Console.WriteLine(result.Message);
 						Environment.Exit(-1);
 					}
 
-					asset = result.Result;
-					assetFormat = "css";
+					if (result.Status == AssetProcessingResult.CompilationStatus.Success)
+					{
+						asset = result.Result;
+						assetFormat = "css";
+						break;
+					}
 				}
 				
 			}
