@@ -41,7 +41,7 @@ namespace MustardBlack.Assets.Build
 					}
 
 					asset = result.Result;
-					assetFormat = "css;";
+					assetFormat = "css";
 				}
 				
 			}
