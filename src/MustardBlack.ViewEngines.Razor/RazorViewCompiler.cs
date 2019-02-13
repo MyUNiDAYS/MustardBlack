@@ -187,8 +187,8 @@ namespace MustardBlack.ViewEngines.Razor
 				return CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode, path: d.FilePath, encoding: Encoding.UTF8);
 			}).ToArray();
 			
-			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, moduleName: moduleName);
-			var compilation = CSharpCompilation.Create("assembly", syntaxTrees, this.referenceAssemblies, cSharpCompilationOptions);
+			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+			var compilation = CSharpCompilation.Create(moduleName, syntaxTrees, this.referenceAssemblies, cSharpCompilationOptions);
 			
 			using (var assemblyStream = new MemoryStream())
 			{
