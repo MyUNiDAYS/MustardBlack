@@ -11,6 +11,10 @@
     <Product>MustardBlack</Product>
     <Copyright>MyUNiDAYS Ltd</Copyright>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="paket.references" />
     <None Include="paket.template" />
