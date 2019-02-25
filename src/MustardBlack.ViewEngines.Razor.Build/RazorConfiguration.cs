@@ -34,9 +34,9 @@ namespace MustardBlack.ViewEngines.Razor.Build
 						var typeName = e.Attributes["type"].Value;
 
 						return Type.GetType(typeName, assemblyName =>
-						{
-							return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == assemblyName.FullName);
-						}, null, true);
+                        {
+                            return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName.StartsWith(assemblyName.FullName));
+                        }, null, true);
 					})
 					.Where(t => t != null).ToArray();
 			}
