@@ -52,7 +52,10 @@ namespace MustardBlack.ViewEngines.Razor.Build
 			{
 				var viewPaths = razorViewCompiler.GetViewComponentPaths(view, ".cshtml");
 				var jsPaths = razorViewCompiler.GetViewComponentPaths(view, ".js").Where(p => !p.EndsWith(".test.js")).ToArray();
-				var cssPaths = razorViewCompiler.GetViewComponentPaths(view, ".less").Union(razorViewCompiler.GetViewComponentPaths(view, ".css"));
+				var cssPaths = razorViewCompiler
+					.GetViewComponentPaths(view, ".less")
+					.Union(razorViewCompiler.GetViewComponentPaths(view, ".scss"))
+					.Union(razorViewCompiler.GetViewComponentPaths(view, ".css"));
 
 				var viewVirtualPath = view.Substring(inPath.Length + 1);
 
