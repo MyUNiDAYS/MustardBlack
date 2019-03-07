@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using MustardBlack.Assets;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Css.Css;
@@ -34,6 +35,20 @@ namespace MustardBlack.ViewEngines.Razor.Build
 				Console.WriteLine($"No views found in path '{inPath}'");
 				return;
 			}
+
+			var styles = Directory.
+				EnumerateFiles(inPath)
+				.Where(file => file.ToLower().EndsWith("scss") || file.ToLower().EndsWith("less") || file.ToLower().EndsWith("css")).ToList();
+
+			var cssPreprocessor = styles.Any() ?
+				cssPreprocessors.First(x => x.FileMatch.IsMatch(styles.First())) :
+				null;
+
+			if (!views.Any())
+			{
+				Console.WriteLine($"No views found in path '{inPath}'");
+				return;
+			}
 			
 			// Find all primary (non-component) view paths which need compiling
 			views = views.Select(v =>
@@ -48,14 +63,16 @@ namespace MustardBlack.ViewEngines.Razor.Build
 
 			var viewData = new List<RazorViewCompilationData>(views.Count);
 
+			var cshtmlExt = new Regex(@"\.cshtml$");
+			var jsExt = new Regex(@"\.js$");
+
 			foreach (var view in views)
 			{
-				var viewPaths = razorViewCompiler.GetViewComponentPaths(view, ".cshtml");
-				var jsPaths = razorViewCompiler.GetViewComponentPaths(view, ".js").Where(p => !p.EndsWith(".test.js")).ToArray();
-				var cssPaths = razorViewCompiler
-					.GetViewComponentPaths(view, ".less")
-					.Union(razorViewCompiler.GetViewComponentPaths(view, ".scss"))
-					.Union(razorViewCompiler.GetViewComponentPaths(view, ".css"));
+				var viewPaths = razorViewCompiler.GetViewComponentPaths(view, cshtmlExt);
+				var jsPaths = razorViewCompiler.GetViewComponentPaths(view, jsExt).Where(p => !p.EndsWith(".test.js")).ToArray();
+				var cssPaths = cssPreprocessor == null ?
+					new string[0] : 
+					razorViewCompiler.GetViewComponentPaths(view, cssPreprocessor.FileMatch);
 
 				var viewVirtualPath = view.Substring(inPath.Length + 1);
 

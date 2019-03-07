@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using MustardBlack.Hosting;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
@@ -17,9 +18,9 @@ namespace MustardBlack.ViewEngines.Razor
 	public class RazorViewCompiler
 	{
 		readonly IFileSystem fileSystem;
-	    readonly IRazorConfiguration razorConfiguration;
+		readonly IRazorConfiguration razorConfiguration;
 
-	    readonly string[] defaultAssemblies =
+		readonly string[] defaultAssemblies =
 		{
 			GetAssemblyPath(typeof(System.Runtime.CompilerServices.CallSite).Assembly),
 			GetAssemblyPath(typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly),
@@ -35,7 +36,7 @@ namespace MustardBlack.ViewEngines.Razor
 		public RazorViewCompiler(IFileSystem fileSystem, IRazorConfiguration razorConfiguration)
 		{
 			this.fileSystem = fileSystem;
-		    this.razorConfiguration = razorConfiguration;
+			this.razorConfiguration = razorConfiguration;
 			this.razorTemplateEngine = BuildRazorTemplateEngine(RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/")));
 			var defaultTagHelpers = razorConfiguration.GetDefaultTagHelpers();
 			var defaultDirectivesProjectItem = new DefaultDirectivesProjectItem(this.razorConfiguration.GetDefaultNamespaces(), defaultTagHelpers);
@@ -68,9 +69,9 @@ namespace MustardBlack.ViewEngines.Razor
 				SectionDirective.Register(builder);
 
 				var metadataReferences = AppDomain.CurrentDomain.GetAssemblies()
-				    .Where(a => !a.IsDynamic)
-				    .Select(a => MetadataReference.CreateFromFile(a.Location))
-				    .ToArray();
+					.Where(a => !a.IsDynamic)
+					.Select(a => MetadataReference.CreateFromFile(a.Location))
+					.ToArray();
 
 				builder.Features.Add(new DefaultMetadataReferenceFeature { References = metadataReferences });
 				builder.Features.Add(new CompilationTagHelperFeature());
@@ -216,8 +217,7 @@ namespace MustardBlack.ViewEngines.Razor
 		/// <param name="viewPath"></param>
 		/// <param name="ext"></param>
 		/// <returns></returns>
-		public IReadOnlyList<string> GetViewComponentPaths(string viewPath, string ext)
-		{
+		public IReadOnlyList<string> GetViewComponentPaths(string viewPath, Regex ext) { 
 			var folder = Path.GetDirectoryName(viewPath);
 			var viewName = Path.GetFileNameWithoutExtension(viewPath).ToLowerInvariant();
 
@@ -225,23 +225,24 @@ namespace MustardBlack.ViewEngines.Razor
 			return files.Where(f =>
 			{
 				var file = Path.GetFileName(f).ToLowerInvariant();
-				if (file == viewName + ext)
-					return true;
 
-				if (file.StartsWith(viewName + ".") && file.EndsWith(ext))
-					return true;
+				if (!file.StartsWith(viewName + "."))
+					return false;
 
-				return false;
+				if (!ext.IsMatch(file))
+					return false;
+
+				return true;
 			}).ToArray();
 		}
 
-	    public static string GetSafeClassName(string input)
-	    {
-	        var safe = input.Replace('.', '_').Replace('-', '_');
-	        if (safe[0] >= '0' && safe[0] <= '9')
-	            safe = '_' + safe;
+		public static string GetSafeClassName(string input)
+		{
+			var safe = input.Replace('.', '_').Replace('-', '_');
+			if (safe[0] >= '0' && safe[0] <= '9')
+				safe = '_' + safe;
 
-	        return safe;
-	    }
+			return safe;
+		}
 	}
 }

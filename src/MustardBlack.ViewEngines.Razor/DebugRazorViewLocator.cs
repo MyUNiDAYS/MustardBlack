@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using MustardBlack.Assets.Css;
 using MustardBlack.Hosting;
 
 namespace MustardBlack.ViewEngines.Razor
@@ -11,24 +13,29 @@ namespace MustardBlack.ViewEngines.Razor
 	{
 		readonly AssetEnrichedRazorViewCompiler compiler;
 		readonly IFileSystem fileSystem;
+		readonly IEnumerable<ICssPreprocessor> cssPreprocessors;
 		readonly IDictionary<string, CachedItem> cache;
 
-		public DebugRazorViewLocator(AssetEnrichedRazorViewCompiler razorViewCompiler, IFileSystem fileSystem)
+		public DebugRazorViewLocator(AssetEnrichedRazorViewCompiler razorViewCompiler, IFileSystem fileSystem, IEnumerable<ICssPreprocessor> cssPreprocessors)
 		{
 			this.compiler = razorViewCompiler;
 			this.fileSystem = fileSystem;
+			this.cssPreprocessors = cssPreprocessors;
 			this.cache = new Dictionary<string, CachedItem>();
 		}
 
 		public Type Locate(string viewPath)
 		{
-			// If you need to modify this code, you must also edit its counterpart in MustardBlack.Build.Views
-
 			var fullViewPath = this.fileSystem.GetFullPath(viewPath);
+			var directoryPath = fullViewPath.Substring(0, fullViewPath.LastIndexOf('\\'));
 
-			var fullViewPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".cshtml");
-			var fullJsPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".js").Where(p => !p.EndsWith(".test.js")).ToArray();
-			var fullLessPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".less");
+			var cssPreprocessor = this.GetCssPreprocessor(directoryPath);
+
+			var fullViewPaths = this.compiler.GetViewComponentPaths(fullViewPath, new Regex(@"\.cshtml$"));
+			var fullJsPaths = this.compiler.GetViewComponentPaths(fullViewPath, new Regex(@"\.js$")).Where(p => !p.EndsWith(".test.js")).ToArray();
+			var fullLessPaths = cssPreprocessor == null ? 
+				new string[0] :
+				this.compiler.GetViewComponentPaths(fullViewPath, cssPreprocessor.FileMatch);
 
 			if (!fullViewPaths.Any())
 				return null;
@@ -90,6 +97,18 @@ namespace MustardBlack.ViewEngines.Razor
 			}
 
 			return maxLastModified;
+		}
+
+		ICssPreprocessor GetCssPreprocessor(string viewPath)
+		{
+			var styles = Directory.
+				EnumerateFiles(viewPath)
+				.Where(file => file.ToLower().EndsWith("scss") || file.ToLower().EndsWith("less") || file.ToLower().EndsWith("css")).ToList();
+
+			if (!styles.Any())
+				return null;
+
+			return this.cssPreprocessors.First(x => x.FileMatch.IsMatch(styles.First()));
 		}
 
 		void AppendHtml(IEnumerable<string> fullViewPaths, StringBuilder builder)
