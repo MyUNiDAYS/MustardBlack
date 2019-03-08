@@ -24,12 +24,35 @@ namespace MustardBlack.Assets
 			return filesContents;
 		}
 
+		public IEnumerable<Asset> GetAssets(string path, Regex nameMatch)
+		{
+			var fullPath = this.fileSystem.GetFullPath(path.ToLowerInvariant());
+			var assets = ReadMultipleFilesIndividually(path, fullPath, nameMatch);
+
+			return assets;
+		}
+
 		string ReadFiles(string fullPath, Regex nameMatch)
 		{
 			if (File.Exists(fullPath))
 				return ReadSingleFile(fullPath);
 
 			return this.ReadMultipleFiles(fullPath, nameMatch);
+		}
+
+
+		static IEnumerable<Asset> ReadMultipleFilesIndividually(string relativePath, string fullPath, Regex nameMatch)
+		{
+			var files = ListFiles(fullPath, nameMatch);
+			var assets = new List<Asset>();
+			foreach (var file in files)
+			{
+				var contents = ReadSingleFile(file);
+				var path = relativePath.TrimStart('~') + file.Substring(fullPath.Length);
+				assets.Add(new Asset(path, contents));
+			}
+
+			return assets;
 		}
 
 		string ReadMultipleFiles(string fullPath, Regex nameMatch)

@@ -7,6 +7,9 @@ nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
 nuget MuonLab.Validation ~> 2.0
 nuget YUICompressor.NET ~> 3.0
+nuget React.Core
+nuget SourceMapToolkit
+nuget JavascriptEngineSwitcher.Msie
 nuget dotless.Core ~> 1.0
 nuget Newtonsoft.Json ~> 11.0
 nuget NSubstitute ~> 3.0
