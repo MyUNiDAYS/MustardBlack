@@ -6,5 +6,4 @@ Microsoft.AspNetCore.Html.Abstractions
 dotless.Core
 libsassnetstandard
 React.Core
-SourceMapToolkit
 JavascriptEngineSwitcher.Msie

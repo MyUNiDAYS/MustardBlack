@@ -79,10 +79,11 @@ namespace MustardBlack.Assets.Javascript
 						{
 							map.ParsedMappings.Add(mappingEntry);
 
-							if (mappingEntry.OriginalSourcePosition.ZeroBasedLineNumber > maxLine)
-								maxLine = mappingEntry.OriginalSourcePosition.ZeroBasedLineNumber;
+							if (mappingEntry.OriginalSourcePosition.ZeroBasedLineNumber + 1 > maxLine)
+								maxLine = mappingEntry.OriginalSourcePosition.ZeroBasedLineNumber + 1;
+
 							mappingEntry.OriginalFileName = result.asset.FullPath;
-							mappingEntry.OriginalSourcePosition.ZeroBasedLineNumber += offset;
+							mappingEntry.GeneratedSourcePosition.ZeroBasedLineNumber += offset;
 						}
 
 						offset += maxLine;
