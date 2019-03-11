@@ -28,7 +28,8 @@ namespace MustardBlack.Assets.Babel
 			JsEngineSwitcher.Current.EngineFactories.AddMsie();
 			
 			this.reactEnvironment = ReactEnvironment.Current;
-			this.reactEnvironment.Configuration.BabelConfig = new BabelConfig();
+
+			this.reactEnvironment.Configuration.BabelConfig.Presets.Add("minify");
 
 			this.babelConfig = this.reactEnvironment.Configuration.BabelConfig.Serialize();
 		}
