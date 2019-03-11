@@ -6,6 +6,6 @@ namespace MustardBlack.Assets
 	public interface IAssetLoader
 	{
 		string GetAsset(string path, Regex nameMatch);
-		IEnumerable<Asset> GetAssets(string path, Regex nameMatch);
+		IEnumerable<AssetContent> GetAssets(string path, Regex nameMatch);
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MustardBlack.Assets;
 using MustardBlack.Hosting;
 
 namespace MustardBlack.ViewEngines.Razor
@@ -135,12 +136,18 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			if (!fullJsPaths.Any())
 				return;
-
-			var jsBuilder = new StringBuilder();
-			foreach (var jsFile in fullJsPaths)
-				this.fileSystem.Read(jsFile, reader => jsBuilder.AppendLine(reader.ReadToEnd()));
 			
-			builder.Insert(0, this.compiler.PrepareJsForRazorCompilation(jsBuilder.ToString(), false));
+			var assets = new List<AssetContent>();
+			foreach (var jsPath in fullJsPaths)
+			{
+				this.fileSystem.Read(jsPath, reader =>
+				{
+					assets.Add(new AssetContent(jsPath, reader.ReadToEnd()));
+					return 0;
+				});
+			}
+
+			builder.Insert(0, this.compiler.PrepareJsForRazorCompilation(assets));
 		}
 	}
 }

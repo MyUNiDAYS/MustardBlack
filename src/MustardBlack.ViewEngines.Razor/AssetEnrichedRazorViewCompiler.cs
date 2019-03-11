@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MustardBlack.Assets;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Javascript;
@@ -8,35 +9,31 @@ namespace MustardBlack.ViewEngines.Razor
 {
 	public class AssetEnrichedRazorViewCompiler : RazorViewCompiler
 	{
-		readonly IJavascriptCompressor jsCompressor;
+		readonly IJavascriptPreprocessor jsPreprocessor;
 		readonly IEnumerable<ICssPreprocessor> cssPreprocessors;
 		readonly IAssetLoader assetLoader;
 
-		public AssetEnrichedRazorViewCompiler(IJavascriptCompressor jsCompressor, IEnumerable<ICssPreprocessor> cssPreprocessors, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
+		public AssetEnrichedRazorViewCompiler(IJavascriptPreprocessor jsPreprocessor, IEnumerable<ICssPreprocessor> cssPreprocessors, IFileSystem fileSystem, IAssetLoader assetLoader, IRazorConfiguration razorConfiguration) : base(fileSystem, razorConfiguration)
 		{
-			this.jsCompressor = jsCompressor;
+			this.jsPreprocessor = jsPreprocessor;
 			this.cssPreprocessors = cssPreprocessors;
 			this.assetLoader = assetLoader;
 		}
 		
-		public string PrepareJsForRazorCompilation(string input, bool compress)
+		public string PrepareJsForRazorCompilation(IEnumerable<AssetContent> assets)
 		{
-			if (string.IsNullOrEmpty(input))
+			if (!assets.Any())
 				return null;
+			
+			var javascript = this.jsPreprocessor.Process(assets);
 
-			input = input.Replace("@", "@@");
-
-			if (compress)
-			{
-				var compressed = this.jsCompressor.Compress(input);
-				return @"<script type=""text/javascript"">window.currentPageScript=function(){" + compressed + @"}</script>";
-			}
-
+			javascript = javascript.Replace("@", "@@");
+			
 			// There are certain ways "<" inside <text></text> can confuse the Razor parser.
 			// This seems to only be an issue when not compressed, although that is pure chance
 			// Example parser confusing syntax: `@{<text>if(1 < 2) f('=');</text>}`
 			// Hopefully this works around them all
-			var javascript = input.Replace("<", "@(_lessThanSymbol)");
+			javascript = javascript.Replace("<", "@(_lessThanSymbol)");
 			return "<script type=\"text/javascript\">\n@{var _lessThanSymbol = new Microsoft.AspNetCore.Html.HtmlString(\"<\");}window.currentPageScript=function(){\n" + javascript + "\n}\n</script>";
 		}
 		

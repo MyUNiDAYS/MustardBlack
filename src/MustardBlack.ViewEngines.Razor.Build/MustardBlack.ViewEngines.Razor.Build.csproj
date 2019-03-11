@@ -10,6 +10,7 @@
 	  <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MustardBlack.Assets.Babel\MustardBlack.Assets.Babel.csproj" />
     <ProjectReference Include="..\MustardBlack.Assets.YuiCompressor\MustardBlack.Assets.YuiCompressor.csproj" />
     <ProjectReference Include="..\MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj" />
     <ProjectReference Include="..\MustardBlack\MustardBlack.csproj" />

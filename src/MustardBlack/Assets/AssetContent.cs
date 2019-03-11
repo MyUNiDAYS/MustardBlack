@@ -1,11 +1,11 @@
 ﻿namespace MustardBlack.Assets
 {
-	public struct Asset
+	public struct AssetContent
 	{
 		public string FullPath { get; }
 		public string Contents { get; }
 
-		public Asset(string fullPath, string contents)
+		public AssetContent(string fullPath, string contents)
 		{
 			this.FullPath = fullPath;
 			this.Contents = contents;

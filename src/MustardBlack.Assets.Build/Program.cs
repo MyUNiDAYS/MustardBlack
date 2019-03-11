@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using MustardBlack.Assets.Babel;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Css.Less;
 using MustardBlack.Assets.Css.Sass;
@@ -14,9 +16,30 @@ namespace MustardBlack.Assets.Build
 	{
 		static void Main(string[] args)
 		{
+			try
+			{
+				Run(args);
+			}
+			catch (Exception e)
+			{
+				while (e != null)
+				{
+					Console.WriteLine(e.Message);
+					Console.WriteLine(e.StackTrace);
+					e = e.InnerException;
+				}
+
+				Environment.Exit(-1);
+			}
+		}
+
+		static void Run(string[] args)
+		{
 			var path = args[0].Replace("/", "\\");
 			var type = args[1];
 			var outPath = args[2].Replace("/", "\\");
+
+			var jsArg = args.Length >= 4 ? args[3] : null;
 
 			var assetLoader = new AssetLoader(new FakeFileSystem());
 
@@ -55,13 +78,17 @@ namespace MustardBlack.Assets.Build
 			}
 			else if (type == "js")
 			{
-				var yuiJavascriptCompressor = new YuiJavascriptCompressor();
+				IJavascriptPreprocessor javascriptPreprocessor;
+				if (jsArg == "babel")
+					javascriptPreprocessor = new BabelJavascriptPreprocessor();
+				else
+					javascriptPreprocessor = new YuiJavascriptPreprocessor();
 
-				asset = assetLoader.GetAsset(path, AreaJavascriptHandler.FileMatch);
-				if (string.IsNullOrWhiteSpace(asset))
+				var assets = assetLoader.GetAssets(path, AreaJavascriptHandler.FileMatch);
+				if (!assets.Any())
 					return;
 
-				var result = yuiJavascriptCompressor.Compress(asset);
+				var result = javascriptPreprocessor.Process(assets);
 				// TODO: handle failure
 				asset = result;
 				assetFormat = "js";

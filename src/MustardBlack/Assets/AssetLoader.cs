@@ -24,7 +24,7 @@ namespace MustardBlack.Assets
 			return filesContents;
 		}
 
-		public IEnumerable<Asset> GetAssets(string path, Regex nameMatch)
+		public IEnumerable<AssetContent> GetAssets(string path, Regex nameMatch)
 		{
 			var fullPath = this.fileSystem.GetFullPath(path.ToLowerInvariant());
 			var assets = ReadMultipleFilesIndividually(path, fullPath, nameMatch);
@@ -41,15 +41,15 @@ namespace MustardBlack.Assets
 		}
 
 
-		static IEnumerable<Asset> ReadMultipleFilesIndividually(string relativePath, string fullPath, Regex nameMatch)
+		static IEnumerable<AssetContent> ReadMultipleFilesIndividually(string relativePath, string fullPath, Regex nameMatch)
 		{
 			var files = ListFiles(fullPath, nameMatch);
-			var assets = new List<Asset>();
+			var assets = new List<AssetContent>();
 			foreach (var file in files)
 			{
 				var contents = ReadSingleFile(file);
 				var path = relativePath.TrimStart('~') + file.Substring(fullPath.Length);
-				assets.Add(new Asset(path, contents));
+				assets.Add(new AssetContent(path, contents));
 			}
 
 			return assets;

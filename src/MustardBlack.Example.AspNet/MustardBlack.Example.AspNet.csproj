@@ -83,6 +83,10 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MustardBlack.Assets.Babel\MustardBlack.Assets.Babel.csproj">
+      <Project>{6d998a5b-0c56-4540-9a9e-d0d62515d1ea}</Project>
+      <Name>MustardBlack.Assets.Babel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MustardBlack.Assets.YuiCompressor\MustardBlack.Assets.YuiCompressor.csproj">
       <Project>{47a5dcb5-1fa8-462c-80eb-1f0e2e0f422a}</Project>
       <Name>MustardBlack.Assets.YuiCompressor</Name>

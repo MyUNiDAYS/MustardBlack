@@ -40,8 +40,16 @@ namespace SourcemapToolkit.SourcemapParser
 		/// A list of content source files
 		/// </summary>
 		public List<string> SourcesContent;
-		
-        public SourceMap Clone()
+
+		public SourceMap()
+		{
+			this.Sources = new List<string>();
+			this.Names = new List<string>();
+			this.SourcesContent = new List<string>();
+			this.ParsedMappings = new List<MappingEntry>();
+		}
+
+		public SourceMap Clone()
         {
             return new SourceMap
             {

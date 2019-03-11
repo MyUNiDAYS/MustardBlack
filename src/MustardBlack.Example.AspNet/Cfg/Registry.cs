@@ -3,6 +3,7 @@ using System.Text.Encodings.Web;
 using Microsoft.Extensions.DependencyInjection;
 using MuonLab.Validation;
 using MustardBlack.Applications;
+using MustardBlack.Assets.Babel;
 using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Css.Css;
 using MustardBlack.Assets.Css.Less;
@@ -29,7 +30,8 @@ namespace MustardBlack.Example.Cfg
 			container.Register<ICssPreprocessor, CssPreprocessor>();
 			container.Register<ICssPreprocessor, LessCssPreprocessor>();
 			container.Register<ICssPreprocessor, SassCssPreprocessor>();
-			container.Register<IJavascriptCompressor, YuiJavascriptCompressor>();
+			//container.Register<IJavascriptPreprocessor, NullJavascriptPreprocessor>();
+			container.Register<IJavascriptPreprocessor, BabelJavascriptPreprocessor>();
 
 			container.Register<IFileSystem, AspNetFileSystem>();
 

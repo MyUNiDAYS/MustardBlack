@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+using MustardBlack.Assets.Babel;
+using MustardBlack.Assets.Javascript;
+using MustardBlack.Assets.YuiCompressor;
 
 namespace MustardBlack.ViewEngines.Razor.Build
 {
@@ -15,11 +18,19 @@ namespace MustardBlack.ViewEngines.Razor.Build
 
 			var inPath = Path.GetFullPath(args[0]);
 			var outPath = Path.GetFullPath(args[1]);
-			var assemblyName = args[2];
+			var jsPreprocessor = Path.GetFullPath(args[2]);
+			var assemblyName = args[3];
+
+			IJavascriptPreprocessor javascriptPreprocessor;
+			if(jsPreprocessor == "babel")
+				javascriptPreprocessor = new BabelJavascriptPreprocessor();
+			else
+				javascriptPreprocessor = new YuiJavascriptPreprocessor();
+
 
 			try
 			{
-				Compiler.Compile(inPath, outPath, assemblyName);
+				Compiler.Compile(inPath, outPath, assemblyName, javascriptPreprocessor);
 			}
 			catch (Exception e)
 			{

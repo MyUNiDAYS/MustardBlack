@@ -8,13 +8,14 @@ using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Css.Css;
 using MustardBlack.Assets.Css.Less;
 using MustardBlack.Assets.Css.Sass;
+using MustardBlack.Assets.Javascript;
 using MustardBlack.Assets.YuiCompressor;
 
 namespace MustardBlack.ViewEngines.Razor.Build
 {
 	static class Compiler
 	{
-		public static void Compile(string inPath, string outPath, string assemblyName)
+		public static void Compile(string inPath, string outPath, string assemblyName, IJavascriptPreprocessor javascriptPreprocessor)
 		{
 			var binPath = Path.Combine(inPath, "bin");
 			var webConfigPath = Path.Combine(inPath, "web.config");
@@ -26,7 +27,7 @@ namespace MustardBlack.ViewEngines.Razor.Build
 			
 			var fileSystem = new BasicFileSystem(inPath);
 			var cssPreprocessors = new ICssPreprocessor[] {new CssPreprocessor(), new LessCssPreprocessor(), new SassCssPreprocessor()};
-			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(new YuiJavascriptCompressor(), cssPreprocessors, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
+			var razorViewCompiler = new AssetEnrichedRazorViewCompiler(javascriptPreprocessor, cssPreprocessors, fileSystem, new AssetLoader(fileSystem), razorConfiguration);
 
 			var views = Directory.GetFiles(inPath, "*.cshtml", SearchOption.AllDirectories).ToList();
 			if (!views.Any())
@@ -87,11 +88,11 @@ namespace MustardBlack.ViewEngines.Razor.Build
 
 				if (jsPaths.Any())
 				{
-					var jsBuilder = new StringBuilder();
+					var jsAssets = new List<AssetContent>();
 					foreach (var jsFile in jsPaths)
-						jsBuilder.AppendLine(File.ReadAllText(jsFile));
-
-					viewContents.Insert(0, razorViewCompiler.PrepareJsForRazorCompilation(jsBuilder.ToString(), true));
+						jsAssets.Add(new AssetContent(jsFile, File.ReadAllText(jsFile)));
+					
+					viewContents.Insert(0, razorViewCompiler.PrepareJsForRazorCompilation(jsAssets));
 				}
 
 				if (cssPaths.Any())
