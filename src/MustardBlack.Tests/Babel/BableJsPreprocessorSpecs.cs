@@ -14,7 +14,7 @@ namespace MustardBlack.Tests.Babel
 			var assetContents = assetLoader.GetAssets("~/Babel/scripts", new Regex(".js$"));
 			var babelJavascriptPreprocessor = new BabelJavascriptPreprocessor();
 			var process = babelJavascriptPreprocessor.Process(assetContents);
-//		}
+		}
 //
 //		[Then]
 //		public void ShouldntBeFucked()
