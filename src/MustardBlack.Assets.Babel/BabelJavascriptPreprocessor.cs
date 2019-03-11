@@ -64,15 +64,12 @@ namespace MustardBlack.Assets.Babel
 								continue;
 
 							map.ParsedMappings.Add(mappingEntry);
-
-							if (mappingEntry.OriginalSourcePosition.ZeroBasedLineNumber + 1 > maxLine)
-								maxLine = mappingEntry.OriginalSourcePosition.ZeroBasedLineNumber + 1;
-
+							
 							mappingEntry.OriginalFileName = result.asset.FullPath;
 							mappingEntry.GeneratedSourcePosition.ZeroBasedLineNumber += offset;
 						}
 
-						offset += maxLine;
+						offset += result.asset.Contents.Split('\n').Length - 1;
 					}
 				}
 
