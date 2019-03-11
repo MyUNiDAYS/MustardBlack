@@ -5,7 +5,16 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MustardBlack.Assets.Babel\MustardBlack.Assets.Babel.csproj" />
     <ProjectReference Include="..\MustardBlack\MustardBlack.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Babel\scripts\cookie.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Babel\scripts\tempdata.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

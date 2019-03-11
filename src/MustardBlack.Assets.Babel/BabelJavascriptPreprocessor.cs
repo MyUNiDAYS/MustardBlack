@@ -50,7 +50,6 @@ namespace MustardBlack.Assets.Babel
 					using (var streamReader = new StreamReader(memoryStream))
 					{
 						var sourceMap = sourceMapParser.ParseSourceMap(streamReader);
-						var maxLine = 0;
 
 						foreach (var name in sourceMap.Names)
 							map.Names.Add(name);
@@ -59,23 +58,22 @@ namespace MustardBlack.Assets.Babel
 
 						foreach (var mappingEntry in sourceMap.ParsedMappings)
 						{
-							// TODO: how should we really handle this? How can you have mappingentries with no originalsourceposition?
 							if (mappingEntry.OriginalSourcePosition == null)
 								continue;
 
 							map.ParsedMappings.Add(mappingEntry);
 							
 							mappingEntry.OriginalFileName = result.asset.FullPath;
+							
 							mappingEntry.GeneratedSourcePosition.ZeroBasedLineNumber += offset;
 						}
 
-						offset += result.asset.Contents.Split('\n').Length - 1;
+						offset += result.result.Code.Split('\n').Length;
 					}
 				}
 
 				outputBuilder.AppendLine(result.result.Code);
 			}
-
 
 			var sourceMapGenerator = new SourceMapGenerator();
 			var generateSourceMapInlineComment = sourceMapGenerator.GenerateSourceMapInlineComment(map);
