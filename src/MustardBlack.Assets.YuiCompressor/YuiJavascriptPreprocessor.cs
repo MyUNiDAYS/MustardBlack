@@ -13,7 +13,7 @@ namespace MustardBlack.Assets.YuiCompressor
 			foreach (var asset in assets)
 				builder.AppendLine(asset.Contents);
 
-			var javaScriptCompressor = new JavaScriptCompressor();
+			var javaScriptCompressor = new JavaScriptCompressor{Encoding = Encoding.UTF8};
 			return javaScriptCompressor.Compress(builder.ToString());
 		}
 	}
