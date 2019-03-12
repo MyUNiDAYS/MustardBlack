@@ -12,11 +12,13 @@ namespace MustardBlack.Assets.Babel
 {
 	public sealed class BabelJavascriptPreprocessor : IJavascriptPreprocessor
 	{
-		IReactEnvironment reactEnvironment;
-		string babelConfig;
+		readonly bool includeSourceMaps;
+		readonly IReactEnvironment reactEnvironment;
+		readonly string babelConfig;
 
-		public BabelJavascriptPreprocessor()
+		public BabelJavascriptPreprocessor(bool includeSourceMaps)
 		{
+			this.includeSourceMaps = includeSourceMaps;
 			Initializer.Initialize(r => r.AsSingleton());
 
 			var container = AssemblyRegistration.Container;
@@ -35,6 +37,26 @@ namespace MustardBlack.Assets.Babel
 		}
 		
 		public string Process(IEnumerable<AssetContent> assets)
+		{
+			if (this.includeSourceMaps)
+				return ProcessWithSourceMaps(assets);
+
+			return ProcessWithoutSourceMaps(assets);
+		}
+
+		string ProcessWithoutSourceMaps(IEnumerable<AssetContent> assets)
+		{
+			var outputBuilder = new StringBuilder();
+
+			var results = assets.Select(a => new { asset = a, result = this.reactEnvironment.ExecuteWithBabel<JavaScriptWithSourceMap>("ReactNET_transform_sourcemap", a.Contents, babelConfig, a.FullPath) }).ToArray();
+
+			foreach (var result in results)
+				outputBuilder.AppendLine(result.result.Code);
+
+			return outputBuilder.ToString();
+		}
+
+		string ProcessWithSourceMaps(IEnumerable<AssetContent> assets)
 		{
 			var results = assets.Select(a => new { asset = a, result = this.reactEnvironment.ExecuteWithBabel<JavaScriptWithSourceMap>("ReactNET_transform_sourcemap", a.Contents, babelConfig, a.FullPath) }).ToArray();
 
@@ -63,9 +85,9 @@ namespace MustardBlack.Assets.Babel
 								continue;
 
 							map.ParsedMappings.Add(mappingEntry);
-							
+
 							mappingEntry.OriginalFileName = result.asset.FullPath.ToLower();
-							
+
 							mappingEntry.GeneratedSourcePosition.ZeroBasedLineNumber += offset;
 						}
 

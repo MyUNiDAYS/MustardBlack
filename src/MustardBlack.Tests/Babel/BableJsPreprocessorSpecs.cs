@@ -12,7 +12,7 @@ namespace MustardBlack.Tests.Babel
 		{
 			var assetLoader = new AssetLoader(new TestFileSystem(AppDomain.CurrentDomain.BaseDirectory));
 			var assetContents = assetLoader.GetAssets("~/Babel/scripts", new Regex(".js$"));
-			var babelJavascriptPreprocessor = new BabelJavascriptPreprocessor();
+			var babelJavascriptPreprocessor = new BabelJavascriptPreprocessor(true);
 			var process = babelJavascriptPreprocessor.Process(assetContents);
 		}
 //

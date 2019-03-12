@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using MustardBlack.Assets.Babel;
 using MustardBlack.Assets.Javascript;
 using MustardBlack.Assets.YuiCompressor;
@@ -21,9 +22,11 @@ namespace MustardBlack.ViewEngines.Razor.Build
 			var jsPreprocessor = Path.GetFullPath(args[2]);
 			var assemblyName = args[3];
 
+			var jsOpts = jsPreprocessor.Split(':');
+
 			IJavascriptPreprocessor javascriptPreprocessor;
-			if(jsPreprocessor == "babel")
-				javascriptPreprocessor = new BabelJavascriptPreprocessor();
+			if(jsOpts[0] == "babel")
+				javascriptPreprocessor = new BabelJavascriptPreprocessor(jsOpts.Contains("sourcemaps"));
 			else
 				javascriptPreprocessor = new YuiJavascriptPreprocessor();
 

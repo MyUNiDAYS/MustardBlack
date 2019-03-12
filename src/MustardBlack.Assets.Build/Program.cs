@@ -39,7 +39,7 @@ namespace MustardBlack.Assets.Build
 			var type = args[1];
 			var outPath = args[2].Replace("/", "\\");
 
-			var jsArg = args.Length >= 4 ? args[3] : null;
+			var options = args.Length >= 4 ? args[3] : null;
 
 			var assetLoader = new AssetLoader(new FakeFileSystem());
 
@@ -48,57 +48,85 @@ namespace MustardBlack.Assets.Build
 
 			if (type == "css")
 			{
-				var cssPreprocessors = new ICssPreprocessor[] { new LessCssPreprocessor(), new SassCssPreprocessor() };
-
-				foreach (var cssPreprocessor in cssPreprocessors)
-				{
-					asset = assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
-					if (string.IsNullOrWhiteSpace(asset))
-						continue;
-
-					var result = cssPreprocessor.Process(asset);
-
-					if (result.Status == AssetProcessingResult.CompilationStatus.Skipped)
-						continue;
-
-					if (result.Status == AssetProcessingResult.CompilationStatus.Failure)
-					{
-						Console.WriteLine(result.Message);
-						Environment.Exit(-1);
-					}
-
-					if (result.Status == AssetProcessingResult.CompilationStatus.Success)
-					{
-						asset = result.Result;
-						assetFormat = "css";
-						break;
-					}
-				}
-				
+				asset = ProcessCss(asset, assetLoader, path);
+				assetFormat = "css";
 			}
 			else if (type == "js")
 			{
-				IJavascriptPreprocessor javascriptPreprocessor;
-				if (jsArg == "babel")
-					javascriptPreprocessor = new BabelJavascriptPreprocessor();
-				else
-					javascriptPreprocessor = new YuiJavascriptPreprocessor();
-
-				var assets = assetLoader.GetAssets(path, AreaJavascriptHandler.FileMatch);
-				if (!assets.Any())
-					return;
-
-				var result = javascriptPreprocessor.Process(assets);
-				// TODO: handle failure
-				asset = result;
+				asset = ProcessJs(options, assetLoader, path);
 				assetFormat = "js";
 			}
+
+			if (string.IsNullOrEmpty(asset))
+				return;
 
 			var resourceIntegrityCheck = ComputeSha256Hash(asset);
 			Console.Write(resourceIntegrityCheck);
 
 			var outFile = Path.Combine(outPath, resourceIntegrityCheck + '.' + assetFormat);
 			File.WriteAllText(outFile, asset);
+		}
+
+		static string ProcessJs(string options, IAssetLoader assetLoader, string path)
+		{
+			var opts = options.Split(':');
+
+			var assets = assetLoader.GetAssets(path, AreaJavascriptHandler.FileMatch);
+			if (!assets.Any())
+				return null;
+
+			string result;
+
+			IJavascriptPreprocessor javascriptPreprocessor;
+			if (opts[0] == "babel")
+			{
+				javascriptPreprocessor = new BabelJavascriptPreprocessor(opts.Contains("sourcemaps"));
+				result = javascriptPreprocessor.Process(assets);
+
+				if (opts.Contains("minify"))
+				{
+					javascriptPreprocessor = new YuiJavascriptPreprocessor();
+					result = javascriptPreprocessor.Process(new [] { new AssetContent("<babel-output>", result) });
+				}
+			}
+			else
+			{
+				javascriptPreprocessor = new YuiJavascriptPreprocessor();
+				result = javascriptPreprocessor.Process(assets);
+			}
+
+			return result;
+		}
+
+		static string ProcessCss(string asset, AssetLoader assetLoader, string path)
+		{
+			var cssPreprocessors = new ICssPreprocessor[] {new LessCssPreprocessor(), new SassCssPreprocessor()};
+
+			foreach (var cssPreprocessor in cssPreprocessors)
+			{
+				asset = assetLoader.GetAsset(path, cssPreprocessor.FileMatch);
+				if (string.IsNullOrWhiteSpace(asset))
+					continue;
+
+				var result = cssPreprocessor.Process(asset);
+
+				if (result.Status == AssetProcessingResult.CompilationStatus.Skipped)
+					continue;
+
+				if (result.Status == AssetProcessingResult.CompilationStatus.Failure)
+				{
+					Console.WriteLine(result.Message);
+					Environment.Exit(-1);
+				}
+
+				if (result.Status == AssetProcessingResult.CompilationStatus.Success)
+				{
+					asset = result.Result;
+					break;
+				}
+			}
+
+			return asset;
 		}
 
 		static string ComputeSha256Hash(string input)
