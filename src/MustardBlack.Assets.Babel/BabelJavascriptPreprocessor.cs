@@ -29,7 +29,7 @@ namespace MustardBlack.Assets.Babel
 			
 			this.reactEnvironment = ReactEnvironment.Current;
 
-			this.reactEnvironment.Configuration.BabelConfig.Presets.Add("minify");
+			//this.reactEnvironment.Configuration.BabelConfig.Presets.Add("minify");
 
 			this.babelConfig = this.reactEnvironment.Configuration.BabelConfig.Serialize();
 		}
