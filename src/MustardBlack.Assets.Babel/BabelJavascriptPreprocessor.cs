@@ -29,7 +29,7 @@ namespace MustardBlack.Assets.Babel
 			
 			this.reactEnvironment = ReactEnvironment.Current;
 
-			//this.reactEnvironment.Configuration.BabelConfig.Presets.Add("minify");
+			this.reactEnvironment.Configuration.BabelConfig.Presets.Remove("react");
 
 			this.babelConfig = this.reactEnvironment.Configuration.BabelConfig.Serialize();
 		}
@@ -55,7 +55,7 @@ namespace MustardBlack.Assets.Babel
 						foreach (var name in sourceMap.Names)
 							map.Names.Add(name);
 
-						map.Sources.Add(result.asset.FullPath);
+						map.Sources.Add(result.asset.FullPath.ToLower());
 
 						foreach (var mappingEntry in sourceMap.ParsedMappings)
 						{
@@ -64,7 +64,7 @@ namespace MustardBlack.Assets.Babel
 
 							map.ParsedMappings.Add(mappingEntry);
 							
-							mappingEntry.OriginalFileName = result.asset.FullPath;
+							mappingEntry.OriginalFileName = result.asset.FullPath.ToLower();
 							
 							mappingEntry.GeneratedSourcePosition.ZeroBasedLineNumber += offset;
 						}
