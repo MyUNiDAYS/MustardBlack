@@ -31,7 +31,7 @@ namespace MustardBlack.Example.Cfg
 			container.Register<ICssPreprocessor, LessCssPreprocessor>();
 			container.Register<ICssPreprocessor, SassCssPreprocessor>();
 			//container.Register<IJavascriptPreprocessor, NullJavascriptPreprocessor>();
-			container.Register<IJavascriptPreprocessor, BabelJavascriptPreprocessor>();
+			container.Register<IJavascriptPreprocessor>(c => new BabelJavascriptPreprocessor(true));
 
 			container.Register<IFileSystem, AspNetFileSystem>();
 

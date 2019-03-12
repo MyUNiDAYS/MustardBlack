@@ -75,6 +75,7 @@
     <None Include="Areas\Example\Example\index.cshtml" />
     <Content Include="Areas\Example\Assets\Scripts\second.js" />
     <Content Include="Areas\Example\Assets\Scripts\index.js" />
+    <Content Include="Areas\Example\Example\index.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

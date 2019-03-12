@@ -14,8 +14,14 @@ namespace MustardBlack.Areas
 {
 	public abstract class AreaRegistrationBase
 	{
+		readonly bool addAssetHandlers;
 		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 		public string AreaName => this.GetType().Namespace.Substring(this.GetType().Namespace.LastIndexOf('.') + 1);
+
+		protected AreaRegistrationBase(bool addAssetHandlers)
+		{
+			this.addAssetHandlers = addAssetHandlers;
+		}
 
 		public virtual void RegisterArea(IHandlerCache handlerCache, ICollection<IRoute> routeCollection)
 		{
@@ -23,10 +29,13 @@ namespace MustardBlack.Areas
 
 			var hash = this.HashRoutes(handlers);
 
-			// TODO: only include these when in dev mode
-			this.MapRoute(routeCollection, "/" + this.AreaName + ".css", typeof(AreaCssHandler), false, false);
-			this.MapRoute(routeCollection, "/" + this.AreaName + ".js", typeof(AreaJavascriptHandler), false, false);
-			this.MapRoute(routeCollection, "/areas/" + this.AreaName + "/assets/{*path}", typeof(AreaStaticAssetHandler), false, false);
+			if (this.addAssetHandlers)
+			{
+				this.MapRoute(routeCollection, "/" + this.AreaName + ".css", typeof(AreaCssHandler), false, false);
+				this.MapRoute(routeCollection, "/" + this.AreaName + ".js", typeof(AreaJavascriptHandler), false, false);
+				this.MapRoute(routeCollection, "/areas/" + this.AreaName + "/assets/{*path}", typeof(AreaStaticAssetHandler), false, false);
+				routeCollection.Add(new ViewJsRoute("/areas/" + this.AreaName));
+			}
 
 			foreach (var routeRegistration in hash)
 				this.RegisterRoute(handlerCache, routeCollection, routeRegistration);

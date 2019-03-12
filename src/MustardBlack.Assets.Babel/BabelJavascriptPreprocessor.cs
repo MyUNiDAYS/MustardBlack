@@ -48,7 +48,7 @@ namespace MustardBlack.Assets.Babel
 		{
 			var outputBuilder = new StringBuilder();
 
-			var results = assets.Select(a => new { asset = a, result = this.reactEnvironment.ExecuteWithBabel<JavaScriptWithSourceMap>("ReactNET_transform_sourcemap", a.Contents, babelConfig, a.FullPath) }).ToArray();
+			var results = assets.Select(a => new { asset = a, result = this.reactEnvironment.ExecuteWithBabel<JavaScriptWithSourceMap>("ReactNET_transform_sourcemap", a.Contents, babelConfig, a.Path) }).ToArray();
 
 			foreach (var result in results)
 				outputBuilder.AppendLine(result.result.Code);
@@ -58,7 +58,7 @@ namespace MustardBlack.Assets.Babel
 
 		string ProcessWithSourceMaps(IEnumerable<AssetContent> assets)
 		{
-			var results = assets.Select(a => new { asset = a, result = this.reactEnvironment.ExecuteWithBabel<JavaScriptWithSourceMap>("ReactNET_transform_sourcemap", a.Contents, babelConfig, a.FullPath) }).ToArray();
+			var results = assets.Select(a => new { asset = a, result = this.reactEnvironment.ExecuteWithBabel<JavaScriptWithSourceMap>("ReactNET_transform_sourcemap", a.Contents, babelConfig, a.Path) }).ToArray();
 
 			var offset = 0;
 			var map = new SourcemapToolkit.SourcemapParser.SourceMap();
@@ -77,7 +77,7 @@ namespace MustardBlack.Assets.Babel
 						foreach (var name in sourceMap.Names)
 							map.Names.Add(name);
 
-						map.Sources.Add(result.asset.FullPath.ToLower());
+						map.Sources.Add(result.asset.Path.ToLower());
 
 						foreach (var mappingEntry in sourceMap.ParsedMappings)
 						{
@@ -86,7 +86,7 @@ namespace MustardBlack.Assets.Babel
 
 							map.ParsedMappings.Add(mappingEntry);
 
-							mappingEntry.OriginalFileName = result.asset.FullPath.ToLower();
+							mappingEntry.OriginalFileName = result.asset.Path.ToLower();
 
 							mappingEntry.GeneratedSourcePosition.ZeroBasedLineNumber += offset;
 						}

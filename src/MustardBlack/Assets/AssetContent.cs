@@ -2,12 +2,12 @@
 {
 	public struct AssetContent
 	{
-		public string FullPath { get; }
+		public string Path { get; }
 		public string Contents { get; }
 
-		public AssetContent(string fullPath, string contents)
+		public AssetContent(string path, string contents)
 		{
-			this.FullPath = fullPath;
+			this.Path = path;
 			this.Contents = contents;
 		}
 	}

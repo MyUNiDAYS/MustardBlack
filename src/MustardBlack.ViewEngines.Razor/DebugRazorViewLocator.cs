@@ -136,13 +136,16 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			if (!fullJsPaths.Any())
 				return;
-			
+
+			var root = this.fileSystem.GetFullPath("~/");
+
 			var assets = new List<AssetContent>();
 			foreach (var jsPath in fullJsPaths)
 			{
 				this.fileSystem.Read(jsPath, reader =>
 				{
-					assets.Add(new AssetContent(jsPath, reader.ReadToEnd()));
+					var relativePath = jsPath.Substring(root.Length).Replace('\\', '/');
+					assets.Add(new AssetContent(relativePath, reader.ReadToEnd()));
 					return 0;
 				});
 			}
