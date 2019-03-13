@@ -19,9 +19,9 @@ namespace MustardBlack.ViewEngines.Razor.Build
 
 			var inPath = Path.GetFullPath(args[0]);
 			var outPath = Path.GetFullPath(args[1]);
-			var jsPreprocessor = Path.GetFullPath(args[2]);
-			var assemblyName = args[3];
-
+			var jsPreprocessor = args[3];
+			var assemblyName = args[2];
+			
 			var jsOpts = jsPreprocessor.Split(':');
 
 			IJavascriptPreprocessor javascriptPreprocessor;
@@ -29,8 +29,7 @@ namespace MustardBlack.ViewEngines.Razor.Build
 				javascriptPreprocessor = new BabelJavascriptPreprocessor(jsOpts.Contains("sourcemaps"));
 			else
 				javascriptPreprocessor = new YuiJavascriptPreprocessor();
-
-
+			
 			try
 			{
 				Compiler.Compile(inPath, outPath, assemblyName, javascriptPreprocessor);
