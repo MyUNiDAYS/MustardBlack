@@ -21,9 +21,12 @@ namespace MustardBlack.Handlers.Binding.Binders
 				return new BindingResult(new string[0], BindingResult.ResultType.Default);
 
 			var lines = strValue.Split('\n');
+			var cols = strValue.Split(',');
 
-			var trimmedLines = lines.Select(l => l.Trim('\r'));
+			if (cols.Length > lines.Length)
+				return new BindingResult(cols);
 
+			var trimmedLines = lines.Select(l => l.Trim('\r')).ToArray();
 			return new BindingResult(trimmedLines);
 		}
 	}
