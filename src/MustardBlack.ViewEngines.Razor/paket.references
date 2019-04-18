@@ -9,6 +9,6 @@ Microsoft.CodeAnalysis.Razor
 Microsoft.CSharp
 System.Reflection.Metadata
 System.Buffers
-NanoIoC
 Serilog
 System.Dynamic.Runtime
+NanoIoC

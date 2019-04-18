@@ -1,5 +1,4 @@
 Serilog
-NanoIoC
 MuonLab.Validation
 System.Buffers
 System.Reflection.Metadata
@@ -15,3 +14,4 @@ libsassnetstandard
 React.Core
 SourceMapToolkit
 JavascriptEngineSwitcher.Msie
+NanoIoC

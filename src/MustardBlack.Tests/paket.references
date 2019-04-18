@@ -1,9 +1,8 @@
 NSubstitute
-NanoIoC
 Newtonsoft.Json
 MuonLab.Validation
 Serilog
-
 xunit
 Microsoft.NET.Test.Sdk
 xunit.runner.visualstudio
+NanoIoC
