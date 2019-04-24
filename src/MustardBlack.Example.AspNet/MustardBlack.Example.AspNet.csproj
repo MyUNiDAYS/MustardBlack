@@ -57,7 +57,6 @@
     <Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Areas\Example\Assets\Styles\styles.scss" />
     <Compile Include="Areas\Example\Example\ExampleHandler.cs" />
     <Compile Include="Areas\Example\ExampleApplication.cs" />
     <Compile Include="Areas\Example\ExampleAreaRegistration.cs" />
@@ -75,6 +74,7 @@
     <None Include="Areas\Example\Example\index.cshtml" />
     <Content Include="Areas\Example\Assets\Scripts\second.js" />
     <Content Include="Areas\Example\Assets\Scripts\index.js" />
+    <None Include="Areas\Example\Assets\Styles\styles.scss" />
     <Content Include="Areas\Example\Example\index.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

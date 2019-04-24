@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,22 @@ namespace MustardBlack.Assets
 			var filesContents = this.ReadFiles(fullPath, nameMatch);
 
 			return filesContents;
+		}
+
+		public DateTime GetMaxLastModified(string path, Regex nameMatch)
+		{
+			var fullPath = this.fileSystem.GetFullPath(path.ToLowerInvariant());
+			var files = ListFiles(fullPath, nameMatch);
+
+			var maxLastModified = DateTime.MinValue;
+			foreach (var file in files)
+			{
+				var modified = this.fileSystem.GetLastWriteTime(file);
+				if (modified > maxLastModified)
+					maxLastModified = modified;
+			}
+
+			return maxLastModified;
 		}
 
 		public IEnumerable<AssetContent> GetAssets(string path, Regex nameMatch)
