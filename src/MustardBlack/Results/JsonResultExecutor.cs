@@ -26,8 +26,15 @@ namespace MustardBlack.Results
 
 			if (result.Data != null)
 			{
-				var entity = JsonConvert.SerializeObject(result.Data, result.SerializerSettings);
-				context.Response.Write(entity);
+				if (result.Data is string json)
+				{
+					context.Response.Write(json);
+				}
+				else
+				{
+					var entity = JsonConvert.SerializeObject(result.Data, result.SerializerSettings);
+					context.Response.Write(entity);
+				}
 			}
 
 			return Task.CompletedTask;
