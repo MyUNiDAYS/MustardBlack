@@ -144,7 +144,7 @@ namespace MustardBlack.ViewEngines.Razor
 			{
 				this.fileSystem.Read(jsPath, reader =>
 				{
-					var relativePath = jsPath.Substring(root.Length).Replace('\\', '/');
+					var relativePath = jsPath.Substring(root.Length - 1).Replace('\\', '/');
 					assets.Add(new AssetContent(relativePath, reader.ReadToEnd()));
 					return 0;
 				});
