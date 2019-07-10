@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using MustardBlack.Assets;
 using MustardBlack.Hosting;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace MustardBlack.ViewEngines.Razor
 {
 	public sealed class DebugRazorViewLocator : IViewLocator
 	{
+		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
+
 		readonly AssetEnrichedRazorViewCompiler compiler;
 		readonly IFileSystem fileSystem;
 		readonly IDictionary<string, CachedItem> cache;
@@ -29,12 +34,16 @@ namespace MustardBlack.ViewEngines.Razor
 
 			var fullViewPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".cshtml");
 			var fullJsPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".js").Where(p => !p.EndsWith(".test.js")).ToArray();
-			var fullLessPaths = this.compiler.GetViewComponentPaths(fullViewPath, ".less");
+			var fullCssPaths = this.compiler
+					.GetViewComponentPaths(fullViewPath, ".less")
+					.Union(this.compiler.GetViewComponentPaths(fullViewPath, ".scss"))
+					.Union(this.compiler.GetViewComponentPaths(fullViewPath, ".css"))
+					.ToArray();
 
 			if (!fullViewPaths.Any())
 				return null;
 
-			var sourceCodeLastModified = this.GetLastModified(fullViewPaths, fullJsPaths, fullLessPaths);
+			var sourceCodeLastModified = this.GetLastModified(fullViewPaths, fullJsPaths, fullCssPaths);
 
 			if (this.cache.ContainsKey(viewPath) && sourceCodeLastModified != this.cache[viewPath].LastModified)
 				this.cache.Remove(viewPath);
@@ -45,7 +54,7 @@ namespace MustardBlack.ViewEngines.Razor
 				{
 					if (!this.cache.ContainsKey(viewPath))
 					{
-						var compiled = this.CompileView(viewPath, fullJsPaths, fullLessPaths, fullViewPaths, fullViewPath);
+						var compiled = this.CompileView(viewPath, fullJsPaths, fullCssPaths, fullViewPaths);
 						this.cache.Add(viewPath, new CachedItem(compiled, sourceCodeLastModified));
 					}
 				}
@@ -54,8 +63,10 @@ namespace MustardBlack.ViewEngines.Razor
 			return this.cache[viewPath].ViewType;
 		}
 
-		Type CompileView(string viewPath, IEnumerable<string> fullJsPaths, IEnumerable<string> fullLessPaths, IEnumerable<string> fullViewPaths, string fullViewPath)
+		Type CompileView(string viewPath, IEnumerable<string> fullJsPaths, IEnumerable<string> fullCssPaths, IEnumerable<string> fullViewPaths)
 		{
+			log.Debug($"CompileView {viewPath} - JS Files: {JsonConvert.SerializeObject(fullJsPaths)} - CSS Files: {JsonConvert.SerializeObject(fullCssPaths)} - ViewFiles: {JsonConvert.SerializeObject(fullViewPaths)}");
+
 			var builder = new StringBuilder();
 
 			this.AppendHtml(fullViewPaths, builder);
@@ -64,7 +75,7 @@ namespace MustardBlack.ViewEngines.Razor
 
 			// assumes viewPath is of the form "~/areas/{areaName}/path.cshtml
 			var areaName = viewPath.Substring(8, viewPath.IndexOf("/", 8) - 8);
-			this.AppendCss(fullLessPaths, areaName, builder);
+			this.AppendCss(fullCssPaths, areaName, builder);
 			
 			var viewCompilationData = new RazorViewCompilationData
 			{
@@ -78,11 +89,11 @@ namespace MustardBlack.ViewEngines.Razor
 			return compiled;
 		}
 
-		DateTime GetLastModified(IEnumerable<string> fullViewPaths, IEnumerable<string> fullJsPaths, IEnumerable<string> fullLessPaths)
+		DateTime GetLastModified(IEnumerable<string> fullViewPaths, IEnumerable<string> fullJsPaths, IEnumerable<string> fullCssPaths)
 		{
 			var maxLastModified = DateTime.MinValue;
 
-			var allFilePaths = fullViewPaths.Union(fullJsPaths).Union(fullLessPaths);
+			var allFilePaths = fullViewPaths.Union(fullJsPaths).Union(fullCssPaths);
 			foreach (var file in allFilePaths)
 			{
 				var fileLastModified = this.fileSystem.GetLastWriteTime(file);
@@ -118,16 +129,16 @@ namespace MustardBlack.ViewEngines.Razor
 			}
 		}
 
-		void AppendCss(IEnumerable<string> fullLessPaths, string areaName, StringBuilder builder)
+		void AppendCss(IEnumerable<string> fullCssPaths, string areaName, StringBuilder builder)
 		{
-			if (!fullLessPaths.Any())
+			if (!fullCssPaths.Any())
 				return;
 			
-			var lessBuilder = new StringBuilder();
-			foreach (var lessFile in fullLessPaths)
-				this.fileSystem.Read(lessFile, reader => lessBuilder.AppendLine(reader.ReadToEnd()));
+			var cssBuilder = new StringBuilder();
+			foreach (var cssFile in fullCssPaths)
+				this.fileSystem.Read(cssFile, reader => cssBuilder.AppendLine(reader.ReadToEnd()));
 
-			var css = this.compiler.PrepareCssForRazorCompilation(lessBuilder.ToString(), areaName);
+			var css = this.compiler.PrepareCssForRazorCompilation(cssBuilder.ToString(), areaName);
 			if(!string.IsNullOrWhiteSpace(css))
 				builder.Insert(0, css);
 		}
