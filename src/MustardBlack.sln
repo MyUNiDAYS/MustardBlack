@@ -27,7 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Example.AspNet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.Tests", "MustardBlack.Tests\MustardBlack.Tests.csproj", "{E6E5B62A-AB10-451A-89DD-9627B5F70F18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Assets.Babel", "MustardBlack.Assets.Babel\MustardBlack.Assets.Babel.csproj", "{6D998A5B-0C56-4540-9A9E-D0D62515D1EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.Assets.Babel", "MustardBlack.Assets.Babel\MustardBlack.Assets.Babel.csproj", "{6D998A5B-0C56-4540-9A9E-D0D62515D1EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustardBlack.Example.AspNetCore", "MustardBlack.Example.AspNetCore\MustardBlack.Example.AspNetCore.csproj", "{7AA40BD8-3B05-4CDB-8E5C-8BFCF8B23660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustardBlack.Hosting.AspNetCore", "MustardBlack.Hosting.AspNetCore\MustardBlack.Hosting.AspNetCore.csproj", "{EA888E05-BBDD-423F-A1CB-04CFCAC85AC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +94,18 @@ Global
 		{6D998A5B-0C56-4540-9A9E-D0D62515D1EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D998A5B-0C56-4540-9A9E-D0D62515D1EA}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{6D998A5B-0C56-4540-9A9E-D0D62515D1EA}.Test|Any CPU.Build.0 = Release|Any CPU
+		{7AA40BD8-3B05-4CDB-8E5C-8BFCF8B23660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AA40BD8-3B05-4CDB-8E5C-8BFCF8B23660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AA40BD8-3B05-4CDB-8E5C-8BFCF8B23660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AA40BD8-3B05-4CDB-8E5C-8BFCF8B23660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AA40BD8-3B05-4CDB-8E5C-8BFCF8B23660}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AA40BD8-3B05-4CDB-8E5C-8BFCF8B23660}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{EA888E05-BBDD-423F-A1CB-04CFCAC85AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA888E05-BBDD-423F-A1CB-04CFCAC85AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA888E05-BBDD-423F-A1CB-04CFCAC85AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA888E05-BBDD-423F-A1CB-04CFCAC85AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA888E05-BBDD-423F-A1CB-04CFCAC85AC6}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA888E05-BBDD-423F-A1CB-04CFCAC85AC6}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

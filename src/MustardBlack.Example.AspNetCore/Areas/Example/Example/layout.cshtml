@@ -1,0 +1,12 @@
+﻿@inherits MustardBlack.ViewEngines.Razor.RazorViewPage
+@{ Layout = "~/Areas/Example/Example/layout-parent.cshtml"; }
+
+@RenderBody()
+
+@section Head {
+	@RenderSection("Head")
+}
+
+<section>
+	@RenderSection("sectionTest")
+</section>
