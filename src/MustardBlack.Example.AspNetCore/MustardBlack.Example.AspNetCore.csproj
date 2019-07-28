@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="Areas\Example\Example\1337_partial.cshtml" />
+    <Content Remove="Areas\Example\Example\index.cshtml" />
+    <Content Remove="Areas\Example\Example\layout-parent.cshtml" />
+    <Content Remove="Areas\Example\Example\layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Areas\Example\Assets\Scripts\index.js" />
+    <None Remove="Areas\Example\Assets\Scripts\second.js" />
+    <None Remove="Areas\Example\Example\index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Example\Assets\Scripts\index.js" />
+    <Content Include="Areas\Example\Assets\Scripts\second.js" />
+    <Content Include="Areas\Example\Example\index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Areas\Example\Example\1337_partial.cshtml" />
+    <None Include="Areas\Example\Example\index.cshtml" />
+    <None Include="Areas\Example\Example\layout-parent.cshtml" />
+    <None Include="Areas\Example\Example\layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MustardBlack.Assets.Babel\MustardBlack.Assets.Babel.csproj" />
+    <ProjectReference Include="..\MustardBlack.Assets.YuiCompressor\MustardBlack.Assets.YuiCompressor.csproj" />
+    <ProjectReference Include="..\MustardBlack.Hosting.AspNetCore\MustardBlack.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\MustardBlack.ViewEngines.Razor\MustardBlack.ViewEngines.Razor.csproj" />
+    <ProjectReference Include="..\MustardBlack\MustardBlack.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>
