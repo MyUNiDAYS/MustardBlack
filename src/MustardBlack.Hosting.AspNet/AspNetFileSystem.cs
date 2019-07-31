@@ -74,5 +74,11 @@ namespace MustardBlack.Hosting.AspNet
 				stream.CopyTo(fileStream);
 			}
 		}
+
+		public FileStream Open(string path, FileMode mode)
+		{
+			path = this.GetFullPath(path);
+			return File.Open(path, mode);
+		}
 	}
 }

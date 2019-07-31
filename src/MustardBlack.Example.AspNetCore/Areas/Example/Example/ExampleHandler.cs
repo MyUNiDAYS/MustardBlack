@@ -10,5 +10,10 @@ namespace MustardBlack.Example.AspNetCore.Areas.Example.Example
 		{
 			return this.View("Index");
 		}
+
+		public IResult Post(Resource resource)
+		{
+			return this.View("Posted");
+		}
 	}
 }

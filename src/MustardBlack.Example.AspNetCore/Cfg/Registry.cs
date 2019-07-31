@@ -31,9 +31,7 @@ namespace MustardBlack.Example.AspNetCore.Cfg
 			container.Register<ICssPreprocessor, SassCssPreprocessor>();
 			//container.Register<IJavascriptPreprocessor, NullJavascriptPreprocessor>();
 			container.Register<IJavascriptPreprocessor>(c => new BabelJavascriptPreprocessor(true));
-
-			container.Register<IFileSystem, NetStandardFileSystem>();
-
+			
 			container.Register<IErrorMessageResolver, DefaultErrorMessageResolver>();
 
 			container.Register<IViewLocator, DebugRazorViewLocator>();

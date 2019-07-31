@@ -24,7 +24,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism.SetTempData(context, result.TempData);
 
 			if (result.Data != null)
-				context.Response.Write(result.Data);
+				return context.Response.Write(result.Data);
 			
 			return Task.CompletedTask;
 		}

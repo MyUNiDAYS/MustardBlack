@@ -48,7 +48,7 @@ namespace MustardBlack.Tests.Handlers.Binding.Binders
 		public sealed class TestFile : IFile
 		{
 			public Stream InputStream { get; }
-			public int ContentLength { get; }
+			public long ContentLength { get; }
 			public string ContentType { get; }
 			public string FileName { get; }
 		}

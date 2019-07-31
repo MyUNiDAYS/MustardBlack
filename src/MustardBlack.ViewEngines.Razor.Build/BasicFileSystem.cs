@@ -70,5 +70,11 @@ namespace MustardBlack.ViewEngines.Razor.Build
 				stream.CopyTo(fileStream);
 			}
 		}
+
+		public FileStream Open(string path, FileMode mode)
+		{
+			path = this.GetFullPath(path);
+			return File.Open(path, mode);
+		}
 	}
 }

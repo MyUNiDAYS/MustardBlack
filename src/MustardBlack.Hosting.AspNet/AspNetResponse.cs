@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using MustardBlack.Caching;
 using MustardBlack.Results;
@@ -17,7 +18,7 @@ namespace MustardBlack.Hosting.AspNet
 
 		public HttpStatusCode StatusCode
 		{
-			get { return (HttpStatusCode) this.context.Response.StatusCode; }
+			get => (HttpStatusCode) this.context.Response.StatusCode;
 			set
 			{
 				this.context.Response.StatusCode = (int) value;
@@ -67,16 +68,12 @@ namespace MustardBlack.Hosting.AspNet
 
 		public Stream OutputStream => this.context.Response.OutputStream;
 
-		public void Write(string body)
+		public Task Write(string data)
 		{
-			this.context.Response.Write(body);
+			this.context.Response.Write(data);
+			return Task.CompletedTask;
 		}
-
-		public void WriteFile(string path)
-		{
-			this.context.Response.TransmitFile(path);
-		}
-
+		
 		static System.Web.HttpCacheRevalidation GetCacheRevalidation(HttpCacheRevalidation revalidation)
 		{
 			switch (revalidation)

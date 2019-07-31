@@ -5,7 +5,7 @@ namespace MustardBlack
 	public interface IFile
 	{
 		Stream InputStream { get; }
-		int ContentLength { get; }
+		long ContentLength { get; }
 		string ContentType { get; }
 		string FileName { get; }
 	}
