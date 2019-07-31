@@ -54,11 +54,12 @@ namespace MustardBlack.Results
 
 			context.Response.SetCacheHeaders(result);
 			context.Response.StatusCode = result.StatusCode;
-			context.Response.Write(rendered.ToString());
 			context.Response.ContentType = "text/html";
 
 			SetLinkHeaders(context, result);
 			this.tempDataMechanism.SetTempData(context, result.TempData);
+
+			await context.Response.Write(rendered.ToString());
 		}
 	}
 }

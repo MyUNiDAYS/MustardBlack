@@ -36,5 +36,10 @@ namespace MustardBlack.Assets.Build
 		{
 			throw new NotImplementedException();
 		}
+
+		public FileStream Open(string path, FileMode mode)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

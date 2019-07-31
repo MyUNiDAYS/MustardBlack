@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using MustardBlack.Handlers;
 using MustardBlack.Hosting;
@@ -10,13 +11,28 @@ namespace MustardBlack.Assets.Static
 	/// </summary>
 	public sealed class AreaStaticAssetHandler : Handler
 	{
+		readonly IFileSystem fileSystem;
+
+		public AreaStaticAssetHandler(IFileSystem fileSystem)
+		{
+			this.fileSystem = fileSystem;
+		}
+
 		public IResult Get(IRequest request)
 		{
 			if(request.Url.Path.ToLower() != request.Url.Path)
 				return new PlainTextResult("Asset paths must be lowercase", HttpStatusCode.BadRequest);
 
-			var contentType = MimeMapping.GetMimeMapping(request.Url.Path);
-			return new FilePathResult(contentType, '~' + request.Url.Path);
+			var path = '~' + request.Url.Path;
+
+			if (this.fileSystem.Exists(path))
+			{
+				var fileStream = this.fileSystem.Open(path, FileMode.Open);
+				var contentType = MimeMapping.GetMimeMapping(request.Url.Path);
+				return new FileStreamResult(contentType, fileStream);
+			}
+
+			return ErrorResult.NotFound();
 		}
 	}
 }

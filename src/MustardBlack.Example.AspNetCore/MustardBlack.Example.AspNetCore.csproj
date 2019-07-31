@@ -9,6 +9,7 @@
     <Content Remove="Areas\Example\Example\index.cshtml" />
     <Content Remove="Areas\Example\Example\layout-parent.cshtml" />
     <Content Remove="Areas\Example\Example\layout.cshtml" />
+    <Content Remove="Areas\Example\Example\posted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Areas\Example\Assets\Scripts\index.js" />
@@ -22,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Areas\Example\Example\1337_partial.cshtml" />
+    <None Include="Areas\Example\Example\posted.cshtml" />
     <None Include="Areas\Example\Example\index.cshtml" />
     <None Include="Areas\Example\Example\layout-parent.cshtml" />
     <None Include="Areas\Example\Example\layout.cshtml" />

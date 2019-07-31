@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
 namespace MustardBlack.Hosting.AspNetCore
 {
 	public sealed class NetStandardFileSystem : IFileSystem
 	{
+		readonly string rootPath;
+
+		public NetStandardFileSystem(string rootPath)
+		{
+			this.rootPath = rootPath;
+		}
+
 		public string GetFullPath(string path)
 		{
 			if (path.StartsWith("~/"))
@@ -14,9 +20,8 @@ namespace MustardBlack.Hosting.AspNetCore
 
 			if (Path.IsPathRooted(path))
 				return path;
-
-			var root = new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName;
-			return Path.GetFullPath(Path.Combine(root, path));
+			
+			return Path.GetFullPath(Path.Combine(this.rootPath, path));
 		}
 
 		public bool Exists(string path)
@@ -46,6 +51,12 @@ namespace MustardBlack.Hosting.AspNetCore
 
 			using (var streamReader = new StreamReader(path))
 				return streamAction(streamReader);
+		}
+
+		public FileStream Open(string path, FileMode mode)
+		{
+			path = this.GetFullPath(path);
+			return File.Open(path, mode);
 		}
 
 		public DateTime GetLastWriteTime(string path)

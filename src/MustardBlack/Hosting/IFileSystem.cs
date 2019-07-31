@@ -42,5 +42,7 @@ namespace MustardBlack.Hosting
 		/// <param name="stream"></param>
 		/// <param name="path"></param>
 		void Write(Stream stream, string path);
+
+		FileStream Open(string path, FileMode mode);
 	}
 }

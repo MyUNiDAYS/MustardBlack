@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using MustardBlack.Hosting;
 using MustardBlack.Results;
 using Newtonsoft.Json;
@@ -25,10 +26,11 @@ namespace MustardBlack.Tests.Helpers
 			this.OutputStream = new MemoryStream();
 		}
 
-		public void Write(string body)
+		public Task Write(string data)
 		{
-			var buffer = Encoding.UTF8.GetBytes(body);
+			var buffer = Encoding.UTF8.GetBytes(data);
 			this.OutputStream.Write(buffer, 0, buffer.Length);
+			return Task.CompletedTask;
 		}
 
 		public void WriteFile(string path)

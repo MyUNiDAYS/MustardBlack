@@ -46,9 +46,7 @@ namespace MustardBlack.Results
 				}
 			}
 
-			context.Response.Write(xml);
-
-			return Task.CompletedTask;
+			return context.Response.Write(xml);
 		}
 	}
 }
