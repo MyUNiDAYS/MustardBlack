@@ -5,7 +5,7 @@ using MustardBlack.Routing;
 
 namespace MustardBlack.Handlers.Binding.Binders
 {
-	public sealed class DateTimeBinder : Binder
+	public class DateTimeBinder : Binder
 	{
         public override bool CanBind(string name, Type type, IRequest request, RouteValues routeValues, object owner)
 		{
