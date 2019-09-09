@@ -532,7 +532,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			return HtmlString.Empty;
 		}
 
-		private void WriteUnprefixedAttributeValue(object value, bool isLiteral)
+		protected virtual void WriteUnprefixedAttributeValue(object value, bool isLiteral)
 		{
 			var stringValue = value as string;
 
