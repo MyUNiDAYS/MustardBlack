@@ -60,7 +60,7 @@
     <Compile Include="Areas\Example\Example\ExampleHandler.cs" />
     <Compile Include="Areas\Example\ExampleApplication.cs" />
     <Compile Include="Areas\Example\ExampleAreaRegistration.cs" />
-    <Compile Include="Areas\Example\Example\NewRazorViewPage.cs" />
+    <Compile Include="Areas\Example\Example\ExampleResource.cs" />
     <Compile Include="Areas\Example\Example\ScriptTagHelper.cs" />
     <Compile Include="Cfg\Registry.cs" />
     <Compile Include="Cfg\Bootstrapper.cs" />

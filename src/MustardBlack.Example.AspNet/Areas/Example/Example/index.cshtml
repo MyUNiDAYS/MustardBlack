@@ -1,4 +1,4 @@
-﻿@inherits MustardBlack.Example.Areas.Example.Example.NewRazorViewPage
+﻿@inherits MustardBlack.ViewEngines.Razor.RazorViewPage<MustardBlack.Example.Areas.Example.Example.ExampleResource>
 @{ Layout = "~/Areas/Example/Example/layout.cshtml"; }
 @using MustardBlack.Example
 @using MustardBlack.ViewEngines
@@ -6,6 +6,7 @@
 <h1>Hello world</h1>
 <p>My type is: @this.GetType()</p>
 <p>My base type is: @this.GetType().BaseType</p>
+<p data-attr="@ViewData.ADate">@ViewData.ADate</p>
 
 @section sectionTest {
 	<p>I'm inside a section</p>

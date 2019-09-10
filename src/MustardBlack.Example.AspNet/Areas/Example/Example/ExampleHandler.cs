@@ -1,5 +1,6 @@
 using MustardBlack.Handlers;
 using MustardBlack.Results;
+using System;
 
 namespace MustardBlack.Example.Areas.Example.Example
 {
@@ -8,7 +9,7 @@ namespace MustardBlack.Example.Areas.Example.Example
 	{
 		public IResult Get()
 		{
-			return View("Index");
+			return View("Index", new ExampleResource { ADate = DateTime.UtcNow });
 		}
 	}
 }
