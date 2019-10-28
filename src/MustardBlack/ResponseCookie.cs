@@ -11,8 +11,9 @@ namespace MustardBlack
 		public bool HttpOnly { get; }
 		public string Domain { get; }
 		public string Path { get; }
+		public CookieSameSiteMode SameSiteMode { get; }
 
-		public ResponseCookie(string name, string value = null, DateTime? expires = null, bool secure = true, bool httpOnly = true, string domain = null, string path = "/")
+		public ResponseCookie(string name, string value = null, DateTime? expires = null, bool secure = true, bool httpOnly = true, string domain = null, string path = "/", CookieSameSiteMode sameSiteMode = CookieSameSiteMode.None)
 		{
 			this.Name = name;
 			this.Value = value;
@@ -21,6 +22,7 @@ namespace MustardBlack
 			this.HttpOnly = httpOnly;
 			this.Domain = domain;
 			this.Path = path;
+			this.SameSiteMode = sameSiteMode;
 		}
 	}
 }

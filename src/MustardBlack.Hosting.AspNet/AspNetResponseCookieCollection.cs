@@ -35,13 +35,30 @@ namespace MustardBlack.Hosting.AspNet
 				Domain = cookie.Domain,
 				Path = cookie.Path,
 				HttpOnly = cookie.HttpOnly,
-				Secure = cookie.Secure
+				Secure = cookie.Secure,
+				SameSite = GetSameSiteMode(cookie.SameSiteMode),
 			};
 
 			if (cookie.Expires.HasValue)
 				httpCookie.Expires = cookie.Expires.Value;
 
 			this.aspNetCookies.Add(httpCookie);
+		}
+
+		static SameSiteMode GetSameSiteMode(CookieSameSiteMode sameSiteMode)
+		{
+			switch (sameSiteMode)
+			{
+				case CookieSameSiteMode.Lax:
+					return SameSiteMode.Lax;
+
+				case CookieSameSiteMode.Strict:
+					return SameSiteMode.Strict;
+
+				case CookieSameSiteMode.None:
+				default:
+					return SameSiteMode.None;
+			}
 		}
 
 		public ResponseCookie Get(string name)
