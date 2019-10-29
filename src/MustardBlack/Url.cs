@@ -42,21 +42,26 @@ namespace MustardBlack
 			get
 			{
 				var builder = new StringBuilder("?");
-
+				
 				int i = 0;
 				foreach (var key in this.QueryCollection.AllKeys.OrderBy(x => x))
 				{
-					if (i++ != 0)
-						builder.Append('&');
-
-					if (!string.IsNullOrEmpty(key))
+					var values = this.QueryCollection.GetValues(key) ?? new string[] { null };
+					
+					foreach (var value in values)
 					{
-						builder.Append(UrlEncode(key));
-						builder.Append('=');
-					}
+						if (i++ != 0)
+							builder.Append('&');
 
-					if(this.QueryCollection[key] != null)
-						builder.Append(UrlEncode(this.QueryCollection[key]));
+						if (!string.IsNullOrEmpty(key))
+						{
+							builder.Append(UrlEncode(key));
+							builder.Append('=');
+						}
+
+						if (value != null)
+							builder.Append(UrlEncode(value));
+					}
 				}
 
 				if (builder.Length == 1)
@@ -66,10 +71,7 @@ namespace MustardBlack
 			}
 			set
 			{
-				var collection = ParseQueryString(value);
-				this.QueryCollection = new NameValueCollection();
-				foreach (var key in collection.AllKeys)
-					this.QueryCollection.Add(key, collection[key]);
+				this.QueryCollection = ParseQueryString(value);
 			}
 		}
 
