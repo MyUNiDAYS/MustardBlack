@@ -142,10 +142,10 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 			return RenderSectionAsyncCore(name, required);
 		}
 
-		private async Task<HtmlString> RenderSectionAsyncCore(string sectionName, bool required)
+		async Task<HtmlString> RenderSectionAsyncCore(string sectionName, bool required)
 		{
 			if (renderedSections.Contains(sectionName))
-				log.Warning("Section {section} already rendered", sectionName);
+				log.Warning("Section {section} already rendered in {page}", sectionName, this.GetType());
 
 			if (PreviousSectionWriters.TryGetValue(sectionName, out var renderDelegate))
 			{
