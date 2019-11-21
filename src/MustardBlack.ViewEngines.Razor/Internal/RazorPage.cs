@@ -145,7 +145,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 		async Task<HtmlString> RenderSectionAsyncCore(string sectionName, bool required)
 		{
 			if (renderedSections.Contains(sectionName))
-				log.Warning("Section {section} already rendered in {page}", sectionName, this.GetType());
+				log.Information("Section {section} already rendered in {page}", sectionName, this.GetType());
 
 			if (PreviousSectionWriters.TryGetValue(sectionName, out var renderDelegate))
 			{
@@ -205,7 +205,7 @@ namespace MustardBlack.ViewEngines.Razor.Internal
 					sectionsNotIgnored = sectionsNotRendered.ToArray();
 
 				if (sectionsNotIgnored.Length > 0)
-					log.Warning("Section wasn't rendered {sectionNames}", sectionsNotIgnored);
+					log.Information("Section wasn't rendered {sectionNames}", sectionsNotIgnored);
 			}
 			else if (this.BodyContent != null && !this.renderedBody && !this.ignoreBody)
 			{
