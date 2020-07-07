@@ -25,11 +25,21 @@ namespace MustardBlack.Assets.Nuglify
 	    {
 		    try
 		    {
-			    return Uglify.Js(javascriptString).Code;
+			    var nuggled = Uglify.Js(javascriptString);
+
+			    if (!nuggled.HasErrors)
+				    return nuggled.Code;
+
+			    foreach (var error in nuggled.Errors)
+			    {
+				    Console.WriteLine($"Nuglify Compilation Error: {error.Message} (lines: {error.StartLine}-{error.EndLine}): File: {assetPath}");
+			    }
+				
+			    throw new Exception("Nuglify failed to process some JavaScript: See above for detail");
 		    }
 		    catch (Exception e)
 		    {
-			    Console.WriteLine($"Nuglify Compression Error: {e.Message}: File: {assetPath}");
+			    Console.WriteLine($"Nuglify Compilation Error: {e.Message}: File: {assetPath}");
 			    throw;
 		    }
 	    }
