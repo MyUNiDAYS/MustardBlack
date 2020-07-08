@@ -8,6 +8,7 @@ using MustardBlack.Assets.Css;
 using MustardBlack.Assets.Css.Less;
 using MustardBlack.Assets.Css.Sass;
 using MustardBlack.Assets.Javascript;
+using MustardBlack.Assets.Nuglify;
 using MustardBlack.Assets.YuiCompressor;
 
 namespace MustardBlack.Assets.Build
@@ -71,13 +72,13 @@ namespace MustardBlack.Assets.Build
 		{
 			var opts = options.Split(':');
 
-			var assets = assetLoader.GetAssets(path, AreaJavascriptHandler.FileMatch);
+			var assets = assetLoader.GetAssets(path, AreaJavascriptHandler.FileMatch).ToArray();
 			if (!assets.Any())
 				return null;
 
 			string result;
-
 			IJavascriptPreprocessor javascriptPreprocessor;
+			
 			if (opts[0] == "babel")
 			{
 				javascriptPreprocessor = new BabelJavascriptPreprocessor(opts.Contains("sourcemaps"));
@@ -85,7 +86,15 @@ namespace MustardBlack.Assets.Build
 
 				if (opts.Contains("minify"))
 				{
-					javascriptPreprocessor = new YuiJavascriptPreprocessor();
+					if (opts.Contains("nuglify"))
+					{
+						javascriptPreprocessor = new NuglifyJavascriptPreprocessor();						
+					}
+					else
+					{
+						javascriptPreprocessor = new YuiJavascriptPreprocessor();	
+					}
+
 					result = javascriptPreprocessor.Process(new [] { new AssetContent("<babel-output>", result) });
 				}
 			}

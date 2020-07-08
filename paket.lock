@@ -230,6 +230,7 @@ NUGET
     NETStandard.Library (2.0.3) - restriction: || (&& (== net472) (< net45)) (&& (== net472) (>= netcoreapp1.0)) (== netcoreapp2.2) (== netstandard2.0)
       Microsoft.NETCore.Platforms (>= 1.1)
     Newtonsoft.Json (11.0.2)
+    NUglify (1.5.12)
     NSubstitute (3.1)
       Castle.Core (>= 4.2)
       NETStandard.Library (>= 1.6.1) - restriction: || (&& (== net472) (< net45)) (== netcoreapp2.2) (== netstandard2.0)

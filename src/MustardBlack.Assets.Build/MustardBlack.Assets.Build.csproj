@@ -1,5 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net472</TargetFramework>
@@ -7,11 +7,14 @@
     <Product>MustardBlack</Product>
     <Copyright>MyUNiDAYS Ltd</Copyright>
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="NUglify" Version="1.5.12" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MustardBlack.Assets.Babel\MustardBlack.Assets.Babel.csproj" />
+    <ProjectReference Include="..\MustardBlack.Assets.Nuglify\MustardBlack.Assets.Nuglify.csproj" />
     <ProjectReference Include="..\MustardBlack.Assets.YuiCompressor\MustardBlack.Assets.YuiCompressor.csproj" />
     <ProjectReference Include="..\MustardBlack\MustardBlack.csproj" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
