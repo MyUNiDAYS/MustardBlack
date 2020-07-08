@@ -35,7 +35,6 @@ deploy:
     api_key:
       secure: 4yuwHXUFFa5ijOkkvvmEX/SjKhzWTvln7JtYrgVB1KdXcpF4o8WFAeNm6PTlwN+L
     skip_symbols: true # Will be uploaded by former deployment job
-    artifact: /^(?!.*Nuglify).*nupkg/
     on:
       branch:
         - master
