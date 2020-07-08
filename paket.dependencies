@@ -2,7 +2,7 @@ framework: auto-detect
 source https://www.nuget.org/api/v2
 
 nuget libsassnetstandard import_targets: true
-nuget Nuglify ~> 1.5
+nuget Nuglify ~> 1.6
 nuget Serilog ~> 2.0
 nuget Serilog.Exceptions
 nuget NanoIoC ~> 2.0
