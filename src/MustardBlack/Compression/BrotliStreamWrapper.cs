@@ -6,7 +6,7 @@ using Brotli;
 
 namespace MustardBlack.Compression
 {
-	public sealed class BrotliStreamWrapper : BrotliStream
+	public sealed class BrotliStreamWrapper : Brotli.BrotliStream
 	{
 		readonly Action writeAction;
 		bool written;

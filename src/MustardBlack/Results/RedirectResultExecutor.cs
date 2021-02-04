@@ -13,7 +13,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override Task Execute(PipelineContext context, RedirectResult result)
+		public override async Task Execute(PipelineContext context, RedirectResult result)
 		{
 			context.Response.StatusCode = result.StatusCode;
 			context.Response.SetCacheHeaders(result);
@@ -21,8 +21,6 @@ namespace MustardBlack.Results
 
 			SetLinkHeaders(context, result);
 			this.tempDataMechanism.SetTempData(context, result.TempData);
-
-			return Task.CompletedTask;
 		}
 	}
 }

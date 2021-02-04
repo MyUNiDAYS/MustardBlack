@@ -12,7 +12,7 @@ namespace MustardBlack.Results
 		public Task Execute(PipelineContext context, object result)
 		{
 			if(result == null)
-				throw new ArgumentException("Result is cannot be null");
+				throw new ArgumentException("Result cannot be null");
 
 			if (!result.GetType().IsOrDerivesFrom<TResult>())
 				throw new ArgumentException("Result is not/does not derive from type `" + typeof(TResult) + "`", nameof(result));

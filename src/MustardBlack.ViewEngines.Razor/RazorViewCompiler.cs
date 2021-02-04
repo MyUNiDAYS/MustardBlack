@@ -28,7 +28,6 @@ namespace MustardBlack.ViewEngines.Razor
 
 		static readonly ILogger log = Log.ForContext(MethodBase.GetCurrentMethod().DeclaringType);
 
-		readonly RazorTemplateEngine razorTemplateEngine;
 		readonly RazorSourceDocument[] defaultImports;
 		List<MetadataReference> referenceAssemblies;
 
@@ -36,7 +35,6 @@ namespace MustardBlack.ViewEngines.Razor
 		{
 			this.fileSystem = fileSystem;
 		    this.razorConfiguration = razorConfiguration;
-			this.razorTemplateEngine = BuildRazorTemplateEngine(RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/")));
 			var defaultTagHelpers = razorConfiguration.GetDefaultTagHelpers();
 			var defaultDirectivesProjectItem = new DefaultDirectivesProjectItem(this.razorConfiguration.GetDefaultNamespaces(), defaultTagHelpers);
 			this.defaultImports = new[] { RazorSourceDocument.ReadFrom(defaultDirectivesProjectItem) };
@@ -58,32 +56,6 @@ namespace MustardBlack.ViewEngines.Razor
 				.ToList();
 		}
 
-		static RazorTemplateEngine BuildRazorTemplateEngine(RazorProjectFileSystem fileSystem)
-		{
-			var razorConfiguration = Microsoft.AspNetCore.Razor.Language.RazorConfiguration.Default;
-			var razorProjectEngine = RazorProjectEngine.Create(razorConfiguration, fileSystem, builder =>
-			{
-				FunctionsDirective.Register(builder);
-				InheritsDirective.Register(builder);
-				SectionDirective.Register(builder);
-
-				var metadataReferences = AppDomain.CurrentDomain.GetAssemblies()
-				    .Where(a => !a.IsDynamic)
-				    .Select(a => MetadataReference.CreateFromFile(a.Location))
-				    .ToArray();
-
-				builder.Features.Add(new DefaultMetadataReferenceFeature { References = metadataReferences });
-				builder.Features.Add(new CompilationTagHelperFeature());
-				builder.Features.Add(new DefaultTagHelperDescriptorProvider());
-				//builder.Features.Add(new ViewComponentTagHelperDescriptorProvider());
-				builder.Features.Add(new DocumentClassifierPass());
-				//builder.Features.Add(new ViewComponentTagHelperPass());
-			});
-
-			var templateEngine = new RazorTemplateEngine(razorProjectEngine.Engine, fileSystem);
-			return templateEngine;
-		}
-		
 		static string GetAssemblyPath(Assembly assembly)
 		{
 			return new Uri(assembly.EscapedCodeBase).LocalPath;
@@ -99,45 +71,54 @@ namespace MustardBlack.ViewEngines.Razor
 			// Try the EntryAssembly, this doesn't work for ASP.NET apps
 			var ass = Assembly.GetEntryAssembly();
 
-			// Look for web application assembly
-//			var ctx = HttpContext.Current;
-//			if (ctx != null)
-//				ass = GetWebApplicationAssembly(ctx);
-
 			// Fallback to executing assembly
-			return ass ?? (Assembly.GetExecutingAssembly());
+			return ass ?? Assembly.GetExecutingAssembly();
 		}
 		
-//		static Assembly GetWebApplicationAssembly(HttpContext context)
-//		{
-//			object app = context.ApplicationInstance;
-//			if (app == null) return null;
-//
-//			var type = app.GetType();
-//			// TODO: suspect "ASP" is no longer real/correct
-//			while (type != null && type != typeof(object) && type.Namespace == "ASP")
-//				type = type.BaseType;
-//
-//			return type.Assembly;
-//		}
-
-		public Type CompileFile(RazorViewCompilationData view)
+		RazorProjectEngine BuildRazorProjectEngine(string namespaceToSet, string classNameToSet)
 		{
-			var razorCSharpDocument = this.GenerateCSharp(view);
-			return this.CompileCSharp(view, view.ViewContents, razorCSharpDocument);
-		}
+			var defaultConfiguration = Microsoft.AspNetCore.Razor.Language.RazorConfiguration.Default;
+			
+			var razorProjectEngine = RazorProjectEngine.Create(defaultConfiguration,
+				RazorProjectFileSystem.Create(this.fileSystem.GetFullPath("~/")), builder =>
+				{
+					builder.SetNamespace(namespaceToSet);
+					builder.ConfigureClass((document, node) =>
+					{
+						node.ClassName = classNameToSet;
+					});
+					
+					SectionDirective.Register(builder);
+					
+					var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+						.Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location));
+					var metadataReferences = assemblies.Select(a => MetadataReference.CreateFromFile(a.Location));
+					
+					builder.Features.Add(new DefaultMetadataReferenceFeature { References = metadataReferences.ToArray() });
+					builder.Features.Add(new CompilationTagHelperFeature());
+					builder.Features.Add(new DefaultTagHelperDescriptorProvider());
+				});
 
+			return razorProjectEngine;
+		}
+		
 		RazorCSharpDocument GenerateCSharp(RazorViewCompilationData view)
 		{
-			var sourceDocument = RazorSourceDocument.Create(view.ViewContents, view.FilePath, Encoding.UTF8);
-			var codeDocument = RazorCodeDocument.Create(sourceDocument, this.defaultImports);
-
-			codeDocument.Items.Add("ViewCompilationData", view);
-			var razorCSharpDocument = this.razorTemplateEngine.GenerateCode(codeDocument);
-			return razorCSharpDocument;
+			try
+			{
+				var razorProjectEngine = this.BuildRazorProjectEngine(view.Namespace, view.ClassName);
+				var sourceDocument = RazorSourceDocument.Create(view.ViewContents, view.FilePath);
+				var codeDocument = razorProjectEngine.Process(sourceDocument, FileKinds.Legacy, this.defaultImports, new List<TagHelperDescriptor>());
+				return codeDocument.GetCSharpDocument();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
 		}
 
-		Type CompileCSharp(RazorViewCompilationData view, string source, RazorCSharpDocument razorCSharpDocument)
+		Type CompileCSharp(RazorViewCompilationData view, RazorCSharpDocument razorCSharpDocument)
 		{
 			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 			var compilation = CSharpCompilation.Create("assembly",
@@ -146,7 +127,7 @@ namespace MustardBlack.ViewEngines.Razor
 				cSharpCompilationOptions);
 
 			log.Debug("Compiling {viewPath} - 1 of 3 log entries - Broken into entries 3 due to Seq raw payload limits. If you don't see log parts 2 and/or 3. They're too big, soz", view.FilePath);
-			log.Debug("Compiling {viewPath} - 2 of 3 log entries - Source {source}", view.FilePath, source);
+			log.Debug("Compiling {viewPath} - 2 of 3 log entries - Source {source}", view.FilePath, view.ViewContents);
 			log.Debug("Compiling {viewPath} - 3 of 3 log entries - GeneratedCode {generatedCode}", view.FilePath, razorCSharpDocument.GeneratedCode);
 
 			using (var assemblyStream = new MemoryStream())
@@ -163,7 +144,7 @@ namespace MustardBlack.ViewEngines.Razor
 							return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.GetMessage()}`";
 						}).Aggregate((s1, s2) => s1 + "\n" + s2);
 
-					throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + message, source, razorCSharpDocument.GeneratedCode);
+					throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + message, view.ViewContents, razorCSharpDocument.GeneratedCode);
 				}
 
 				var assembly = Assembly.Load(assemblyStream.ToArray(), symbolStream.ToArray());
@@ -174,6 +155,12 @@ namespace MustardBlack.ViewEngines.Razor
 
 				return type;
 			}
+		}
+
+		public Type CompileFile(RazorViewCompilationData view)
+		{
+			var razorCSharpDocument = this.GenerateCSharp(view);
+			return this.CompileCSharp(view, razorCSharpDocument);
 		}
 
 		public void CompileAndMergeFiles(IEnumerable<RazorViewCompilationData> viewCompilationDetails, string outputAssemblyName)

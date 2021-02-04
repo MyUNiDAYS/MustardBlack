@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 
 namespace MustardBlack.ViewEngines.Razor
 {
+	/*
 	sealed class DocumentClassifierPass : DocumentClassifierPassBase
 	{
 		protected override string DocumentKind => "MustardBlackView";
@@ -28,4 +29,5 @@ namespace MustardBlack.ViewEngines.Razor
 			method.ReturnType = $"global::{typeof(System.Threading.Tasks.Task).FullName}";
 		}
 	}
+*/
 }

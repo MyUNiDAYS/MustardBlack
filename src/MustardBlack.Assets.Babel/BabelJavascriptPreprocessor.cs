@@ -31,9 +31,9 @@ namespace MustardBlack.Assets.Babel
 			
 			this.reactEnvironment = ReactEnvironment.Current;
 
-			this.reactEnvironment.Configuration.BabelConfig.Presets.Remove("react");
+			this.reactEnvironment.Configuration.BabelConfig.Presets?.Remove("react");
 
-			this.babelConfig = this.reactEnvironment.Configuration.BabelConfig.Serialize();
+			this.babelConfig = this.reactEnvironment.Configuration.BabelConfig.Serialize(BabelVersions.Babel7);
 		}
 		
 		public string Process(IEnumerable<AssetContent> assets)

@@ -14,10 +14,10 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override Task Execute(PipelineContext context, HtmlResult result)
+		public override async Task Execute(PipelineContext context, HtmlResult result)
 		{
 			var data = Encoding.UTF8.GetBytes(result.Html);
-			context.Response.OutputStream.Write(data, 0, data.Length);
+			await context.Response.OutputStream.WriteAsync(data, 0, data.Length);
 
 			context.Response.ContentType = "text/html";
 
@@ -26,8 +26,6 @@ namespace MustardBlack.Results
 
 			SetLinkHeaders(context, result);
 			this.tempDataMechanism.SetTempData(context, result.TempData);
-
-			return Task.CompletedTask;
 		}
 	}
 }

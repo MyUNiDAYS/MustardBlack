@@ -6,11 +6,9 @@ namespace MustardBlack.Tests.Handlers.Results
 {
 	public class TestResultExecutor : ResultExecutor<TestResult>
 	{
-		public override Task Execute(PipelineContext context, TestResult result)
+		public override async Task Execute(PipelineContext context, TestResult result)
 		{
 			context.Items["TypeResultExecuted"] = true;
-
-			return Task.CompletedTask;
 		}
 	}
 }

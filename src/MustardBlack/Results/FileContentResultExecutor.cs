@@ -13,10 +13,8 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override Task Execute(PipelineContext context, FileContentResult result)
+		public override async Task Execute(PipelineContext context, FileContentResult result)
 		{
-			context.Response.OutputStream.Write(result.Data, 0, result.Data.Length);
-
 			if(!string.IsNullOrEmpty(result.ContentDisposition))
 				context.Response.Headers.Add("Content-Disposition", result.ContentDisposition);
 
@@ -27,7 +25,7 @@ namespace MustardBlack.Results
 			SetLinkHeaders(context, result);
 			this.tempDataMechanism.SetTempData(context, result.TempData);
 
-			return Task.CompletedTask;
+			await context.Response.OutputStream.WriteAsync(result.Data, 0, result.Data.Length);
 		}
 	}
 }

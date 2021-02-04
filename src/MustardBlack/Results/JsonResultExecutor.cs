@@ -14,7 +14,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override Task Execute(PipelineContext context, JsonResult result)
+		public override async Task Execute(PipelineContext context, JsonResult result)
 		{
 			context.Response.ContentType = "application/json";
 
@@ -28,14 +28,14 @@ namespace MustardBlack.Results
 			{
 				if (result.Data is string json)
 				{
-					return context.Response.Write(json);
+					await context.Response.Write(json);
 				}
-
-				var entity = JsonConvert.SerializeObject(result.Data, result.SerializerSettings);
-				return context.Response.Write(entity);
+				else
+				{
+					var entity = JsonConvert.SerializeObject(result.Data, result.SerializerSettings);
+					await context.Response.Write(entity);
+				}
 			}
-
-			return Task.CompletedTask;
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override Task Execute(PipelineContext context, FileStreamResult result)
+		public override async Task Execute(PipelineContext context, FileStreamResult result)
 		{
 			context.Response.SetCacheHeaders(result);
 			context.Response.StatusCode = result.StatusCode;
@@ -30,11 +30,11 @@ namespace MustardBlack.Results
 				var buffer = new byte[0x1000];
 				while (true)
 				{
-					int bytesRead = result.FileStream.Read(buffer, 0, 0x1000);
+					int bytesRead = await result.FileStream.ReadAsync(buffer, 0, 0x1000);
 					if (bytesRead == 0)
-						return Task.CompletedTask;
+						return;
 
-					context.Response.OutputStream.Write(buffer, 0, bytesRead);
+					await context.Response.OutputStream.WriteAsync(buffer, 0, bytesRead);
 				}
 			}
 		}

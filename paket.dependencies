@@ -2,29 +2,29 @@ framework: auto-detect
 source https://www.nuget.org/api/v2
 
 nuget libsassnetstandard import_targets: true
-nuget Nuglify ~> 1.6
-nuget Serilog ~> 2.0
+nuget Nuglify
+nuget Serilog
 nuget Serilog.Exceptions
-nuget NanoIoC ~> 2.0
-nuget MuonLab.Validation ~> 2.0
-nuget YUICompressor.NET ~> 3.0
+nuget NanoIoC
+nuget MuonLab.Validation
+nuget YUICompressor.NET
 nuget React.Core
 nuget SourceMapToolkit
 nuget JavascriptEngineSwitcher.Msie
-nuget dotless.Core ~> 1.0
-nuget Newtonsoft.Json ~> 11.0
-nuget NSubstitute ~> 3.0
-nuget Microsoft.AspNetCore.Razor ~> 2.0
-nuget Microsoft.AspNetCore.Razor.Language ~> 2.0
-nuget Microsoft.AspNetCore.Razor.Runtime ~> 2.0
-nuget Microsoft.AspNetCore.Http ~> 2.0
-nuget Microsoft.AspNetCore.Html.Abstractions ~> 2.0
-nuget Microsoft.AspNetCore.Diagnostics ~> 2.0
-nuget Microsoft.CodeAnalysis ~> 2.0
-nuget Microsoft.CodeAnalysis.Razor ~> 2.0
-nuget Microsoft.AspNetCore.Mvc.Razor.Extensions ~> 2.0
+nuget dotless.Core
+nuget Newtonsoft.Json
+nuget NSubstitute
+nuget Microsoft.AspNetCore.Razor
+nuget Microsoft.AspNetCore.Razor.Language
+nuget Microsoft.AspNetCore.Razor.Runtime
+nuget Microsoft.AspNetCore.Http
+nuget Microsoft.AspNetCore.Html.Abstractions
+nuget Microsoft.AspNetCore.Diagnostics
+nuget Microsoft.CodeAnalysis
+nuget Microsoft.CodeAnalysis.Razor
+nuget Microsoft.AspNetCore.Mvc.Razor.Extensions
 nuget Microsoft.CSharp
-nuget System.Reflection.Metadata ~> 1.0
+nuget System.Reflection.Metadata
 nuget System.Buffers
 
 nuget xunit

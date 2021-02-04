@@ -64,7 +64,7 @@ namespace MustardBlack.Handlers.Binding
 
 			var validator = this.container.Resolve(validatorType) as IValidator;
 
-			var validationReport = validator.Validate(resource);
+			var validationReport = validator.Validate(resource).Result;
 
 			if (validationReport.IsValid)
 				return;

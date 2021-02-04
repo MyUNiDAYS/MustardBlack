@@ -13,7 +13,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override Task Execute(PipelineContext context, PlainTextResult result)
+		public override async Task Execute(PipelineContext context, PlainTextResult result)
 		{
 			context.Response.ContentType = "text/plain";
 
@@ -24,9 +24,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism.SetTempData(context, result.TempData);
 
 			if (result.Data != null)
-				return context.Response.Write(result.Data);
-			
-			return Task.CompletedTask;
+				await context.Response.Write(result.Data);
 		}
 	}
 }

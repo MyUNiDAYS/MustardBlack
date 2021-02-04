@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>MustardBlack</AssemblyName>
     <RootNamespace>MustardBlack</RootNamespace>
     <PackageId>MustardBlack</PackageId>
@@ -10,6 +9,7 @@
     <Company>MyUNiDAYS Ltd</Company>
     <Product>MustardBlack</Product>
     <Copyright>MyUNiDAYS Ltd</Copyright>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DebugType>full</DebugType>

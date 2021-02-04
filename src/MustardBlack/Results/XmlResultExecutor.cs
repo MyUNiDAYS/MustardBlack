@@ -17,7 +17,7 @@ namespace MustardBlack.Results
 			this.tempDataMechanism = tempDataMechanism;
 		}
 
-		public override Task Execute(PipelineContext context, XmlResult result)
+		public override async Task Execute(PipelineContext context, XmlResult result)
 		{
 			context.Response.ContentType = "application/xml";
 
@@ -28,25 +28,25 @@ namespace MustardBlack.Results
 			this.tempDataMechanism.SetTempData(context, result.TempData);
 
 			if (result.Data == null)
-				return Task.CompletedTask;
+				return;
 
 			string xml;
 
 			using (var xmlStream = new MemoryStream())
 			{
-				var xmlSerialiser = new XmlSerializer(result.Data.GetType());
+				var xmlSerializer = new XmlSerializer(result.Data.GetType());
 				var xmlTextWriter = new XmlTextWriter(xmlStream, Encoding.UTF8);
-				xmlSerialiser.Serialize(xmlTextWriter, result.Data);
+				xmlSerializer.Serialize(xmlTextWriter, result.Data);
 
 				var stream = (MemoryStream)xmlTextWriter.BaseStream;
 				stream.Position = 0;
 				using (var reader = new StreamReader(stream))
 				{
-					xml = reader.ReadToEnd();
+					xml = await reader.ReadToEndAsync();
 				}
 			}
 
-			return context.Response.Write(xml);
+			await context.Response.Write(xml);
 		}
 	}
 }
