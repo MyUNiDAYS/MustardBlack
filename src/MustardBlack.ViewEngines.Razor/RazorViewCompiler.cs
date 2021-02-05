@@ -130,31 +130,29 @@ namespace MustardBlack.ViewEngines.Razor
 			log.Debug("Compiling {viewPath} - 2 of 3 log entries - Source {source}", view.FilePath, view.ViewContents);
 			log.Debug("Compiling {viewPath} - 3 of 3 log entries - GeneratedCode {generatedCode}", view.FilePath, razorCSharpDocument.GeneratedCode);
 
-			using (var assemblyStream = new MemoryStream())
-			using (var symbolStream = new MemoryStream())
+			using var assemblyStream = new MemoryStream();
+			using var symbolStream = new MemoryStream();
+			var result = compilation.Emit(assemblyStream, symbolStream);
+
+			var errors = result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+			if (errors.Any())
 			{
-				var result = compilation.Emit(assemblyStream, symbolStream);
-
-				var errors = result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
-				if (errors.Any())
+				var message = errors.Select(e =>
 				{
-					var message = errors.Select(e =>
-						{
-							var fileLinePositionSpan = e.Location.GetMappedLineSpan();
-							return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.GetMessage()}`";
-						}).Aggregate((s1, s2) => s1 + "\n" + s2);
+					var fileLinePositionSpan = e.Location.GetMappedLineSpan();
+					return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.GetMessage()}`";
+				}).Aggregate((s1, s2) => s1 + "\n" + s2);
 
-					throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + message, view.ViewContents, razorCSharpDocument.GeneratedCode);
-				}
-
-				var assembly = Assembly.Load(assemblyStream.ToArray(), symbolStream.ToArray());
-
-				var type = assembly.GetType(view.Namespace + "." + view.ClassName);
-				if (type == null)
-					throw new ViewRenderException($"Could not find type `{view.Namespace + "." + view.ClassName}` in assembly `{assembly.FullName}`");
-
-				return type;
+				throw new ViewRenderException("Failed to compile view `" + view.FilePath + "`: " + message, view.ViewContents, razorCSharpDocument.GeneratedCode);
 			}
+
+			var assembly = Assembly.Load(assemblyStream.ToArray(), symbolStream.ToArray());
+
+			var type = assembly.GetType(view.Namespace + "." + view.ClassName);
+			if (type == null)
+				throw new ViewRenderException($"Could not find type `{view.Namespace + "." + view.ClassName}` in assembly `{assembly.FullName}`");
+
+			return type;
 		}
 
 		public Type CompileFile(RazorViewCompilationData view)
@@ -176,25 +174,23 @@ namespace MustardBlack.ViewEngines.Razor
 			
 			var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 			var compilation = CSharpCompilation.Create(moduleName, syntaxTrees, this.referenceAssemblies, cSharpCompilationOptions);
-			
-			using (var assemblyStream = new MemoryStream())
+
+			using var assemblyStream = new MemoryStream();
+			var result = compilation.Emit(assemblyStream);
+
+			var errors = result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+			if (errors.Any())
 			{
-				var result = compilation.Emit(assemblyStream);
-
-				var errors = result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
-				if (errors.Any())
+				var message = errors.Select(e =>
 				{
-					var message = errors.Select(e =>
-					{
-						var fileLinePositionSpan = e.Location.GetMappedLineSpan();
-						return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.GetMessage()}`";
-					}).Aggregate((s1, s2) => s1 + "\n" + s2);
+					var fileLinePositionSpan = e.Location.GetMappedLineSpan();
+					return $"[{e.Id}] File: {fileLinePositionSpan.Path}, Line: {fileLinePositionSpan.StartLinePosition.Line}, Character: {fileLinePositionSpan.StartLinePosition.Character}: `{e.GetMessage()}`";
+				}).Aggregate((s1, s2) => s1 + "\n" + s2);
 
-					throw new ViewRenderException("Failed to compile views: " + message);
-				}
-
-				this.fileSystem.Write(assemblyStream, outputAssemblyPath);
+				throw new ViewRenderException("Failed to compile views: " + message);
 			}
+
+			this.fileSystem.Write(assemblyStream, outputAssemblyPath);
 		}
 
 		/// <summary>
