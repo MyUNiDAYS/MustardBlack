@@ -41,8 +41,7 @@ namespace MustardBlack.Tests.Handlers.Binding.RequestBinderSpecs
 
 		protected override void When()
 		{
-			parameters = this.subject.GetAndValidateParameters(this.handler, this.methodInfo, this.request, this.routeValues);
-
+			parameters = this.subject.GetAndValidateParameters(this.handler, this.methodInfo, this.request, this.routeValues).Result;
 		}
 
 		[Then]

@@ -71,7 +71,7 @@ namespace MustardBlack.Handlers
             object[] parameters;
             try
             {
-                parameters = this.requestBinder.GetAndValidateParameters(handler, handlerAction.HandleMethod, context.Request, context.RouteData().Values);
+                parameters = await this.requestBinder.GetAndValidateParameters(handler, handlerAction.HandleMethod, context.Request, context.RouteData().Values);
             }
             catch (Exception e)
             {

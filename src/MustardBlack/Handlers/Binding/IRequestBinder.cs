@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Threading.Tasks;
 using MustardBlack.Hosting;
 using MustardBlack.Routing;
 
@@ -12,6 +13,6 @@ namespace MustardBlack.Handlers.Binding
 		BindingResult Bind(object owner, ParameterInfo parameterInfo, IRequest request, RouteValues routeValues);
 
 		/// TODO: Violates CQS, fix this
-		object[] GetAndValidateParameters(object owner, MethodInfo verbMethod, IRequest request, RouteValues routeValues);
+		Task<object[]> GetAndValidateParameters(object owner, MethodInfo verbMethod, IRequest request, RouteValues routeValues);
 	}
 }

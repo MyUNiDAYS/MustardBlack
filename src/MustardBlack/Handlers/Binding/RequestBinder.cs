@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using System.Threading.Tasks;
 using MuonLab.Validation;
 using MustardBlack.Hosting;
 using MustardBlack.Routing;
@@ -22,7 +23,7 @@ namespace MustardBlack.Handlers.Binding
 		}
 
 		/// TODO: Violates CQS, fix this
-		public object[] GetAndValidateParameters(object owner, MethodInfo verbMethod, IRequest request, RouteValues routeValues)
+		public async Task<object[]> GetAndValidateParameters(object owner, MethodInfo verbMethod, IRequest request, RouteValues routeValues)
 		{
 			var parameterInfos = verbMethod.GetParameters();
 
@@ -47,13 +48,13 @@ namespace MustardBlack.Handlers.Binding
 				}
 
 				if (bindingResult.Object != null)
-					this.ValidateRequest(bindingResult.Object, request);
+					await this.ValidateRequest(bindingResult.Object, request);
 			}
 
 			return parameters;
 		}
 
-		void ValidateRequest(object resource, IRequest request)
+		async Task ValidateRequest(object resource, IRequest request)
 		{
 			var type = resource.GetType();
 
@@ -64,7 +65,7 @@ namespace MustardBlack.Handlers.Binding
 
 			var validator = this.container.Resolve(validatorType) as IValidator;
 
-			var validationReport = validator.Validate(resource).Result;
+			var validationReport = await validator.Validate(resource);
 
 			if (validationReport.IsValid)
 				return;
@@ -78,7 +79,7 @@ namespace MustardBlack.Handlers.Binding
 
 		public BindingResult Bind(object owner, ParameterInfo parameterInfo, IRequest request, RouteValues routeValues)
 		{
-			// find the binder for the gien parameter
+			// find the binder for the given parameter
 			var binder = BinderCollection.FindBinderFor(parameterInfo.Name, parameterInfo.ParameterType, request, routeValues, owner);
 
 			if (binder == null)
