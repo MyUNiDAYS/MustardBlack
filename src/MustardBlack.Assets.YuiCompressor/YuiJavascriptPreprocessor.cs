@@ -32,12 +32,12 @@ namespace MustardBlack.Assets.YuiCompressor
             catch (EcmaScript.NET.EcmaScriptRuntimeException e)
             {
                 Console.WriteLine($"YUI Compression Error: '{e.Message}'\nJavascript Syntax Error: '{e.LineSource}'\nLine {e.LineNumber}\nFile: {assetPath}");
-                throw;
+                throw new Exception($"YUI Compression Error: '{e.Message}'\nJavascript Syntax Error: '{e.LineSource}'\nLine {e.LineNumber}\nFile: {assetPath}");
             }
             catch (Exception e)
             {
                 Console.WriteLine($"YUI Compression Error: {e.Message}: File: {assetPath}");
-                throw;
+                throw new Exception($"YUI Compression Error: {e.Message}: File: {assetPath}");
             }
         }
     }
