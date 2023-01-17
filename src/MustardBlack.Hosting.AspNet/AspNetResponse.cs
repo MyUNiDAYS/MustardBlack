@@ -96,7 +96,19 @@ namespace MustardBlack.Hosting.AspNet
 			this.context.Response.ContentType = null;
 			this.Cookies = new AspNetResponseCookieCollection(context.Response.Cookies);
 			this.context.Response.BufferOutput = true;
-			this.StatusCode = HttpStatusCode.NotImplemented;
+			
+			var notFoundEmptyResult = new EmptyResult
+			{
+				StatusCode = HttpStatusCode.NotFound,
+				LastModified = DateTime.Now,
+				CachePolicy = CachePolicy.Public,
+				CacheRevalidation = HttpCacheRevalidation.None,
+				Expires = DateTime.UtcNow.AddMinutes(10),
+				MaxAge = TimeSpan.FromMinutes(10)
+			};
+
+			this.StatusCode = notFoundEmptyResult.StatusCode;
+			this.SetCacheHeaders(notFoundEmptyResult);
 		}
 	}
 }

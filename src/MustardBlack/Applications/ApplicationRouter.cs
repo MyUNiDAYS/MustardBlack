@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using MustardBlack.Caching;
 using MustardBlack.Pipeline;
+using MustardBlack.Results;
 using Serilog;
 
 namespace MustardBlack.Applications
@@ -36,7 +39,7 @@ namespace MustardBlack.Applications
 			}
 
 	        log.Warning("Could not identify any application to serve the request");
-			context.Response.StatusCode = HttpStatusCode.NotImplemented;
+	        context.Response.StatusCode = HttpStatusCode.NotFound;
         }
     }
 }
