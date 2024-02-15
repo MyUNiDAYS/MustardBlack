@@ -10,5 +10,4 @@ Microsoft.CSharp
 System.Reflection.Metadata
 System.Buffers
 Serilog
-System.Dynamic.Runtime
 NanoIoC

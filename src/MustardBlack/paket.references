@@ -5,3 +5,5 @@ Microsoft.AspNetCore.Html.Abstractions
 dotless.Core
 libsassnetstandard
 NanoIoC
+Microsoft.AspNetCore.WebUtilities
+Microsoft.Net.Http.Headers
